@@ -7,6 +7,9 @@ import {
   MeshBasicMaterial,
   Mesh,
   GridHelper,
+  MeshPhongMaterial,
+  PointLight,
+  AmbientLight,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
@@ -21,7 +24,7 @@ export default class WebGLApp {
   setup = () => {
     console.log("set up with DOM elem ", this.htmlElem);
     this.scene = new Scene();
-    this.scene.background = new Color("Beige");
+    this.scene.background = new Color(0x87ceeb);
     this.camera = new PerspectiveCamera(
       75,
       this.windowInfo.width / this.windowInfo.height,
@@ -31,9 +34,9 @@ export default class WebGLApp {
     this.camera.position.set(0, 5, 6);
     this.camera.lookAt(this.scene.position);
     this.tanFOV = Math.tan(((Math.PI / 180) * this.camera.fov) / 2);
-    console.log(this.scene.position, this.camera.position);
     this.renderer = new WebGLRenderer({ antialias: true });
     this.renderer.setSize(this.windowInfo.width, this.windowInfo.height);
+    this.renderer.shadowMap.enabled = true;
     this.htmlElem.appendChild(this.renderer.domElement);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.update();
@@ -47,7 +50,7 @@ export default class WebGLApp {
 
   createCube = () => {
     let geometry = new BoxGeometry(2, 2, 2);
-    let material = new MeshBasicMaterial({
+    let material = new MeshPhongMaterial({
       color: new Color("Orange"),
       wireframe: true,
     });
@@ -56,8 +59,14 @@ export default class WebGLApp {
     console.log("created cube", this.cube);
   };
 
+  createLights = () => {
+    this.ambientLight = new AmbientLight(0x404040);
+    this.scene.add(this.ambientLight);
+  };
+
   createObjs = () => {
-    this.createGridHelper();
+    // this.createGridHelper();
+    this.createLights();
     this.createCube();
   };
 
