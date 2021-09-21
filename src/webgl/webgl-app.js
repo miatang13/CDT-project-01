@@ -68,7 +68,17 @@ export default class WebGLApp {
 
   createSphere = () => {
     const loader = new TextureLoader();
-    const texture = loader.load("assets/texture/ir1.jpg");
+    const texture = loader.load(
+      "assets/texture/ir1.jpg",
+      function (texture) {
+        console.log("loaded", texture);
+      },
+      null,
+      function (err) {
+        console.log("load error", err);
+      }
+    );
+    console.log(texture);
     const material = new MeshBasicMaterial({
       map: texture,
     });
