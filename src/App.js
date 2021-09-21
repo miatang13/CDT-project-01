@@ -60,7 +60,7 @@ function App() {
                   timeout={{ enter: 250, exit: 250 }}
                 >
                   <Switch location={location}>
-                    <Route exact path="/" component={Landing} />
+                    <Route exact path="/CDT-project-01" component={Landing} />
                     <Route path="/intro" component={Intro} />
                     <Route path="/visualization" component={Visualization} />
                     <Route path="/counting-technique" component={Count} />
