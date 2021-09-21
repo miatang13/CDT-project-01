@@ -1,0 +1,18 @@
+/******
+ * Gustavo
+ */
+
+@font-face {
+  font-family: Gustavo-Bold;
+  src: url("./fonts/Gustavo-Bold.otf");
+}
+
+@font-face {
+  font-family: Gustavo-Regular;
+  src: url("./fonts/Gustavo-Regular.otf");
+}
+
+@font-face {
+  font-family: Gustavo-Medium;
+  src: url("./fonts/Gustavo-Medium.otf");
+}

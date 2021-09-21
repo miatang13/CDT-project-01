@@ -1,0 +1,13 @@
+.intro__container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro__container .buttons button {
+  margin: 1em;
+  width: 50%;
+}

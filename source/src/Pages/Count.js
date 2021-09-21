@@ -1,11 +1,11 @@
 import "../styles/utility.css";
 
-function Breathe() {
+function Count() {
   return (
     <div className="root">
-      <p> Breathe page UI</p>
+      <p> Count page UI</p>
     </div>
   );
 }
 
-export default Breathe;
+export default Count;

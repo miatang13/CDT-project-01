@@ -10,6 +10,8 @@ import {
   MeshPhongMaterial,
   PointLight,
   AmbientLight,
+  SphereGeometry,
+  TextureLoader,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
@@ -24,14 +26,14 @@ export default class WebGLApp {
   setup = () => {
     console.log("set up with DOM elem ", this.htmlElem);
     this.scene = new Scene();
-    this.scene.background = new Color(0x87ceeb);
+    this.scene.background = new Color(0xb6eafa);
     this.camera = new PerspectiveCamera(
       75,
       this.windowInfo.width / this.windowInfo.height,
       1,
       1000
     );
-    this.camera.position.set(0, 5, 6);
+    this.camera.position.set(5, 5, 10);
     this.camera.lookAt(this.scene.position);
     this.tanFOV = Math.tan(((Math.PI / 180) * this.camera.fov) / 2);
     this.renderer = new WebGLRenderer({ antialias: true });
@@ -64,10 +66,21 @@ export default class WebGLApp {
     this.scene.add(this.ambientLight);
   };
 
+  createSphere = () => {
+    const loader = new TextureLoader();
+    const texture = loader.load("assets/texture/ir1.jpg");
+    const material = new MeshBasicMaterial({
+      map: texture,
+    });
+    const geometry = new SphereGeometry(2, 32, 32);
+    this.sphere = new Mesh(geometry, material);
+    this.scene.add(this.sphere);
+  };
+
   createObjs = () => {
     // this.createGridHelper();
     this.createLights();
-    this.createCube();
+    this.createSphere();
   };
 
   renderScene = () => {
@@ -81,8 +94,8 @@ export default class WebGLApp {
   };
 
   update = () => {
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
+    this.sphere.rotation.x += 0.01;
+    this.sphere.rotation.z += 0.01;
     this.controls.update();
     this.rafId = requestAnimationFrame(this.update);
     this.renderScene();

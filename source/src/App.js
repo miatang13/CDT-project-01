@@ -5,7 +5,8 @@ import { Route, BrowserRouter, Switch } from "react-router-dom";
 import { Transition, TransitionGroup } from "react-transition-group";
 import { playTransitionIn, playTransitionOut } from "./utility/animation.js";
 import Landing from "./Pages/Landing";
-import Breathe from "./Pages/Breathe";
+import Visualization from "./Pages/Visualization";
+import Count from "./Pages/Count";
 import Intro from "./Pages/Intro";
 
 function App() {
@@ -54,12 +55,13 @@ function App() {
                   appear={true}
                   onEnter={(node) => playTransitionIn(pathname, node)}
                   onExiting={(node) => playTransitionOut(pathname, node)}
-                  timeout={{ enter: 350, exit: 550 }}
+                  timeout={{ enter: 250, exit: 250 }}
                 >
                   <Switch location={location}>
                     <Route exact path="/" component={Landing} />
                     <Route path="/intro" component={Intro} />
-                    <Route path="/breathe" component={Breathe} />
+                    <Route path="/visualization" component={Visualization} />
+                    <Route path="/counting-technique" component={Count} />
                   </Switch>
                 </Transition>
               </TransitionGroup>
