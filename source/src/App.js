@@ -39,6 +39,8 @@ function App() {
   /* only want to run the function given to useEffect after the initial render,
    * so we give it an empty array as second argument. */
 
+  useEffect(() => {});
+
   return (
     <div className="App">
       <div id="webgl" ref={containerRef}></div>
