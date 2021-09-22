@@ -1,6 +1,10 @@
 /* styles that apply to all pages */
 @import url("typeface.css");
 
+* {
+  font-family: Gustavo-Bold;
+}
+
 h1 {
   font-family: Gustavo-Bold;
   font-size: xx-large;
@@ -9,6 +13,7 @@ h1 {
 p {
   font-family: Gustavo-Regular;
   font-size: small;
+  width: 50%;
 }
 
 button {

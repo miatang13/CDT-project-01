@@ -1,6 +1,6 @@
-export const changeInteraction = (page) => {
+export const changeVUIState = (stateStr) => {
   return {
-    type: "",
-    payload: 0,
+    type: "VUI_STATE_CHANGE",
+    payload: stateStr,
   };
 };

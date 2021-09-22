@@ -1,0 +1,9 @@
+.speechrec__container {
+  padding-top: 35%;
+}
+
+.speechrec__container button {
+  font-size: 0.5em;
+  padding: 0.5em 1em 0.5em 1em;
+  margin: 0.5em;
+}

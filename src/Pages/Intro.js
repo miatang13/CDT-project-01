@@ -5,18 +5,19 @@ import { Link } from "react-router-dom";
 function Intro() {
   return (
     <div className="root">
-      <div className="intro__container">
-        <p> Intro page UI</p>
-        <div className="buttons">
-          <button>
-            {" "}
-            <Link to="/visualization"> Visualization </Link>{" "}
-          </button>
-          <button>
-            {" "}
-            <Link to="/counting-technique"> 5-4-3-2-1 </Link>{" "}
-          </button>
-        </div>
+      <div className="center__container">
+        <h2> Welcome to your safe space. </h2>
+        <p>
+          {" "}
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat.
+        </p>
+        <button>
+          {" "}
+          <Link to="/meetVUI"> Meet your new friend, VUI NAME.</Link>
+        </button>
       </div>
     </div>
   );

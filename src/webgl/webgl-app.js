@@ -14,6 +14,8 @@ import {
   TextureLoader,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import gsap, { Power4 } from "gsap/gsap-core";
+import { vshader, fshader } from "./shaders/ripple.glsl";
 
 export default class WebGLApp {
   constructor(htmlElem, windowInfo) {
@@ -78,13 +80,55 @@ export default class WebGLApp {
         console.log("load error", err);
       }
     );
-    console.log(texture);
     const material = new MeshBasicMaterial({
       map: texture,
+      transparent: true,
     });
     const geometry = new SphereGeometry(2, 32, 32);
     this.sphere = new Mesh(geometry, material);
+    this.sphere.scale.set(0, 0, 0);
+    this.sphere.position.set(0, -2, 0);
+    this.sphere.opacity = 0;
     this.scene.add(this.sphere);
+
+    this.animateSphere();
+  };
+
+  animateSphere = () => {
+    const dur = 3;
+    gsap.to(
+      this.sphere.scale,
+      {
+        x: 1,
+        y: 1,
+        z: 1,
+        ease: Power4.easeInOut,
+        duration: dur,
+      },
+      0
+    );
+
+    gsap.to(
+      this.sphere.position,
+      {
+        x: 0,
+        y: 0,
+        z: 0,
+        ease: Power4.easeInOut,
+        duration: dur,
+      },
+      0
+    );
+
+    gsap.to(
+      this.sphere.material,
+      {
+        opacity: 1,
+        ease: Power4.easeInOut,
+        duration: dur,
+      },
+      0
+    );
   };
 
   createObjs = () => {
@@ -104,8 +148,10 @@ export default class WebGLApp {
   };
 
   update = () => {
-    this.sphere.rotation.x += 0.01;
-    this.sphere.rotation.z += 0.01;
+    if (this.sphere !== undefined) {
+      this.sphere.rotation.x += 0.01;
+      this.sphere.rotation.z += 0.01;
+    }
     this.controls.update();
     this.rafId = requestAnimationFrame(this.update);
     this.renderScene();
