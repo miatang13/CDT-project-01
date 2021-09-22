@@ -32,13 +32,12 @@ void main (void)
   vec2 ripple = v_uv + p/len*0.03*cos(len*12.0-u_time * 4.0);
   float delta = (sin(mod(u_time, u_duration) * (2.0 * PI/u_duration))+1.0)/2.0;
   vec2 uv = mix(ripple, v_uv, 0.0);
-  vec3 color = texture2D(u_tex, uv).rgb;
-  float rand = random(p);
-  float r = color.r * rand + 0.5 ;
-  float g = clamp(color.g, 0.25, 0.5);
-  float b = clamp(abs(sin(u_time)), 0.3, 0.8) ;
-  gl_FragColor = vec4(r, g, b, 1.0); 
+  vec3 rippled = texture2D(u_tex, uv).rgb;
+  //float r = clamp(rippled.r, 0.05, 0.5);
+  //float g = clamp(rippled.g, 0.05, 0.6);
+  //float b = clamp(rippled.b, 0.05, 0.9);
+  //vec3 color = vec3(r, g, b);
+  gl_FragColor = vec4(rippled, 1.0); 
 }
 `;
-
 export { vshader, fshader };

@@ -12,10 +12,12 @@ import {
   AmbientLight,
   SphereGeometry,
   TextureLoader,
+  ShaderMaterial,
+  Clock,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import gsap, { Power4 } from "gsap/gsap-core";
-import { vshader, fshader } from "./shaders/ripple.glsl";
+import { vshader, fshader } from "./shaders/ripples.glsl";
 
 export default class WebGLApp {
   constructor(htmlElem, windowInfo) {
@@ -44,6 +46,7 @@ export default class WebGLApp {
     this.htmlElem.appendChild(this.renderer.domElement);
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.update();
+    this.clock = new Clock();
   };
 
   createGridHelper = () => {
@@ -80,15 +83,27 @@ export default class WebGLApp {
         console.log("load error", err);
       }
     );
-    const material = new MeshBasicMaterial({
-      map: texture,
+    this.uniforms = {
+      u_tex: {
+        value: texture,
+      },
+      u_duration: {
+        value: 8.0,
+      },
+      u_time: {
+        value: 0,
+      },
+    };
+    const material = new ShaderMaterial({
+      uniforms: this.uniforms,
+      vertexShader: vshader,
+      fragmentShader: fshader,
       transparent: true,
     });
     const geometry = new SphereGeometry(2, 32, 32);
     this.sphere = new Mesh(geometry, material);
     this.sphere.scale.set(0, 0, 0);
     this.sphere.position.set(0, -2, 0);
-    this.sphere.opacity = 0;
     this.scene.add(this.sphere);
 
     this.animateSphere();
@@ -119,16 +134,6 @@ export default class WebGLApp {
       },
       0
     );
-
-    gsap.to(
-      this.sphere.material,
-      {
-        opacity: 1,
-        ease: Power4.easeInOut,
-        duration: dur,
-      },
-      0
-    );
   };
 
   createObjs = () => {
@@ -154,6 +159,9 @@ export default class WebGLApp {
     }
     this.controls.update();
     this.rafId = requestAnimationFrame(this.update);
+    if (this.uniforms !== undefined) {
+      this.uniforms.u_time.value += this.clock.getDelta();
+    }
     this.renderScene();
   };
 
