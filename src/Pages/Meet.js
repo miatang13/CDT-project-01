@@ -15,12 +15,11 @@ function MeetVUI() {
     <div className="root">
       <div className="center__container">
         <h2> Meet VUI</h2>
-        <div className="speechrec__container">
-          <Dictaphone />
-        </div>
+        <div className="speechrec__container"></div>
       </div>
     </div>
   );
 }
 
 export default MeetVUI;
+//<Dictaphone />;

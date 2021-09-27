@@ -4,26 +4,22 @@ import {
   PerspectiveCamera,
   WebGLRenderer,
   BoxGeometry,
-  MeshBasicMaterial,
   Mesh,
   GridHelper,
   MeshPhongMaterial,
-  PointLight,
   AmbientLight,
-  SphereGeometry,
-  TextureLoader,
-  ShaderMaterial,
   Clock,
-  CircleGeometry,
   LineBasicMaterial,
   Vector3,
   BufferGeometry,
   Line,
   SplineCurve,
+  TextureLoader,
+  PlaneGeometry,
+  MeshBasicMaterial,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import gsap, { Power4, Power1 } from "gsap/gsap-core";
-import { vshader, fshader } from "./shaders/ripples.glsl";
+import vuiCircle from "./VUI/vuiClass";
 
 export default class WebGLApp {
   constructor(htmlElem, windowInfo) {
@@ -53,6 +49,11 @@ export default class WebGLApp {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.update();
     this.clock = new Clock();
+    this.createLights();
+    this.createPhoneBackground();
+    this.vuiObj = new vuiCircle();
+    this.vuiObj.init();
+    this.scene.add(this.vuiObj.mesh);
   };
 
   createGridHelper = () => {
@@ -77,72 +78,15 @@ export default class WebGLApp {
     this.scene.add(this.ambientLight);
   };
 
-  createSphere = () => {
-    const loader = new TextureLoader();
-    const texture = loader.load(
-      "assets/texture/static_grain.png",
-      function (texture) {
-        console.log("loaded", texture);
-      },
-      null,
-      function (err) {
-        console.log("load error", err);
-      }
-    );
-    this.uniforms = {
-      u_tex: {
-        value: texture,
-      },
-      u_duration: {
-        value: 5.0,
-      },
-      u_time: {
-        value: 0,
-      },
-      u_ripple_size: {
-        value: 1.5,
-      },
-    };
-    const material = new ShaderMaterial({
-      uniforms: this.uniforms,
-      vertexShader: vshader,
-      fragmentShader: fshader,
-      transparent: true,
+  createPhoneBackground = () => {
+    const textureLoader = new TextureLoader();
+    const phoneBackground = textureLoader.load("assets/iphone.png");
+    const geometry = new PlaneGeometry(8, 15);
+    const material = new MeshBasicMaterial({
+      map: phoneBackground,
     });
-    const geometry = new CircleGeometry(2, 32);
-    this.sphere = new Mesh(geometry, material);
-    //this.sphere.scale.set(0, 0, 0);
-    this.sphere.position.set(0, 0, -1);
-    this.scene.add(this.sphere);
-
-    //this.animateSphere();
-  };
-
-  animateSphere = () => {
-    const dur = 3;
-    gsap.to(
-      this.sphere.scale,
-      {
-        x: 1,
-        y: 1,
-        z: 1,
-        ease: Power4.easeInOut,
-        duration: dur,
-      },
-      0
-    );
-
-    gsap.to(
-      this.sphere.position,
-      {
-        x: 0,
-        y: 0,
-        z: 0,
-        ease: Power4.easeInOut,
-        duration: dur,
-      },
-      0
-    );
+    const mesh = new Mesh(geometry, material);
+    this.scene.add(mesh);
   };
 
   createLine = () => {
@@ -165,59 +109,9 @@ export default class WebGLApp {
     console.log(line);
   };
 
-  animateSound = () => {
-    console.log("gl animate sound");
-    this.isAnimatingSound = true;
-    const callback = () => {
-      this.isAnimatingSound = false;
-    };
-    var tl = gsap.timeline({ onComplete: callback });
-    console.log(this.sphere);
-    tl.to(
-      this.sphere.scale,
-      {
-        x: 1.5,
-        y: 1.5,
-        duration: 2,
-        ease: Power4.easeInOut,
-      },
-      0
-    );
-    tl.to(
-      this.sphere.scale,
-      {
-        x: 1,
-        y: 1,
-        duration: 2,
-        ease: Power4.easeInOut,
-      },
-      3
-    );
-    tl.to(
-      this.uniforms.u_ripple_size,
-      {
-        value: 2.5,
-        duration: 2.5,
-        ease: Power1.easeInOut,
-      },
-      0
-    );
-    tl.to(
-      this.uniforms.u_ripple_size,
-      {
-        value: 1.5,
-        duration: 3,
-        ease: Power1.easeInOut,
-      },
-      3
-    );
-  };
-
-  createObjs = () => {
-    // this.createGridHelper();
-    this.createLights();
-    this.createSphere();
-    //this.createLine();
+  vuiChangeState = (stateStr) => {
+    console.log("vuiObj change state to: ", stateStr);
+    this.vuiObj.changeState(stateStr);
   };
 
   renderScene = () => {
@@ -233,8 +127,8 @@ export default class WebGLApp {
   update = () => {
     this.controls.update();
     this.rafId = requestAnimationFrame(this.update);
-    if (this.uniforms !== undefined) {
-      this.uniforms.u_time.value += this.clock.getDelta();
+    if (this.vuiObj !== undefined) {
+      this.vuiObj.update(this.clock.getDelta());
     }
     this.renderScene();
   };

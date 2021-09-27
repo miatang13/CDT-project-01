@@ -34,7 +34,6 @@ const Dictaphone = () => {
         <div className="buttons__container">
           <button onClick={SpeechRecognition.startListening}>Start</button>
           <button onClick={SpeechRecognition.stopListening}>Stop</button>
-          <button onClick={resetTranscript}>Reset</button>
         </div>
       </div>
     </div>
@@ -43,3 +42,4 @@ const Dictaphone = () => {
 export default Dictaphone;
 
 //{ continuous: true }
+//<button onClick={resetTranscript}>Reset</button>
