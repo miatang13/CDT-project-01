@@ -80,7 +80,7 @@ export default class WebGLApp {
   createSphere = () => {
     const loader = new TextureLoader();
     const texture = loader.load(
-      "assets/texture/static_landscape_hor.png",
+      "assets/texture/static_grain.png",
       function (texture) {
         console.log("loaded", texture);
       },
@@ -109,7 +109,7 @@ export default class WebGLApp {
       fragmentShader: fshader,
       transparent: true,
     });
-    const geometry = new CircleGeometry(3, 32);
+    const geometry = new CircleGeometry(2, 32);
     this.sphere = new Mesh(geometry, material);
     //this.sphere.scale.set(0, 0, 0);
     this.sphere.position.set(0, 0, -1);
