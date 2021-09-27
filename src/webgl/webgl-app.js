@@ -15,9 +15,14 @@ import {
   ShaderMaterial,
   Clock,
   CircleGeometry,
+  LineBasicMaterial,
+  Vector3,
+  BufferGeometry,
+  Line,
+  SplineCurve,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import gsap, { Power4 } from "gsap/gsap-core";
+import gsap, { Power4, Power1 } from "gsap/gsap-core";
 import { vshader, fshader } from "./shaders/ripples.glsl";
 
 export default class WebGLApp {
@@ -31,7 +36,7 @@ export default class WebGLApp {
   setup = () => {
     console.log("set up with DOM elem ", this.htmlElem);
     this.scene = new Scene();
-    this.scene.background = new Color(0xb6eafa);
+    this.scene.background = new Color(0xffffff); //Color(0xb6eafa);
     this.camera = new PerspectiveCamera(
       75,
       this.windowInfo.width / this.windowInfo.height,
@@ -94,6 +99,9 @@ export default class WebGLApp {
       u_time: {
         value: 0,
       },
+      u_ripple_size: {
+        value: 1.5,
+      },
     };
     const material = new ShaderMaterial({
       uniforms: this.uniforms,
@@ -104,7 +112,7 @@ export default class WebGLApp {
     const geometry = new CircleGeometry(3, 32);
     this.sphere = new Mesh(geometry, material);
     //this.sphere.scale.set(0, 0, 0);
-    //this.sphere.position.set(0, -2, 0);
+    this.sphere.position.set(0, 0, -1);
     this.scene.add(this.sphere);
 
     //this.animateSphere();
@@ -137,10 +145,79 @@ export default class WebGLApp {
     );
   };
 
+  createLine = () => {
+    const material = new LineBasicMaterial({ color: 0xffffff });
+    // smooth my curve over this many points
+    var numPoints = 100;
+    const z = 5;
+    var curve = new SplineCurve([
+      new Vector3(-2.75, 0, z),
+      new Vector3(0, 0, z),
+      new Vector3(1.0, 0, z),
+      new Vector3(1.5, 0, z),
+      new Vector3(2.5, 0, z),
+      new Vector3(2.75, 0, z),
+    ]);
+    var points = curve.getPoints(numPoints);
+    const geometry = new BufferGeometry().setFromPoints(points);
+    const line = new Line(geometry, material);
+    this.scene.add(line);
+    console.log(line);
+  };
+
+  animateSound = () => {
+    console.log("gl animate sound");
+    this.isAnimatingSound = true;
+    const callback = () => {
+      this.isAnimatingSound = false;
+    };
+    var tl = gsap.timeline({ onComplete: callback });
+    console.log(this.sphere);
+    tl.to(
+      this.sphere.scale,
+      {
+        x: 1.5,
+        y: 1.5,
+        duration: 2,
+        ease: Power4.easeInOut,
+      },
+      0
+    );
+    tl.to(
+      this.sphere.scale,
+      {
+        x: 1,
+        y: 1,
+        duration: 2,
+        ease: Power4.easeInOut,
+      },
+      3
+    );
+    tl.to(
+      this.uniforms.u_ripple_size,
+      {
+        value: 2.5,
+        duration: 2.5,
+        ease: Power1.easeInOut,
+      },
+      0
+    );
+    tl.to(
+      this.uniforms.u_ripple_size,
+      {
+        value: 1.5,
+        duration: 3,
+        ease: Power1.easeInOut,
+      },
+      3
+    );
+  };
+
   createObjs = () => {
     // this.createGridHelper();
     this.createLights();
     this.createSphere();
+    //this.createLine();
   };
 
   renderScene = () => {

@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 function App() {
   // state
   const vuiState = useSelector((state) => state.vuiState);
+  const soundState = useSelector((state) => state.soundState);
 
   // webgl
   const containerRef = useRef(null);
@@ -53,6 +54,17 @@ function App() {
       webglApp.current.createObjs();
     }
   }, [vuiState]);
+
+  useEffect(() => {
+    if (
+      webglApp.current !== undefined &&
+      webglApp.current.sphere !== undefined
+    ) {
+      if (!webglApp.current.isAnimatingSound) {
+        webglApp.current.animateSound();
+      }
+    }
+  }, [soundState]);
 
   return (
     <div className="App">

@@ -4,3 +4,10 @@ export const changeVUIState = (stateStr) => {
     payload: stateStr,
   };
 };
+
+export const changeSoundState = (stateBool) => {
+  return {
+    type: "SOUND_STATE_CHANGE",
+    payload: stateBool,
+  };
+};

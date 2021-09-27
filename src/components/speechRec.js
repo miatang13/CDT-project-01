@@ -1,16 +1,25 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { changeSoundState } from "../actions";
 import "../styles/utility.css";
 
 const Dictaphone = () => {
+  const dispatch = useDispatch();
+  const commands = [
+    {
+      command: "*",
+      callback: () => dispatch(changeSoundState(true), [dispatch]),
+    },
+  ];
   const {
     transcript,
     listening,
     resetTranscript,
     browserSupportsSpeechRecognition,
-  } = useSpeechRecognition();
+  } = useSpeechRecognition({ commands });
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
@@ -32,3 +41,5 @@ const Dictaphone = () => {
   );
 };
 export default Dictaphone;
+
+//{ continuous: true }
