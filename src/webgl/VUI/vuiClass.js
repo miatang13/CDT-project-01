@@ -1,4 +1,11 @@
-import { CircleGeometry, Mesh, ShaderMaterial, TextureLoader } from "three";
+import {
+  CircleGeometry,
+  Color,
+  Mesh,
+  MeshBasicMaterial,
+  ShaderMaterial,
+  TextureLoader,
+} from "three";
 import { vshader, fshader } from "../shaders/ripples.glsl";
 import gsap, { Power4, Power1, Power2, Power3, Bounce } from "gsap/gsap-core";
 import {
@@ -13,22 +20,16 @@ import {
 const appear = false;
 
 class vuiCircle {
-  constructor() {
+  constructor(outlinePass) {
     this.state = "static";
+    this.sceneOutlinePass = outlinePass;
   }
 
   init = () => {
     const loader = new TextureLoader();
-    const texture = loader.load(
-      "assets/texture/static_grain.png",
-      function (texture) {
-        console.log("loaded", texture);
-      },
-      null,
-      function (err) {
-        console.log("load error", err);
-      }
-    );
+    const texture = loader.load("assets/texture/static_grain.png");
+    const texture1 = loader.load("assets/texture/static_landscape_hor.png");
+    this.texture1 = texture1;
     this.uniforms = {
       u_tex: {
         value: texture,
@@ -51,8 +52,17 @@ class vuiCircle {
       u_bIncre: {
         value: 0.0,
       },
+      u_gIncre: {
+        value: 0.0,
+      },
       u_opaque: {
         value: initial_ripple_opaque,
+      },
+      u_alpha: {
+        value: appear ? 1.0 : 0.0,
+      },
+      u_delt: {
+        value: 1.0,
       },
     };
     const material = new ShaderMaterial({
@@ -61,12 +71,9 @@ class vuiCircle {
       fragmentShader: fshader,
       transparent: true,
     });
-    const geometry = new CircleGeometry(1.75, 32);
+    const geometry = new CircleGeometry(4, 32);
     this.mesh = new Mesh(geometry, material);
-    if (!appear) {
-      this.mesh.scale.set(0, 0, 0);
-    }
-    this.mesh.position.set(0, 4, 1);
+    this.mesh.position.set(circle_pos.x, circle_pos.y, 1);
     console.log(this.mesh);
   };
 
@@ -112,61 +119,55 @@ class vuiCircle {
   };
 
   animateAppear = () => {
-    console.log("Animating appear");
-    const dur = 5;
+    console.log("Animating appear", this.sceneOutlinePass);
+    const dur = 3;
     const tl = gsap.timeline();
     tl.to(
-      this.mesh.scale,
+      this.uniforms.u_alpha,
       {
-        x: 1,
-        y: 1,
-        z: 1,
-        ease: Power4.easeInOut,
-        duration: dur / 2,
-      },
-      "scale"
-    );
-
-    tl.to(
-      this.mesh.position,
-      {
-        x: circle_pos.x,
-        y: circle_pos.y,
-        z: 1,
-        ease: Power2.easeInOut,
+        value: 1,
         duration: dur,
+        ease: Power2.easeInOut,
       },
-      "scale+=2"
+      0
+    );
+    tl.to(
+      this.sceneOutlinePass,
+      {
+        edgeStrength: 1,
+        duration: dur,
+        ease: Power2.easeInOut,
+      },
+      1
     );
   };
 
   animateDisappear() {
     const tl = gsap.timeline();
-    tl.to(this.mesh.scale, {
-      x: 0,
-      y: 0,
-      z: 0,
-      ease: Power4.easeInOut,
-      duration: 3,
-    });
-  }
-
-  speakingOn = () => {
-    var tl = gsap.timeline();
-    tl.to(this.mesh.position, {
-      y: this.mesh.position.y + 0.5,
-      duration: 0.5,
-      ease: Power4.easeInOut,
-    });
+    const dur = 3;
     tl.to(
-      this.mesh.rotation,
+      this.uniforms.u_alpha,
       {
-        y: Math.PI * 2,
-        duration: 2,
+        value: 0,
+        duration: dur,
         ease: Power2.easeInOut,
       },
       0
     );
+    tl.to(
+      this.sceneOutlinePass,
+      {
+        edgeStrength: 0,
+        duration: dur,
+        ease: Power2.easeInOut,
+      },
+      1
+    );
+  }
+
+  speakingOn = () => {
+    var tl = gsap.timeline();
+    const moveDiff = 0.75;
     tl.to(this.uniforms.u_ripple_layers, {
       value: intense_ripple,
       duration: 3.0,
@@ -175,12 +176,41 @@ class vuiCircle {
     tl.to(
       this.mesh.position,
       {
-        y: this.mesh.position.y - 0.5,
+        y: this.mesh.position.y - moveDiff,
         duration: 2,
-        ease: Power4.easeInOut,
+        ease: Power2.easeInOut,
       },
-      4
+      2
     );
+    tl.to(
+      this.mesh.position,
+      {
+        y: this.mesh.position.y + moveDiff,
+        duration: 2,
+        ease: Power2.easeInOut,
+      },
+      2
+    );
+    tl.to(this.mesh.position, {
+      y: this.mesh.position.y - moveDiff,
+      duration: 2,
+      ease: Power2.easeInOut,
+    });
+    tl.to(this.mesh.position, {
+      y: this.mesh.position.y + moveDiff,
+      duration: 2,
+      ease: Power2.easeInOut,
+    });
+    tl.to(this.mesh.position, {
+      y: this.mesh.position.y - moveDiff,
+      duration: 2,
+      ease: Power2.easeInOut,
+    });
+    tl.to(this.mesh.position, {
+      y: this.mesh.position.y + moveDiff,
+      duration: 2,
+      ease: Power2.easeInOut,
+    });
   };
 
   speakingOff = () => {
@@ -197,7 +227,7 @@ class vuiCircle {
     tl.to(
       this.mesh.rotation,
       {
-        y: Math.PI * 2,
+        z: Math.PI * 2,
         duration: 2,
         ease: Power2.easeInOut,
       },
@@ -206,34 +236,95 @@ class vuiCircle {
     tl.to(
       this.uniforms.u_rIncre,
       {
-        value: 0.3,
+        value: 0.8,
         duration: 1.5,
         ease: Power2.easeInOut,
       },
-      2.5
+      0
     );
-    tl.to(this.uniforms.u_ripple_layers, {
-      value: intense_ripple,
-      duration: 3.0,
-      ease: Power2.easeInOut,
-    });
-    tl.to(this.uniforms.u_ripple_layers, {
-      value: initial_ripple_intensity,
-      duration: 1.0,
-      ease: Power2.easeInOut,
-      delay: 1,
-    });
+    tl.to(
+      this.uniforms.u_gIncre,
+      {
+        value: -0.07,
+        duration: 1.5,
+        ease: Power2.easeInOut,
+      },
+      0
+    );
+    tl.to(
+      this.uniforms.u_ripple_layers,
+      {
+        value: 5.5,
+        duration: 2,
+        ease: Power2.easeInOut,
+      },
+      0
+    );
+    tl.to(
+      this.uniforms.u_opaque,
+      {
+        value: 5.0,
+        duration: 2.0,
+        ease: Power2.easeInOut,
+      },
+      0
+    );
+    tl.to(this.uniforms.u_ripple_size, { value: 1.2, duration: 2 }, 0);
+    // go back
     tl.to(this.uniforms.u_rIncre, {
       value: 0,
-      duration: 0.5,
+      duration: 1.5,
       ease: Power2.easeInOut,
+      delay: 5,
     });
+    tl.to(
+      this.uniforms.u_gIncre,
+      {
+        value: 0,
+        duration: 1.5,
+        ease: Power2.easeInOut,
+      },
+      "end"
+    );
+    tl.to(
+      this.uniforms.u_ripple_layers,
+      {
+        value: initial_ripple_intensity,
+        duration: 2,
+        ease: Power2.easeInOut,
+      },
+      "end"
+    );
+    tl.to(
+      this.uniforms.u_opaque,
+      {
+        value: initial_ripple_opaque,
+        duration: 2.0,
+        ease: Power2.easeInOut,
+      },
+      "end"
+    );
+    tl.to(
+      this.uniforms.u_ripple_size,
+      { value: initial_ripple_size, duration: 2 },
+      "end"
+    );
   };
 
   thinkingOn = () => {
     var tl = gsap.timeline();
+    const opqDur = 3;
     tl.to(
       this.uniforms.u_bIncre,
+      {
+        value: 0.1,
+        duration: 1.5,
+        ease: Power2.easeInOut,
+      },
+      0
+    );
+    tl.to(
+      this.uniforms.u_rIncre,
       {
         value: 0.1,
         duration: 1.5,
@@ -245,7 +336,7 @@ class vuiCircle {
       this.uniforms.u_opaque,
       {
         value: ripple_opaque,
-        duration: 1.5,
+        duration: opqDur,
         ease: Power2.easeInOut,
       },
       0
@@ -261,14 +352,21 @@ class vuiCircle {
       },
       0
     );
+
+    tl.to(this.uniforms.u_opaque, {
+      value: initial_ripple_opaque,
+      duration: opqDur,
+      ease: Power2.easeInOut,
+    });
+
     tl.to(this.uniforms.u_bIncre, {
       value: 0,
       duration: 1.5,
       ease: Power2.easeInOut,
     });
-    tl.to(this.uniforms.u_opaque, {
-      value: initial_ripple_opaque,
-      duration: 1.5,
+    tl.to(this.uniforms.u_rIncre, {
+      value: 0,
+      duration: 1,
       ease: Power2.easeInOut,
     });
   };
@@ -280,19 +378,28 @@ class vuiCircle {
     tl.to(
       this.mesh.scale,
       {
-        x: 1.5,
-        y: 1.5,
-        duration: 2,
-        ease: Power4.easeInOut,
+        x: 1.2,
+        y: 1.2,
+        duration: 3,
+        ease: Power2.easeInOut,
       },
-      0
+      0.5
     );
     tl.to(
       this.uniforms.u_ripple_size,
       {
-        value: 3.0,
-        duration: 5,
-        ease: Power3.easeInOut,
+        value: initial_ripple_size * 1.5,
+        duration: 2,
+        ease: Power1.easeInOut,
+      },
+      0
+    );
+    tl.to(
+      this.uniforms.u_ripple_intensity,
+      {
+        value: initial_ripple_intensity * 3.5,
+        duration: 2,
+        ease: Power1.easeInOut,
       },
       0
     );
