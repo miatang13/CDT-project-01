@@ -26,8 +26,8 @@ const Dictaphone = () => {
   }
 
   return (
-    <div className="">
-      <div className="center__container">
+    <div className="root">
+      <div className="side__container">
         <p>Microphone: {listening ? "on" : "off"}</p>
         <span> Your input: </span>
         <p> {transcript}</p>

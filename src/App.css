@@ -48,7 +48,6 @@ canvas {
 
 #buttonStatesContainer {
   flex-direction: row;
-  padding-top: 25%;
 }
 
 #buttonStatesContainer button {

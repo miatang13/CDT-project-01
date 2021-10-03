@@ -17,7 +17,7 @@ function StateDebugger(props) {
 
   return (
     <div className="root">
-      <div className="center__container" id="buttonStatesContainer">
+      <div id="buttonStatesContainer">
         <button onClick={() => changeState("appearing")}> Appearing </button>
         <button onClick={() => changeState("listening")}> Listening </button>
         <button onClick={() => changeState("stop_listening")}>
