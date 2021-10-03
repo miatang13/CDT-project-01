@@ -10,6 +10,9 @@ import Count from "./Pages/Count";
 import Intro from "./Pages/Intro";
 import MeetVUI from "./Pages/Meet";
 import { useSelector } from "react-redux";
+import StateDebugger from "./components/stateDebugger";
+
+const DEBUG = true;
 
 function App() {
   // state
@@ -42,67 +45,11 @@ function App() {
       window.removeEventListener("resize", onWindowResize, false);
     };
   }, []);
-  /* only want to run the function given to useEffect after the initial render,
-   * so we give it an empty array as second argument. */
-
-  /*
-  useEffect(() => {
-    if (vuiState.vuiStateStr === "appear") {
-      webglApp.current.vuiChangeState("appearing");
-    }
-  }, [vuiState])
-
-  useEffect(() => {
-    if (
-      webglApp.current !== undefined &&
-      webglApp.current.sphere !== undefined
-    ) {
-      if (!webglApp.current.isAnimatingSound) {
-        webglApp.current.animateSound();
-      }
-    }
-  }, [soundState]);;*/
-
-  const changeState = (stateStr) => {
-    console.log("handler", webglApp.current);
-    if (
-      webglApp.current !== undefined &&
-      webglApp.current !== null &&
-      webglApp.current.vuiObj !== undefined &&
-      webglApp.current.vuiObj !== null
-    ) {
-      console.log("change state");
-      webglApp.current.vuiChangeState(stateStr);
-    }
-  };
 
   return (
     <div className="App">
       <div id="webgl" ref={containerRef}></div>
-      <div className="root">
-        <div className="center__container" id="buttonStatesContainer">
-          <button onClick={() => changeState("appearing")}> Appearing </button>
-          <button onClick={() => changeState("listening")}> Listening </button>
-          <button onClick={() => changeState("stop_listening")}>
-            {" "}
-            Stop Listening{" "}
-          </button>
-          <button onClick={() => changeState("speaking")}> Speaking </button>
-          <button onClick={() => changeState("stop_speaking")}>
-            {" "}
-            Stop Speaking{" "}
-          </button>
-          <button onClick={() => changeState("reassuring")}>
-            {" "}
-            Reassuring{" "}
-          </button>
-          <button onClick={() => changeState("thinking")}> Thinking </button>
-          <button onClick={() => changeState("disappearing")}>
-            {" "}
-            Disappearing{" "}
-          </button>
-        </div>
-      </div>
+      <StateDebugger webglApp={webglApp} />
     </div>
   );
 }
