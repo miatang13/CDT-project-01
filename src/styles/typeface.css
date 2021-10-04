@@ -16,3 +16,18 @@
   font-family: Gustavo-Medium;
   src: url("./fonts/Gustavo-Medium.otf");
 }
+
+@font-face {
+  font-family: Plantin-Regular;
+  src: url("./fonts/PlantinMTProRg.TTF");
+}
+
+@font-face {
+  font-family: Plantin-Light;
+  src: url("./fonts/PlantinMTProLight.TTF");
+}
+
+@font-face {
+  font-family: Plantin-Light-Italics;
+  src: url("./fonts/PlantinMTProLightIt.TTF");
+}

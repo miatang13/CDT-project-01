@@ -7,21 +7,21 @@ import {
   TextureLoader,
 } from "three";
 import { vshader, fshader } from "../shaders/ripples.glsl";
-import gsap, { Power4, Power1, Power2, Power3, Bounce } from "gsap/gsap-core";
+import gsap, { Power4, Power1, Power2 } from "gsap/gsap-core";
 import {
-  circle_pos,
   initial_ripple_intensity,
   initial_ripple_opaque,
   initial_ripple_size,
   intense_ripple,
   ripple_opaque,
 } from "./shaderConsts";
+import { circle_pos } from "./screenConsts";
 
 const appear = false;
 
 class vuiCircle {
   constructor(outlinePass) {
-    this.state = "static";
+    this.state = "none";
     this.sceneOutlinePass = outlinePass;
   }
 
@@ -74,7 +74,9 @@ class vuiCircle {
     const geometry = new CircleGeometry(4, 32);
     this.mesh = new Mesh(geometry, material);
     this.mesh.position.set(circle_pos.x, circle_pos.y, 1);
-    console.log(this.mesh);
+    if (appear) {
+      this.sceneOutlinePass.edgeStrength = 1;
+    }
   };
 
   update = (delta) => {
@@ -87,13 +89,20 @@ class vuiCircle {
 
   changeState = (state) => {
     console.log("Vui state has changed to: ", state);
+    const prevState = this.state;
     this.state = state;
+
+    if (prevState === this.state) return;
 
     switch (this.state) {
       case "appearing":
+        console.log("in appearing");
         this.animateAppear();
         break;
       case "listening":
+        if (prevState === "none") {
+          return;
+        }
         this.listenOn();
         break;
       case "stop_listening":

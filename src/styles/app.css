@@ -44,3 +44,38 @@ a {
   text-decoration: none;
   color: white;
 }
+
+.conversation__container {
+  color: white;
+  margin-top: 35%;
+  margin-left: 45%;
+  position: absolute;
+}
+
+#transcript__text {
+  display: block;
+  max-width: 175px;
+  font-size: 0.65em;
+  text-align: left;
+  font-family: Plantin-Light-Italics;
+}
+
+.helpers__container {
+  margin-top: 50%;
+}
+
+.microphone__container {
+  width: 30%;
+  max-height: 150px;
+  background-color: #efddff;
+  font-size: 0.7em;
+}
+
+.microphone__container button {
+  font-size: 0.7em;
+}
+
+.helpers__container {
+  background-color: #efddff;
+  padding-top: 0.5em;
+}
