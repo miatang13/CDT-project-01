@@ -37,7 +37,6 @@ export default class WebGLApp {
   }
 
   setup = () => {
-    console.log("set up with DOM elem ", this.htmlElem);
     this.scene = new Scene();
     this.scene.background = new Color(0xffffff); //Color(0xb6eafa);
     this.camera = new PerspectiveCamera(

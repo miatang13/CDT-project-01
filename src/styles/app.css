@@ -2,7 +2,7 @@
 @import url("typeface.css");
 
 * {
-  font-family: Gustavo-Bold;
+  font-family: Plantin-Regular;
 }
 
 h1 {
@@ -34,6 +34,24 @@ button {
   color: white;
 }
 
+input {
+  display: inline-block;
+  padding: 0.5em 3em 0.5em 3em;
+  border: 0.16em solid rgba(255, 255, 255, 0);
+  border-radius: 2em;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: Gustavo-Medium;
+  text-align: center;
+  transition: all 0.2s;
+  word-spacing: 0.1em;
+  letter-spacing: 0.07em;
+  font-size: 0.75em;
+
+  background-color: rgb(82, 82, 82);
+  color: white;
+}
+
 button:hover {
   background-color: #efddff;
   color: rgb(82, 82, 82);
@@ -43,6 +61,12 @@ button:hover {
 a {
   text-decoration: none;
   color: white;
+}
+
+input[type="text"] {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #000000;
 }
 
 .conversation__container {
@@ -78,4 +102,12 @@ a {
 .helpers__container {
   background-color: #efddff;
   padding-top: 0.5em;
+}
+
+#name__input {
+  padding-bottom: 0.5em;
+}
+
+#name__input :focus {
+  outline: none;
 }

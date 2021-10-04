@@ -11,3 +11,10 @@ export const changeSoundState = (stateBool) => {
     payload: stateBool,
   };
 };
+
+export const changeUserName = (nameStr) => {
+  return {
+    type: "USER_NAME_CHANGE",
+    payload: nameStr,
+  };
+};

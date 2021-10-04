@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   background-color: rgb(221, 240, 255);
-  background-image: url("./images/ir.jpg");
+  background-image: url("./images/static_landscape.png");
   background-size: cover;
 }
 
@@ -21,4 +21,28 @@
 
 .landing__container .landing__blurb {
   padding-bottom: 1em;
+}
+
+input {
+  border-radius: 5em;
+  background-color: aliceblue;
+}
+
+button {
+  background-color: bisque;
+  opacity: 50%;
+  color: plum;
+  border-radius: 50%;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background-image: url("./images/button_background.png");
+  background-size: 100px 100px;
+  background-repeat: repeat-x;
+}
+
+button:hover {
+  opacity: 100%;
+  transition: all 1s;
 }
