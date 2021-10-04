@@ -94,17 +94,26 @@ function VUI() {
     <div className="App">
       <div id="webgl" ref={containerRef}></div>
       <div className="root">
-        <div className="VUI_UI_container">
-          <div className="conversation__container">
-            <span id="transcript__text">{transcript}</span>
+        <div className="center__container">
+          <div className="VUI_UI_container">
+            <div className="conversation__container">
+              <span id="transcript__text">{transcript}</span>
+            </div>
           </div>
         </div>
+
         <div className="microphone__container">
           <span> Toggle microphone </span>
           <div className="center__container">
             <div className="buttons__container">
-              <button onClick={handleStartListen}>Start</button>
-              <button onClick={handleStopListen}>Stop</button>
+              <button
+                onTouchStart={handleStartListen}
+                onMouseDown={handleStartListen}
+                onTouchEnd={handleStopListen}
+                onMouseUp={handleStopListen}
+              >
+                Hold to talk
+              </button>
             </div>
             <p>Microphone: {listening ? "on" : "off"}</p>
           </div>

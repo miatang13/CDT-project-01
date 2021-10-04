@@ -47,21 +47,20 @@ a {
 
 .conversation__container {
   color: white;
-  margin-top: 35%;
-  margin-left: 45%;
+  margin-top: 30%;
   position: absolute;
 }
 
 #transcript__text {
   display: block;
-  max-width: 175px;
-  font-size: 0.65em;
+  max-width: 140px;
+  font-size: 0.6em;
   text-align: left;
   font-family: Plantin-Light-Italics;
 }
 
 .helpers__container {
-  margin-top: 50%;
+  margin-top: 30%;
 }
 
 .microphone__container {
@@ -73,6 +72,7 @@ a {
 
 .microphone__container button {
   font-size: 0.7em;
+  width: 15em;
 }
 
 .helpers__container {
