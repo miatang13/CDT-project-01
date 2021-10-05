@@ -8,39 +8,67 @@
   background-color: rgb(221, 240, 255);
   background-image: url("./images/static_landscape.png");
   background-size: cover;
+  font-family: freight-text-pro, serif;
+  font-weight: 300;
+  font-style: italic;
+  color: #4e4552;
 }
 
-.landing__container p {
-  width: 40%;
-  color: rgb(82, 82, 82);
+.content__container {
+  width: 35%;
+  margin-top: 5vw;
+  transform: skewY(10deg);
+  /* for animation */
 }
 
-.landing__container .title__text {
-  color: rgb(82, 82, 82);
+.title__text {
+  font-size: 5vw;
+  opacity: 0;
 }
 
-.landing__container .landing__blurb {
-  padding-bottom: 1em;
+.landing__blurb {
+  font-family: freight-text-pro, serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 1.75vw;
+  opacity: 0;
+}
+
+.landing__container form {
+  opacity: 0;
 }
 
 input {
   border-radius: 5em;
-  background-color: aliceblue;
+  background-color: rgb(166, 194, 218);
+  font-style: italic;
+  padding-bottom: 1vw;
+  box-shadow: 0 5px 15px rgba(145, 92, 182, 0.2);
 }
 
 button {
   background-color: bisque;
   opacity: 50%;
-  color: plum;
   border-radius: 50%;
   padding-top: 15px;
   padding-bottom: 15px;
   padding-left: 10px;
   padding-right: 10px;
+  color: #091024;
   background-image: url("./images/button_background.png");
+  box-shadow: 0 5px 15px rgba(145, 92, 182, 0.3);
 }
 
 button:hover {
   opacity: 100%;
   transition: all 1s;
+  color: #d5cfff;
+}
+
+#name__input {
+  padding-bottom: 3.5vw;
+}
+
+#name__input :focus {
+  outline: none;
 }

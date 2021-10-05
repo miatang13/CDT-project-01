@@ -2,18 +2,8 @@
 @import url("typeface.css");
 
 * {
-  font-family: Plantin-Regular;
-}
-
-h1 {
-  font-family: Gustavo-Bold;
-  font-size: xx-large;
-}
-
-p {
-  font-family: Gustavo-Regular;
-  font-size: small;
-  width: 50%;
+  font-family: freight-text-pro, serif;
+  font-weight: 500;
 }
 
 button {
@@ -23,7 +13,6 @@ button {
   border-radius: 2em;
   box-sizing: border-box;
   text-decoration: none;
-  font-family: Gustavo-Medium;
   text-align: center;
   transition: all 0.2s;
   word-spacing: 0.1em;
@@ -43,7 +32,6 @@ input {
   border-radius: 2em;
   box-sizing: border-box;
   text-decoration: none;
-  font-family: Gustavo-Medium;
   text-align: center;
   transition: all 0.2s;
   word-spacing: 0.1em;
@@ -69,12 +57,4 @@ input[type="text"] {
   background: transparent;
   border: none;
   border-bottom: 1px solid #000000;
-}
-
-#name__input {
-  padding-bottom: 0.5em;
-}
-
-#name__input :focus {
-  outline: none;
 }

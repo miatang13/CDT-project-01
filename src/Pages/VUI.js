@@ -1,5 +1,6 @@
 import "../App.css";
 import "../styles/vui.css";
+import "../styles/reactTransition.css";
 import React, { useEffect, useRef, useState } from "react";
 import WebGLApp from "../webgl/webgl-app";
 import { useSelector } from "react-redux";
@@ -13,6 +14,10 @@ import SpeechRecognition, {
 import { changeSoundState, changeVUIState } from "../actions";
 import "../styles/utility.css";
 import { capitalizeFirstLetter } from "../utility/string";
+
+// animations
+import gsap from "gsap";
+import { TransitionGroup } from "react-transition-group"; // ES6
 
 // debug
 const DEBUG_STATES = false;
@@ -68,11 +73,19 @@ function VUI() {
     }
   }, [vuiState]);
 
+  const jsxRef = useRef();
+
   const updateStateArr = (text, isUserText = false) => {
     let cls = "transcript__text";
     let clsEnd = isUserText ? "__user" : "__vui";
     cls = cls + clsEnd;
-    let jsx = <span className={cls}> {text} </span>;
+    let keyVal = jsxConvoArr.length;
+    let jsx = (
+      <span className={cls} ref={jsxRef} key={keyVal}>
+        {" "}
+        {text}{" "}
+      </span>
+    );
 
     let newArr = jsxConvoArr;
     newArr.push(jsx);
@@ -129,15 +142,27 @@ function VUI() {
     SpeechRecognition.stopListening();
     dispatch(changeVUIState("stop_listening"), [dispatch]);
     dispatch(changeSoundState(false), [dispatch]);
+    if (transcript === "") return;
     updateStateArr(capitalizeFirstLetter(transcript) + ".", true);
   };
 
+  if (!browserSupportsSpeechRecognition) {
+    return <span>Browser doesn't support speech recognition.</span>;
+  }
   return (
     <div className="App">
       <div id="webgl" ref={containerRef}></div>
       <div className="root">
         <div className="VUI_UI_container">
-          <div className="conversation__container">{jsxConvoArr}</div>
+          <div className="conversation__container">
+            <TransitionGroup
+              transitionName="convoJsx"
+              transitionEnterTimeout={500}
+              transitionLeaveTimeout={300}
+            >
+              {jsxConvoArr}
+            </TransitionGroup>
+          </div>
         </div>
         <div className="microphone__container">
           <div className="center__container">
