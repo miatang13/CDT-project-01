@@ -1,0 +1,63 @@
+.VUI_UI_container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  margin-left: 38vw;
+}
+
+.conversation__container {
+  color: white;
+  margin-top: 28vw;
+  margin-left: 5%;
+  position: absolute;
+}
+
+.transcript__text__user {
+  display: block;
+  max-width: 10vw;
+  font-size: 0.9vw;
+  text-align: left;
+  font-family: Plantin-Light-Italics;
+  padding-bottom: 0.5vw;
+  margin-left: 8vw;
+}
+
+.transcript__text__vui {
+  display: block;
+  max-width: 10vw;
+  font-size: 0.9vw;
+  text-align: left;
+  font-family: Plantin-Light-Italics;
+  padding-bottom: 0.5vw;
+}
+
+.helpers__container {
+  margin-top: 30%;
+}
+
+.microphone__container {
+  width: 20%;
+  max-height: 150px;
+  font-size: 1em;
+  /*background-color: #efddff; */
+  background-image: url("./images/static_landscape.png");
+  background-size: cover;
+  border-radius: 25px;
+  margin-left: 50px;
+  opacity: 80%;
+}
+
+.microphone__container p {
+  font-family: Plantin-Light-Italics;
+  color: #a98bc4;
+}
+
+.microphone__container button {
+  width: 10em;
+}
+
+.helpers__container {
+  background-color: #efddff;
+  padding-top: 0.5em;
+}

@@ -1,5 +1,6 @@
 import "../App.css";
-import React, { useEffect, useRef } from "react";
+import "../styles/vui.css";
+import React, { useEffect, useRef, useState } from "react";
 import WebGLApp from "../webgl/webgl-app";
 import { useSelector } from "react-redux";
 import StateDebugger from "../components/stateDebugger";
@@ -12,17 +13,27 @@ import SpeechRecognition, {
 import { changeSoundState, changeVUIState } from "../actions";
 import "../styles/utility.css";
 
+// debug
+const DEBUG_STATES = false;
+
 function VUI() {
   // state
   const vuiState = useSelector((state) => state.vuiState);
   const soundState = useSelector((state) => state.soundState);
+  const dispatch = useDispatch();
 
   // webgl
   const containerRef = useRef(null);
   const webglApp = useRef(null);
 
+  // data
+  const [userTextArr, setUserTextArr] = useState([]);
+  const [vuiTextArr, setVuiTextArr] = useState([]);
+  const [jsxConvoArr, setJsxConvoArr] = useState([]);
+
   useEffect(() => {
     if (containerRef.current === null) return;
+    if (webglApp.current !== null) return;
     console.log("Initializing GL with: ", containerRef.current);
 
     // Handler to call on window resize
@@ -56,15 +67,54 @@ function VUI() {
     }
   }, [vuiState]);
 
-  const dispatch = useDispatch();
+  const updateStateArr = (
+    updateFunc,
+    stateVar,
+    item,
+    needPeriodConcat = false
+  ) => {
+    let orig = stateVar;
+    if (needPeriodConcat) {
+      item = item + ".";
+    }
+    orig.push(item);
+    updateFunc(orig);
+  };
+
   const commands = [
     {
-      command: "*",
-      callback: () => dispatch(changeSoundState(true), [dispatch]),
+      command: "Nova I need help",
+      callback: () => {
+        updateStateArr(
+          setVuiTextArr,
+          vuiTextArr,
+          "Good afternoon, " +
+            vuiState.userName +
+            ", you will get through this moment. I am here to guide you. " +
+            " Would you like to do a visualization or a sensory exercise? "
+        );
+        dispatch(changeVUIState("appearing"), [dispatch]);
+      },
     },
     {
-      command: "Nova I need help",
-      callback: () => dispatch(changeVUIState("appearing"), [dispatch]),
+      command: "A visualization",
+      callback: () => {
+        updateStateArr(
+          setVuiTextArr,
+          vuiTextArr,
+          "Ok. " +
+            vuiState.userName +
+            ", let’s go to a different place together, a more peaceful place. "
+        );
+        dispatch(changeVUIState("visualization"), [dispatch]);
+      },
+    },
+    {
+      /*TO-DO: error case */
+      command: "asfjasgjl",
+      callback: () => {
+        updateStateArr(setVuiTextArr, vuiTextArr, "Sorry, I didn't get that.");
+      },
     },
   ];
   const {
@@ -74,12 +124,9 @@ function VUI() {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition({ commands });
 
-  if (!browserSupportsSpeechRecognition) {
-    return <span>Browser doesn't support speech recognition.</span>;
-  }
-
   const handleStartListen = () => {
     SpeechRecognition.startListening({ continuous: true });
+    resetTranscript();
     dispatch(changeSoundState(true), [dispatch]);
     dispatch(changeVUIState("listening"), [dispatch]);
   };
@@ -88,22 +135,34 @@ function VUI() {
     SpeechRecognition.stopListening();
     dispatch(changeVUIState("stop_listening"), [dispatch]);
     dispatch(changeSoundState(false), [dispatch]);
+    updateStateArr(setUserTextArr, userTextArr, transcript, true);
+  };
+
+  const getConversationText = () => {
+    let displayArr = userTextArr.reduce(function (arr, v, i) {
+      return arr.concat(v, vuiTextArr[i]);
+    }, []);
+    let jsxElems = [];
+    for (let i = 0; i < displayArr.length; i++) {
+      let cls = "transcript__text";
+      if (i % 2 === 0) {
+        cls = cls + "__user";
+      } else {
+        cls = cls + "__vui";
+      }
+      jsxElems.push(<span className={cls}> {displayArr[i]} </span>);
+    }
+    return jsxElems;
   };
 
   return (
     <div className="App">
       <div id="webgl" ref={containerRef}></div>
       <div className="root">
-        <div className="center__container">
-          <div className="VUI_UI_container">
-            <div className="conversation__container">
-              <span id="transcript__text">{transcript}</span>
-            </div>
-          </div>
+        <div className="VUI_UI_container">
+          <div className="conversation__container">{getConversationText()}</div>
         </div>
-
         <div className="microphone__container">
-          <span> Toggle microphone </span>
           <div className="center__container">
             <div className="buttons__container">
               <button
@@ -118,9 +177,11 @@ function VUI() {
             <p>Microphone: {listening ? "on" : "off"}</p>
           </div>
         </div>
-        <div className="helpers__container">
-          <StateDebugger webglApp={webglApp} />
-        </div>
+        {DEBUG_STATES && (
+          <div className="helpers__container">
+            <StateDebugger webglApp={webglApp} />
+          </div>
+        )}
       </div>
     </div>
   );

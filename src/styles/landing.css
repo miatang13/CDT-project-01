@@ -38,8 +38,6 @@ button {
   padding-left: 10px;
   padding-right: 10px;
   background-image: url("./images/button_background.png");
-  background-size: 100px 100px;
-  background-repeat: repeat-x;
 }
 
 button:hover {

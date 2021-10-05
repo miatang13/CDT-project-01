@@ -122,7 +122,7 @@ export default class WebGLApp {
   createPhoneBackground = () => {
     const textureLoader = new TextureLoader();
     const phoneBackground = textureLoader.load("assets/iphone_dark.jpg");
-    const geometry = new PlaneGeometry(16, 30);
+    const geometry = new PlaneGeometry(16, 32);
     const material = new MeshBasicMaterial({
       map: phoneBackground,
     });
