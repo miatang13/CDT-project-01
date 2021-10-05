@@ -12,6 +12,7 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 import { changeSoundState, changeVUIState } from "../actions";
 import "../styles/utility.css";
+import { capitalizeFirstLetter } from "../utility/string";
 
 // debug
 const DEBUG_STATES = false;
@@ -67,18 +68,15 @@ function VUI() {
     }
   }, [vuiState]);
 
-  const updateStateArr = (
-    updateFunc,
-    stateVar,
-    item,
-    needPeriodConcat = false
-  ) => {
-    let orig = stateVar;
-    if (needPeriodConcat) {
-      item = item + ".";
-    }
-    orig.push(item);
-    updateFunc(orig);
+  const updateStateArr = (text, isUserText = false) => {
+    let cls = "transcript__text";
+    let clsEnd = isUserText ? "__user" : "__vui";
+    cls = cls + clsEnd;
+    let jsx = <span className={cls}> {text} </span>;
+
+    let newArr = jsxConvoArr;
+    newArr.push(jsx);
+    setJsxConvoArr(newArr);
   };
 
   const commands = [
@@ -86,8 +84,6 @@ function VUI() {
       command: "Nova I need help",
       callback: () => {
         updateStateArr(
-          setVuiTextArr,
-          vuiTextArr,
           "Good afternoon, " +
             vuiState.userName +
             ", you will get through this moment. I am here to guide you. " +
@@ -100,8 +96,6 @@ function VUI() {
       command: "A visualization",
       callback: () => {
         updateStateArr(
-          setVuiTextArr,
-          vuiTextArr,
           "Ok. " +
             vuiState.userName +
             ", let’s go to a different place together, a more peaceful place. "
@@ -135,24 +129,7 @@ function VUI() {
     SpeechRecognition.stopListening();
     dispatch(changeVUIState("stop_listening"), [dispatch]);
     dispatch(changeSoundState(false), [dispatch]);
-    updateStateArr(setUserTextArr, userTextArr, transcript, true);
-  };
-
-  const getConversationText = () => {
-    let displayArr = userTextArr.reduce(function (arr, v, i) {
-      return arr.concat(v, vuiTextArr[i]);
-    }, []);
-    let jsxElems = [];
-    for (let i = 0; i < displayArr.length; i++) {
-      let cls = "transcript__text";
-      if (i % 2 === 0) {
-        cls = cls + "__user";
-      } else {
-        cls = cls + "__vui";
-      }
-      jsxElems.push(<span className={cls}> {displayArr[i]} </span>);
-    }
-    return jsxElems;
+    updateStateArr(capitalizeFirstLetter(transcript) + ".", true);
   };
 
   return (
@@ -160,7 +137,7 @@ function VUI() {
       <div id="webgl" ref={containerRef}></div>
       <div className="root">
         <div className="VUI_UI_container">
-          <div className="conversation__container">{getConversationText()}</div>
+          <div className="conversation__container">{jsxConvoArr}</div>
         </div>
         <div className="microphone__container">
           <div className="center__container">
