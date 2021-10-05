@@ -18,9 +18,9 @@ import { capitalizeFirstLetter } from "../utility/string";
 // animations
 import gsap from "gsap";
 import { TransitionGroup } from "react-transition-group"; // ES6
+import { DEBUG_STATES } from "../utility/debug";
 
 // debug
-const DEBUG_STATES = false;
 
 function VUI() {
   // state

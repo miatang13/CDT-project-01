@@ -16,8 +16,9 @@ import {
   ripple_opaque,
 } from "./shaderConsts";
 import { circle_pos } from "./screenConsts";
+import { DEBUG_STATES } from "../../utility/debug";
 
-const appear = false;
+const appear = DEBUG_STATES;
 
 class vuiCircle {
   constructor(outlinePass) {
@@ -135,15 +136,15 @@ class vuiCircle {
     tl.to(
       this.mesh.scale,
       {
-        x: 0.5,
-        y: 0.5,
+        x: 0.4,
+        y: 0.4,
         duration: 2,
         ease: Power2.easeInOut,
       },
       0
     );
     tl.to(this.mesh.position, {
-      y: -8,
+      y: -11,
       duration: 2,
       ease: Power2.easeInOut,
     });

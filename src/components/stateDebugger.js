@@ -34,6 +34,10 @@ function StateDebugger(props) {
         {" "}
         Disappearing{" "}
       </button>
+      <button onClick={() => changeState("visualization")}>
+        {" "}
+        Visualization{" "}
+      </button>
     </div>
   );
 }
