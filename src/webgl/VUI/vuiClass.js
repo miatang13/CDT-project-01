@@ -96,7 +96,6 @@ class vuiCircle {
 
     switch (this.state) {
       case "appearing":
-        console.log("in appearing");
         this.animateAppear();
         break;
       case "listening":
@@ -123,12 +122,34 @@ class vuiCircle {
       case "disappearing":
         this.animateDisappear();
         break;
+      case "visualization":
+        this.activateVisualization();
+        break;
       default:
+        return;
     }
   };
 
+  activateVisualization = () => {
+    const tl = gsap.timeline();
+    tl.to(
+      this.mesh.scale,
+      {
+        x: 0.5,
+        y: 0.5,
+        duration: 2,
+        ease: Power2.easeInOut,
+      },
+      0
+    );
+    tl.to(this.mesh.position, {
+      y: -8,
+      duration: 2,
+      ease: Power2.easeInOut,
+    });
+  };
+
   animateAppear = () => {
-    console.log("Animating appear", this.sceneOutlinePass);
     const dur = 3;
     const tl = gsap.timeline();
     tl.to(
@@ -381,7 +402,6 @@ class vuiCircle {
   };
 
   listenOn = () => {
-    console.log("gl animate sound");
     this.isAnimatingSound = true;
     var tl = gsap.timeline();
     tl.to(

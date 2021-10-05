@@ -4,32 +4,40 @@
   flex-direction: column;
   flex-wrap: nowrap;
   margin-left: 38vw;
+  font-family: freight-sans-pro, sans-serif;
 }
 
 .conversation__container {
-  color: white;
   margin-top: 28vw;
   margin-left: 5%;
   position: absolute;
+  max-width: 15vw;
 }
 
 .transcript__text__user {
   display: block;
-  max-width: 10vw;
   font-size: 0.9vw;
   text-align: left;
-  font-family: Plantin-Light-Italics;
+  font-family: freight-sans-pro, sans-serif;
+  font-weight: 600;
+  font-style: normal;
   padding-bottom: 0.5vw;
-  margin-left: 8vw;
+  color: #e9e9ff;
+  /* for animation 
+  opacity: 0;*/
 }
 
 .transcript__text__vui {
   display: block;
-  max-width: 10vw;
   font-size: 0.9vw;
   text-align: left;
-  font-family: Plantin-Light-Italics;
+  font-family: freight-sans-pro, sans-serif;
+  font-weight: 400;
+  font-style: normal;
   padding-bottom: 0.5vw;
+  color: #d5cfff;
+  /* for animation 
+  opacity: 0;*/
 }
 
 .helpers__container {
@@ -40,21 +48,25 @@
   width: 20%;
   max-height: 150px;
   font-size: 1em;
-  /*background-color: #efddff; */
+  /*background-color: #efddff;
   background-image: url("./images/static_landscape.png");
-  background-size: cover;
+  background-size: cover; */
   border-radius: 25px;
   margin-left: 50px;
   opacity: 80%;
+  box-shadow: 0 5px 15px rgba(145, 92, 182, 0.1);
 }
 
 .microphone__container p {
-  font-family: Plantin-Light-Italics;
   color: #a98bc4;
+  font-size: 1.2vw;
+  font-style: italic;
 }
 
 .microphone__container button {
-  width: 10em;
+  width: 10vw;
+  font-style: italic;
+  background-image: url("./images/button_background.png");
 }
 
 .helpers__container {

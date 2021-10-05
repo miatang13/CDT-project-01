@@ -16,7 +16,6 @@ const vuiStateReducer = (state = DEFAULT_STATE, action) => {
 const soundStateReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case "SOUND_STATE_CHANGE":
-      console.log("sound change");
       return {
         ...state,
         stateState: action.payload,

@@ -1,6 +1,6 @@
 import "../App.css";
-import "../styles/vui.css";
 import "../styles/reactTransition.css";
+import "../styles/vui.css";
 import React, { useEffect, useRef, useState } from "react";
 import WebGLApp from "../webgl/webgl-app";
 import { useSelector } from "react-redux";
@@ -33,9 +33,9 @@ function VUI() {
   const webglApp = useRef(null);
 
   // data
-  const [userTextArr, setUserTextArr] = useState([]);
-  const [vuiTextArr, setVuiTextArr] = useState([]);
   const [jsxConvoArr, setJsxConvoArr] = useState([]);
+  const convoRef = useRef();
+  const [vuiActivity, setVuiAct] = useState("intro");
 
   useEffect(() => {
     if (containerRef.current === null) return;
@@ -68,14 +68,25 @@ function VUI() {
       webglApp.current.vuiObj !== undefined &&
       webglApp.current.vuiObj !== null
     ) {
-      console.log("change state to:", vuiState.vuiStateStr);
       webglApp.current.vuiChangeState(vuiState.vuiStateStr);
     }
   }, [vuiState]);
 
+  useEffect(() => {
+    if (vuiActivity === "visualization") {
+      let tl = gsap.timeline();
+
+      tl.to(convoRef.current, {
+        opacity: 0,
+        duration: 3,
+      });
+    }
+  }, [vuiActivity]);
+
   const jsxRef = useRef();
 
   const updateStateArr = (text, isUserText = false) => {
+    console.log("Update transcripts");
     let cls = "transcript__text";
     let clsEnd = isUserText ? "__user" : "__vui";
     cls = cls + clsEnd;
@@ -91,6 +102,10 @@ function VUI() {
     newArr.push(jsx);
     setJsxConvoArr(newArr);
   };
+
+  useEffect(() => {
+    console.log("jsx changed");
+  }, [jsxConvoArr]);
 
   const commands = [
     {
@@ -114,13 +129,16 @@ function VUI() {
             ", let’s go to a different place together, a more peaceful place. "
         );
         dispatch(changeVUIState("visualization"), [dispatch]);
+        setVuiAct("visualization");
       },
     },
     {
       /*TO-DO: error case */
-      command: "asfjasgjl",
+      command: "I don't know",
       callback: () => {
-        updateStateArr(setVuiTextArr, vuiTextArr, "Sorry, I didn't get that.");
+        updateStateArr(
+          "Let’s focus on using an exercise to calm your anxiety right now. Which exercise would you like to do, a visualization or a sensory exercise? ."
+        );
       },
     },
   ];
@@ -154,7 +172,7 @@ function VUI() {
       <div id="webgl" ref={containerRef}></div>
       <div className="root">
         <div className="VUI_UI_container">
-          <div className="conversation__container">
+          <div className="conversation__container" ref={convoRef}>
             <TransitionGroup
               transitionName="convoJsx"
               transitionEnterTimeout={500}
@@ -172,6 +190,7 @@ function VUI() {
                 onMouseDown={handleStartListen}
                 onTouchEnd={handleStopListen}
                 onMouseUp={handleStopListen}
+                id="microphone__btn"
               >
                 Hold to talk
               </button>

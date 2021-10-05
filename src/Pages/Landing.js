@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeUserName } from "../actions";
 import { useState, useEffect, useRef } from "react";
-import gsap, { Power2 } from "gsap";
+import gsap from "gsap";
 
 function Landing() {
   const history = useHistory();
@@ -15,7 +15,7 @@ function Landing() {
   const handleSubmit = () => {
     dispatch(changeUserName(input), [dispatch]);
     console.log(input);
-    history.push("/nova");
+    history.push({ pathname: "/nova", search: "?user=" + input });
   };
 
   const handleChange = (e) => {

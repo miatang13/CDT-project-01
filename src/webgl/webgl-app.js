@@ -147,11 +147,9 @@ export default class WebGLApp {
     const geometry = new BufferGeometry().setFromPoints(points);
     const line = new Line(geometry, material);
     this.scene.add(line);
-    console.log(line);
   };
 
   vuiChangeState = (stateStr) => {
-    console.log("vuiObj change state to: ", stateStr);
     this.vuiObj.changeState(stateStr);
   };
 
