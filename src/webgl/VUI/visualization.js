@@ -1,7 +1,12 @@
 import gsap, { Power2 } from "gsap/gsap-core";
 
 export function activateVisualization() {
-  const tl = gsap.timeline();
+  this.isAnimating = true;
+  const tl = gsap.timeline({
+    onComplete: function () {
+      this.isAnimating = false;
+    },
+  });
   tl.to(
     this.mesh.scale,
     {

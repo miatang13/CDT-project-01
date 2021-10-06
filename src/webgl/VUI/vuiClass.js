@@ -21,6 +21,7 @@ class vuiCircle {
   constructor(outlinePass) {
     this.state = "none";
     this.sceneOutlinePass = outlinePass;
+    this.isAnimating = false;
   }
 
   init = () => {
@@ -111,6 +112,8 @@ class vuiCircle {
   /**Private */
 
   changeState = (state) => {
+    if (this.isAnimating) return;
+
     console.log("Vui state has changed to: ", state);
     const prevState = this.state;
     this.state = state;

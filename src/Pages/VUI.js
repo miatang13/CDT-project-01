@@ -34,7 +34,6 @@ function VUI() {
   // data
   const [jsxConvoArr, setJsxConvoArr] = useState([]);
   const convoRef = useRef();
-  const [vuiActivity, setVuiAct] = useState("intro");
 
   useEffect(() => {
     if (containerRef.current === null) return;
@@ -68,17 +67,46 @@ function VUI() {
       webglApp.current.vuiObj !== null
     ) {
       webglApp.current.vuiChangeState(vuiState.vuiStateStr);
+
+      if (vuiState.vuiStateStr === "visualization") {
+        updateStateArr(
+          "Imagine that you are at a lake, the waters are calm, and the current is mild. You can feel a light breeze blowing by you. In this place, what do you hear?",
+          false,
+          true
+        );
+        dispatch(changeVUIState("thinking"), [dispatch]);
+      }
     }
   }, [vuiState]);
 
   const jsxRef = useRef();
 
-  const updateStateArr = (text, isUserText = false) => {
+  const clearConvo = () => {
+    setJsxConvoArr([]);
+  };
+
+  const updateStateArr = (text, isUserText = false, emptyOut = false) => {
     console.log("Update transcripts with: ", text);
     let cls = "transcript__text";
     let clsEnd = isUserText ? "__user" : "__vui";
     cls = cls + clsEnd;
-    let keyVal = jsxConvoArr.length;
+
+    let setFunc = setJsxConvoArr;
+    let Arr = jsxConvoArr;
+
+    if (emptyOut) {
+      let jsx = (
+        <span className={cls} ref={jsxRef} key={0}>
+          {" "}
+          {text}{" "}
+        </span>
+      );
+      setFunc([jsx]);
+      console.log("after reset", Arr);
+      return;
+    }
+
+    let keyVal = Arr.length;
     let jsx = (
       <span className={cls} ref={jsxRef} key={keyVal}>
         {" "}
@@ -86,38 +114,10 @@ function VUI() {
       </span>
     );
 
-    let newArr = jsxConvoArr;
+    let newArr = Arr;
     newArr.push(jsx);
-    setJsxConvoArr(newArr);
-  };
-
-  useEffect(() => {
-    //console.log("jsx changed");
-  }, [jsxConvoArr]);
-
-  const handleVisualization = () => {
-    updateStateArr(
-      "Ok. " +
-        vuiState.userName +
-        ", let’s go to a different place together, a more peaceful place. "
-    );
-    dispatch(changeVUIState("visualization"), [dispatch]);
-    setVuiAct("visualization");
-    let tl = gsap.timeline();
-    tl.to(convoRef.current, {
-      delay: 2,
-      opacity: 0,
-      duration: 3,
-    }).then(() => {
-      setJsxConvoArr([]);
-      convoRef.current.opacity = 1;
-      setTimeout(function () {
-        updateStateArr(
-          "Imagine that you are at a lake, the waters are calm, and the current is mild. " +
-            "You can feel a light breeze blowing by you. In this place, what do you hear? "
-        );
-      }, 1000);
-    });
+    setFunc(newArr);
+    console.log(newArr);
   };
 
   const commands = [
@@ -134,11 +134,29 @@ function VUI() {
       },
     },
     {
-      command: "Visualization",
+      command: "* visualization",
       callback: () => {
+        updateStateArr(
+          "Ok. " +
+            vuiState.userName +
+            ", let’s go to a different place together, a more peaceful place. "
+        );
         setTimeout(function () {
-          handleVisualization();
-        }, 1000);
+          dispatch(changeVUIState("visualization"), [dispatch]);
+        }, 2000);
+      },
+    },
+    {
+      command: "visualization",
+      callback: () => {
+        updateStateArr(
+          "Ok. " +
+            vuiState.userName +
+            ", let’s go to a different place together, a more peaceful place. "
+        );
+        setTimeout(function () {
+          dispatch(changeVUIState("visualization"), [dispatch]);
+        }, 2000);
       },
     },
     {
@@ -146,8 +164,9 @@ function VUI() {
       command: "I don't know",
       callback: () => {
         updateStateArr(
-          "Let’s focus on using an exercise to calm your anxiety right now. Which exercise would you like to do, a visualization or a sensory exercise? ."
+          "Let’s focus on using an exercise to calm your anxiety right now. Which exercise would you like to do, a visualization or a sensory exercise?"
         );
+        dispatch(changeVUIState("static"), [dispatch]);
       },
     },
   ];
@@ -182,13 +201,7 @@ function VUI() {
       <div className="root">
         <div className="VUI_UI_container">
           <div className="conversation__container" ref={convoRef}>
-            <TransitionGroup
-              transitionName="convoJsx"
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={300}
-            >
-              {jsxConvoArr}
-            </TransitionGroup>
+            {jsxConvoArr}
           </div>
         </div>
         <div className="microphone__container">
@@ -216,5 +229,16 @@ function VUI() {
     </div>
   );
 }
-
 export default VUI;
+
+/**
+ *  <button
+          onClick={() =>
+            dispatch(changeVUIState("visualization"), [dispatch])
+          }
+        >
+          {" "}
+          Visualization{" "}
+        </button>
+        <button onClick={() => clearConvo()}> Reset </button>)
+ */
