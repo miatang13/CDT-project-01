@@ -30,6 +30,10 @@ function StateDebugger(props) {
       </button>
       <button onClick={() => changeState("reassuring")}> Reassuring </button>
       <button onClick={() => changeState("thinking")}> Thinking </button>
+      <button onClick={() => changeState("stop_thinking")}>
+        {" "}
+        Thinking Off{" "}
+      </button>
       <button onClick={() => changeState("disappearing")}>
         {" "}
         Disappearing{" "}

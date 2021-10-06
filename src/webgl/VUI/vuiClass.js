@@ -10,7 +10,7 @@ import { DEBUG_STATES } from "../../utility/debug";
 import { speakingOn, speakingOff } from "./speaking";
 import { listenOn, listenOff } from "./listen";
 import { activateVisualization } from "./visualization";
-import { thinkingOn } from "./thinking";
+import { thinkingOn, thinkingOff } from "./thinking";
 import { reassuringOn } from "./reassure";
 import { animateAppear, animateDisappear } from "./presence";
 import { bindNewMethods } from "../../utility/bind";
@@ -82,6 +82,7 @@ class vuiCircle {
       listenOff,
       reassuringOn,
       thinkingOn,
+      thinkingOff,
       animateAppear,
       animateDisappear,
       activateVisualization,
@@ -93,6 +94,7 @@ class vuiCircle {
       "listenOff",
       "reassuringOn",
       "thinkingOn",
+      "thinkingOff",
       "animateAppear",
       "animateDisappear",
       "activateVisualization",
@@ -139,6 +141,9 @@ class vuiCircle {
         break;
       case "thinking":
         this.thinkingOn();
+        break;
+      case "stop_thinking":
+        this.thinkingOff();
         break;
       case "disappearing":
         this.animateDisappear();

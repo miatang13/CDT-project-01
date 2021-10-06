@@ -25,7 +25,6 @@ import { DEBUG_STATES } from "../utility/debug";
 function VUI() {
   // state
   const vuiState = useSelector((state) => state.vuiState);
-  const soundState = useSelector((state) => state.soundState);
   const dispatch = useDispatch();
 
   // webgl
@@ -72,21 +71,10 @@ function VUI() {
     }
   }, [vuiState]);
 
-  useEffect(() => {
-    if (vuiActivity === "visualization") {
-      let tl = gsap.timeline();
-
-      tl.to(convoRef.current, {
-        opacity: 0,
-        duration: 3,
-      });
-    }
-  }, [vuiActivity]);
-
   const jsxRef = useRef();
 
   const updateStateArr = (text, isUserText = false) => {
-    console.log("Update transcripts");
+    console.log("Update transcripts with: ", text);
     let cls = "transcript__text";
     let clsEnd = isUserText ? "__user" : "__vui";
     cls = cls + clsEnd;
@@ -104,8 +92,33 @@ function VUI() {
   };
 
   useEffect(() => {
-    console.log("jsx changed");
+    //console.log("jsx changed");
   }, [jsxConvoArr]);
+
+  const handleVisualization = () => {
+    updateStateArr(
+      "Ok. " +
+        vuiState.userName +
+        ", let’s go to a different place together, a more peaceful place. "
+    );
+    dispatch(changeVUIState("visualization"), [dispatch]);
+    setVuiAct("visualization");
+    let tl = gsap.timeline();
+    tl.to(convoRef.current, {
+      delay: 2,
+      opacity: 0,
+      duration: 3,
+    }).then(() => {
+      setJsxConvoArr([]);
+      convoRef.current.opacity = 1;
+      setTimeout(function () {
+        updateStateArr(
+          "Imagine that you are at a lake, the waters are calm, and the current is mild. " +
+            "You can feel a light breeze blowing by you. In this place, what do you hear? "
+        );
+      }, 1000);
+    });
+  };
 
   const commands = [
     {
@@ -121,15 +134,11 @@ function VUI() {
       },
     },
     {
-      command: "A visualization",
+      command: "Visualization",
       callback: () => {
-        updateStateArr(
-          "Ok. " +
-            vuiState.userName +
-            ", let’s go to a different place together, a more peaceful place. "
-        );
-        dispatch(changeVUIState("visualization"), [dispatch]);
-        setVuiAct("visualization");
+        setTimeout(function () {
+          handleVisualization();
+        }, 1000);
       },
     },
     {
