@@ -17,7 +17,6 @@ import { capitalizeFirstLetter } from "../utility/string";
 
 // animations
 import gsap from "gsap";
-import { TransitionGroup } from "react-transition-group"; // ES6
 import { DEBUG_STATES } from "../utility/debug";
 
 // debug
@@ -141,9 +140,20 @@ function VUI() {
             vuiState.userName +
             ", let’s go to a different place together, a more peaceful place. "
         );
+        gsap.to(convoRef.current, {
+          opacity: 0,
+          duration: 1,
+          delay: 1,
+          ease: "sine.out",
+        });
         setTimeout(function () {
+          gsap.to(convoRef.current, {
+            opacity: 1,
+            duration: 1,
+            ease: "sine.out",
+          });
           dispatch(changeVUIState("visualization"), [dispatch]);
-        }, 2000);
+        }, 3000);
       },
     },
     {
