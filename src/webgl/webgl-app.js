@@ -38,7 +38,7 @@ export default class WebGLApp {
 
   setup = () => {
     this.scene = new Scene();
-    this.scene.background = new Color(0xffffff); //Color(0xb6eafa);
+    this.scene.background = new Color(0xa193f); //Color(0xb6eafa);
     this.camera = new PerspectiveCamera(
       75,
       this.windowInfo.width / this.windowInfo.height,
@@ -55,8 +55,7 @@ export default class WebGLApp {
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
     this.controls.update();
     this.clock = new Clock();
-    this.createLights();
-    this.createPhoneBackground();
+    //this.createLights();
     this.initPostprocessing();
     this.vuiObj = new vuiCircle(this.outlinePass);
     this.vuiObj.init();

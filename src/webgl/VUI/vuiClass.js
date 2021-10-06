@@ -73,6 +73,7 @@ class vuiCircle {
     const geometry = new CircleGeometry(4, 32);
     this.mesh = new Mesh(geometry, material);
     this.mesh.position.set(circle_pos.x, circle_pos.y, 1);
+    this.mesh.scale.set(0, 0, 0);
     if (appear) {
       this.sceneOutlinePass.edgeStrength = 1;
     }

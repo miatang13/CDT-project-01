@@ -1,3 +1,8 @@
+#vui__root {
+  background-image: url("./images/iphone_cutout_2.png");
+  background-size: cover;
+}
+
 .VUI_UI_container {
   height: 100%;
   display: flex;
@@ -8,7 +13,7 @@
 }
 
 .conversation__container {
-  margin-top: 30vw;
+  margin-top: 25vw;
   margin-left: 5%;
   position: absolute;
   max-width: 15vw;

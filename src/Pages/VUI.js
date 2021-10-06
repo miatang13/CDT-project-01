@@ -218,9 +218,7 @@ function VUI() {
   return (
     <div className="App">
       <div id="webgl" ref={containerRef}></div>
-      <div className="root">
-        <div className="visualization" id="ripple" ref={rippleRef}></div>
-        <div className="visualization" id="background" ref={bgRef}></div>
+      <div className="root" id="vui__root">
         <div className="VUI_UI_container">
           <div className="conversation__container" ref={convoRef}>
             {jsxConvoArr}
