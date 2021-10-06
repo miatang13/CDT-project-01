@@ -27,8 +27,6 @@ class vuiCircle {
   init = () => {
     const loader = new TextureLoader();
     const texture = loader.load("assets/texture/static_grain.png");
-    const texture1 = loader.load("assets/texture/static_landscape_hor.png");
-    this.texture1 = texture1;
     this.uniforms = {
       u_tex: {
         value: texture,

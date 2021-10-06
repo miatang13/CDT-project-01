@@ -19,6 +19,7 @@ import {
   MeshBasicMaterial,
   Vector2,
   DirectionalLight,
+  ShaderMaterial,
 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
@@ -27,6 +28,7 @@ import { ShaderPass } from "three/examples/jsm/postprocessing/ShaderPass";
 import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import vuiCircle from "./VUI/vuiClass";
+import { bg_vshader, bg_fshader } from "./shaders/bg.glsl";
 
 export default class WebGLApp {
   constructor(htmlElem, windowInfo) {
@@ -56,6 +58,7 @@ export default class WebGLApp {
     this.controls.update();
     this.clock = new Clock();
     //this.createLights();
+    this.createBackground();
     this.initPostprocessing();
     this.vuiObj = new vuiCircle(this.outlinePass);
     this.vuiObj.init();
@@ -118,6 +121,25 @@ export default class WebGLApp {
     this.scene.add(light);
   };
 
+  createBackground = () => {
+    const textureLoader = new TextureLoader();
+    const texture = textureLoader.load("assets/visualization/MainBkg.png");
+    const geometry = new PlaneGeometry(25, 38);
+    this.bgUniforms = {
+      u_tex: {
+        value: texture,
+      },
+    };
+    const material = new ShaderMaterial({
+      uniforms: this.bgUniforms,
+      vertexShader: bg_vshader,
+      fragmentShader: bg_fshader,
+      transparent: true,
+    });
+    const mesh = new Mesh(geometry, material);
+    this.scene.add(mesh);
+  };
+
   createPhoneBackground = () => {
     const textureLoader = new TextureLoader();
     const phoneBackground = textureLoader.load("assets/iphone_dark.jpg");
@@ -127,25 +149,6 @@ export default class WebGLApp {
     });
     const mesh = new Mesh(geometry, material);
     this.scene.add(mesh);
-  };
-
-  createLine = () => {
-    const material = new LineBasicMaterial({ color: 0xffffff });
-    // smooth my curve over this many points
-    var numPoints = 100;
-    const z = 5;
-    var curve = new SplineCurve([
-      new Vector3(-2.75, 0, z),
-      new Vector3(0, 0, z),
-      new Vector3(1.0, 0, z),
-      new Vector3(1.5, 0, z),
-      new Vector3(2.5, 0, z),
-      new Vector3(2.75, 0, z),
-    ]);
-    var points = curve.getPoints(numPoints);
-    const geometry = new BufferGeometry().setFromPoints(points);
-    const line = new Line(geometry, material);
-    this.scene.add(line);
   };
 
   vuiChangeState = (stateStr) => {
