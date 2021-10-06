@@ -11,7 +11,7 @@
   margin-top: 30vw;
   margin-left: 5%;
   position: absolute;
-  max-width: 20vw;
+  max-width: 15vw;
 }
 
 .transcript__text__user {
@@ -74,4 +74,25 @@
 .helpers__container {
   background-color: #efddff;
   padding-top: 0.5em;
+}
+
+.visualization {
+  margin-top: 10vw;
+  margin-left: 41%;
+  position: absolute;
+  width: 210px;
+  height: 450px;
+  border-radius: 2vw;
+
+  opacity: 0;
+}
+
+#background {
+  background-image: url("./visualization/MainBkg.png");
+  background-size: cover;
+}
+
+#ripple {
+  background-image: url("./visualization/Ripple2.png");
+  background-size: cover;
 }

@@ -33,6 +33,8 @@ function VUI() {
   // data
   const [jsxConvoArr, setJsxConvoArr] = useState([]);
   const convoRef = useRef();
+  const bgRef = useRef();
+  const rippleRef = useRef();
 
   useEffect(() => {
     if (containerRef.current === null) return;
@@ -68,12 +70,32 @@ function VUI() {
       webglApp.current.vuiChangeState(vuiState.vuiStateStr);
 
       if (vuiState.vuiStateStr === "visualization") {
-        updateStateArr(
-          "Imagine that you are at a lake, the waters are calm, and the current is mild. You can feel a light breeze blowing by you. In this place, what do you hear?",
-          false,
-          true
-        );
-        dispatch(changeVUIState("thinking"), [dispatch]);
+        let tl = gsap.timeline({
+          onComplete: function () {
+            updateStateArr(
+              "Imagine that you are at a lake, the waters are calm, and the current is mild. You can feel a light breeze blowing by you. In this place, what do you hear?",
+              false,
+              true
+            );
+            gsap.to(bgRef.current, {
+              opacity: 0.8,
+              duration: 3,
+              ease: "sin.out",
+            });
+            dispatch(changeVUIState("thinking"), [dispatch]);
+          },
+        });
+        tl.to(convoRef.current, {
+          opacity: 0,
+          duration: 1,
+          delay: 3,
+          ease: "sine.out",
+        });
+        tl.to(convoRef.current, {
+          opacity: 1,
+          duration: 0.5,
+          ease: "sine.out",
+        });
       }
     }
   }, [vuiState]);
@@ -101,7 +123,6 @@ function VUI() {
         </span>
       );
       setFunc([jsx]);
-      console.log("after reset", Arr);
       return;
     }
 
@@ -116,7 +137,6 @@ function VUI() {
     let newArr = Arr;
     newArr.push(jsx);
     setFunc(newArr);
-    console.log(newArr);
   };
 
   const commands = [
@@ -133,30 +153,6 @@ function VUI() {
       },
     },
     {
-      command: "* visualization",
-      callback: () => {
-        updateStateArr(
-          "Ok. " +
-            vuiState.userName +
-            ", let’s go to a different place together, a more peaceful place. "
-        );
-        gsap.to(convoRef.current, {
-          opacity: 0,
-          duration: 1,
-          delay: 1,
-          ease: "sine.out",
-        });
-        setTimeout(function () {
-          gsap.to(convoRef.current, {
-            opacity: 1,
-            duration: 1,
-            ease: "sine.out",
-          });
-          dispatch(changeVUIState("visualization"), [dispatch]);
-        }, 3000);
-      },
-    },
-    {
       command: "visualization",
       callback: () => {
         updateStateArr(
@@ -164,9 +160,23 @@ function VUI() {
             vuiState.userName +
             ", let’s go to a different place together, a more peaceful place. "
         );
+        dispatch(changeVUIState("visualization"), [dispatch]);
+      },
+    },
+    {
+      command: "* ripples *",
+      callback: () => {
+        updateStateArr(
+          "Yes, let’s think about the day. It is a warm day, comfortable but not hot at all, nearing sunset. The place you are sitting lets you see the whole landscape around you, the gentle rolling hills. What colors do you see around you?"
+        );
+        gsap.to(rippleRef.current, {
+          opacity: 0.8,
+          duration: 1,
+          ease: "sine.out",
+        });
         setTimeout(function () {
-          dispatch(changeVUIState("visualization"), [dispatch]);
-        }, 2000);
+          dispatch(changeVUIState("listening"), [dispatch]);
+        }, 1000);
       },
     },
     {
@@ -209,6 +219,8 @@ function VUI() {
     <div className="App">
       <div id="webgl" ref={containerRef}></div>
       <div className="root">
+        <div className="visualization" id="ripple" ref={rippleRef}></div>
+        <div className="visualization" id="background" ref={bgRef}></div>
         <div className="VUI_UI_container">
           <div className="conversation__container" ref={convoRef}>
             {jsxConvoArr}
