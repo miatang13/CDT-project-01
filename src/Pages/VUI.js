@@ -29,6 +29,8 @@ function VUI() {
   // webgl
   const containerRef = useRef(null);
   const webglApp = useRef(null);
+  const phoneCutoutRef = useRef(null);
+  const cssContainerRef = useRef(null);
 
   // data
   const [jsxConvoArr, setJsxConvoArr] = useState([]);
@@ -46,10 +48,15 @@ function VUI() {
       webglApp.current.handleResize(window.innerWidth, window.innerHeight);
     }
 
-    webglApp.current = new WebGLApp(containerRef.current, {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    });
+    webglApp.current = new WebGLApp(
+      containerRef.current,
+      cssContainerRef.current,
+      phoneCutoutRef.current,
+      {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
+    );
     webglApp.current.setup();
     webglApp.current.render(true);
     window.addEventListener("resize", onWindowResize, false);
@@ -216,8 +223,12 @@ function VUI() {
     return <span>Browser doesn't support speech recognition.</span>;
   }
   return (
-    <div className="App">
+    <div className="VUI">
       <div id="webgl" ref={containerRef}></div>
+      <div id="css" ref={cssContainerRef}>
+        {" "}
+        <div id="iphoneCutout" ref={phoneCutoutRef}></div>
+      </div>
       <div className="root" id="vui__root">
         <div className="VUI_UI_container">
           <div className="conversation__container" ref={convoRef}>

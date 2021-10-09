@@ -9,11 +9,6 @@ import {
   MeshPhongMaterial,
   AmbientLight,
   Clock,
-  LineBasicMaterial,
-  Vector3,
-  BufferGeometry,
-  Line,
-  SplineCurve,
   TextureLoader,
   PlaneGeometry,
   MeshBasicMaterial,
@@ -21,6 +16,7 @@ import {
   DirectionalLight,
   ShaderMaterial,
 } from "three";
+import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { EffectComposer } from "three/examples/jsm/postprocessing/EffectComposer";
 import { RenderPass } from "three/examples/jsm/postprocessing/RenderPass";
@@ -29,10 +25,13 @@ import { OutlinePass } from "three/examples/jsm/postprocessing/OutlinePass";
 import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import vuiCircle from "./VUI/vuiClass";
 import { bg_vshader, bg_fshader } from "./shaders/bg.glsl";
+import { createElemObject } from "./helpers/css3d";
 
 export default class WebGLApp {
-  constructor(htmlElem, windowInfo) {
+  constructor(htmlElem, cssElem, cssRef, windowInfo) {
     this.htmlElem = htmlElem;
+    this.cssElem = cssElem;
+    this.cssRef = cssRef;
     this.windowInfo = windowInfo;
     this.rafId = 0;
     this.isRendering = false;
@@ -40,7 +39,7 @@ export default class WebGLApp {
 
   setup = () => {
     this.scene = new Scene();
-    this.scene.background = new Color(0xa193f); //Color(0xb6eafa);
+    this.scene.background = new Color(0x0d1426); //Color(0xb6eafa);
     this.camera = new PerspectiveCamera(
       75,
       this.windowInfo.width / this.windowInfo.height,
@@ -49,39 +48,52 @@ export default class WebGLApp {
     );
     this.camera.position.set(0, 0, 28);
     this.camera.lookAt(this.scene.position);
-    this.tanFOV = Math.tan(((Math.PI / 180) * this.camera.fov) / 2);
+    this.setupRenderers();
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.update();
+    this.clock = new Clock();
+    this.createLights();
+    //this.createBackground();
+    this.initPostprocessing();
+    this.vuiObj = new vuiCircle(this.outlinePass);
+    this.vuiObj.init();
+    this.scene.add(this.vuiObj.mesh);
+    this.outlinePass.selectedObjects = [this.vuiObj.mesh];
+    this.addCSSElems();
+  };
+
+  addCSSElems = () => {
+    console.log(this.cssRef);
+    this.phoneCutout = createElemObject(
+      this.cssRef,
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      0xffffff,
+      false
+    );
+    this.phoneCutout.position.set(0, 0, 0);
+    this.scene.add(this.phoneCutout);
+  };
+
+  setupRenderers = () => {
+    // webgl
     this.renderer = new WebGLRenderer({ antialias: true });
     this.renderer.setSize(this.windowInfo.width, this.windowInfo.height);
     this.renderer.shadowMap.enabled = true;
     this.htmlElem.appendChild(this.renderer.domElement);
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.update();
-    this.clock = new Clock();
-    //this.createLights();
-    this.createBackground();
-    this.initPostprocessing();
-    this.vuiObj = new vuiCircle(this.outlinePass);
-    this.vuiObj.init();
-    //this.scene.add(this.vuiObj.coverMesh);
-    this.scene.add(this.vuiObj.mesh);
-    this.outlinePass.selectedObjects = [this.vuiObj.mesh];
+
+    // css
+    this.cssRenderer = new CSS3DRenderer();
+    this.cssRenderer.setSize(window.innerWidth, window.innerHeight);
+    this.cssRenderer.domElement.style.position = "absolute";
+    this.cssRenderer.domElement.style.top = 0;
+    this.cssElem.appendChild(this.cssRenderer.domElement);
   };
 
   createGridHelper = () => {
     this.gridHelper = new GridHelper(10, 10);
     this.scene.add(this.gridHelper);
     console.log("created grid helper", this.gridHelper);
-  };
-
-  createCube = () => {
-    let geometry = new BoxGeometry(2, 2, 2);
-    let material = new MeshPhongMaterial({
-      color: new Color("Orange"),
-      wireframe: true,
-    });
-    this.cube = new Mesh(geometry, material);
-    this.scene.add(this.cube);
-    console.log("created cube", this.cube);
   };
 
   initPostprocessing = () => {
@@ -113,7 +125,6 @@ export default class WebGLApp {
   createLights = () => {
     this.ambientLight = new AmbientLight(0x404040);
     this.scene.add(this.ambientLight);
-
     var light = new DirectionalLight(0xddffdd, 0.4);
     light.position.z = 1;
     light.position.y = 1;
@@ -157,12 +168,14 @@ export default class WebGLApp {
 
   renderScene = () => {
     this.renderer.render(this.scene, this.camera);
+    this.cssRenderer.render(this.scene, this.camera);
   };
 
   handleResize = (newWidth, newHeight) => {
     this.camera.aspect = newWidth / newHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(newWidth, newHeight);
+    this.cssRenderer.setSize(newWidth, newHeight);
   };
 
   update = () => {
@@ -173,6 +186,7 @@ export default class WebGLApp {
     }
     //this.renderScene();
     this.composer.render();
+    this.cssRenderer.render(this.scene, this.camera);
   };
 
   render = (render) => {
