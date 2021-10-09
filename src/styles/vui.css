@@ -14,10 +14,10 @@
 }
 
 .conversation__container {
-  margin-top: 25vw;
+  margin-top: 28vw;
   margin-left: 5%;
   position: absolute;
-  max-width: 15vw;
+  max-width: 14.5vw;
 }
 
 .transcript__text__user {
@@ -29,7 +29,7 @@
   font-style: normal;
   padding-bottom: 0.5vw;
   color: #e9e9ff;
-  margin-left: 7vw;
+  margin-left: 6vw;
   /* for animation 
   opacity: 0;*/
 }

@@ -1,5 +1,8 @@
 export const DEFAULT_STATE = {
-  vuiStateStr: "none",
+  vuiState: {
+    vuiStateStr: "none",
+    visState: -1,
+  },
   isSpeaking: false,
   userName: "User",
 };

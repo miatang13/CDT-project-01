@@ -6,7 +6,10 @@ const vuiStateReducer = (state = DEFAULT_STATE, action) => {
     case "VUI_STATE_CHANGE":
       return {
         ...state,
-        vuiStateStr: action.payload,
+        vuiState: {
+          vuiStateStr: action.payload.stateStr,
+          visState: action.payload.visState,
+        },
       };
     default:
       return state;

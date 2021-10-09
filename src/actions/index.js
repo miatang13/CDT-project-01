@@ -1,7 +1,7 @@
-export const changeVUIState = (stateStr) => {
+export const changeVUIState = (state, visState) => {
   return {
     type: "VUI_STATE_CHANGE",
-    payload: stateStr,
+    payload: { stateStr: state, visState: visState },
   };
 };
 
@@ -16,12 +16,5 @@ export const changeUserName = (nameStr) => {
   return {
     type: "USER_NAME_CHANGE",
     payload: nameStr,
-  };
-};
-
-export const changeVisPhase = (phaseInt) => {
-  return {
-    type: "VIS_PHASE_CHANGE",
-    payload: phaseInt,
   };
 };

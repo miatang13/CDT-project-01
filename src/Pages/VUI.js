@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { changeSoundState, changeVisPhase, changeVUIState } from "../actions";
+import { changeSoundState, changeVUIState } from "../actions";
 import "../styles/utility.css";
 import { capitalizeFirstLetter } from "../utility/string";
 
@@ -26,7 +26,6 @@ import { vis_vui_instructions } from "../speech/vui-instructions";
 function VUI() {
   // state
   const vuiState = useSelector((state) => state.vuiState);
-  const visPhase = useSelector((state) => state.visPhase);
   const dispatch = useDispatch();
 
   // webgl
@@ -37,7 +36,7 @@ function VUI() {
 
   // data
   const [userText, setUserText] = useState("");
-  const [vuiText, setVuiText] = useState("Time date placeholder.");
+  const [vuiTextArr, setVuiText] = useState(["Time date placeholder."]);
   const convoRef = useRef();
 
   useEffect(() => {
@@ -75,23 +74,23 @@ function VUI() {
       webglApp.current.vuiObj !== undefined &&
       webglApp.current.vuiObj !== null
     ) {
-      webglApp.current.vuiChangeState(vuiState.vuiStateStr);
+      webglApp.current.changeState(
+        vuiState.vuiState.vuiStateStr,
+        vuiState.vuiState.visState
+      );
     }
   }, [vuiState]);
-
-  useEffect(() => {}, [visPhase]);
 
   const commands = [
     {
       command: "Nova I need help",
       callback: () => {
-        setVuiText(
-          "Good afternoon, " +
-            vuiState.userName +
-            ", you will get through this moment. I am here to guide you. " +
-            " Would you like to do a visualization or a sensory exercise? "
-        );
-        dispatch(changeVUIState("appearing"), [dispatch]);
+        setVuiText([
+          "Good afternoon, " + vuiState.userName + ",",
+          "You will get through this moment. I am here to guide you. ",
+          " Would you like to do a visualization or a sensory exercise? ",
+        ]);
+        dispatch(changeVUIState("appearing", -1), [dispatch]);
       },
     },
     // begin visualization, phase 0
@@ -99,55 +98,51 @@ function VUI() {
       command: "(a) visualization",
       callback: () => {
         console.log("just heard visualization");
-        setVuiText(
+        const firstReply = [
           "Ok. " +
             vuiState.userName +
-            ", let’s go to a different place together, a more peaceful place. "
-        );
+            ", let’s go to a different place together, a more peaceful place. ",
+        ];
+        const rest = vis_vui_instructions[0].vui_texts;
+        const complete = firstReply.concat(rest);
+        setVuiText(complete);
         setUserText("");
-        dispatch(changeVUIState("activate_visualization"), [dispatch]);
-        setVuiText(vis_vui_instructions[0].vui_text);
+        dispatch(changeVUIState("activate_visualization", 0), [dispatch]);
       },
     },
     // phase 1
     {
       command: "* ripples *",
       callback: () => {
-        console.log("just heard ripples");
-        setVuiText(vis_vui_instructions[1].vui_text);
+        setVuiText(vis_vui_instructions[1].vui_texts);
+        setUserText("");
       },
     },
     // phase 2
     {
-      command: "* green hills *",
-      callBack: () => {
-        dispatch(changeVUIState("speaking"), [dispatch]);
-        setVuiText(vis_vui_instructions[2].vui_text);
-        setInterval(function () {
-          dispatch(changeVUIState("stop_speaking"), [dispatch]);
-          //dispatch(changeVisPhase(2), [dispatch]);
-        }, 2000);
+      command: "* light blue water *",
+      callback: () => {
+        console.log("Just heard blue");
+        setVuiText(vis_vui_instructions[2].vui_texts);
+        setUserText("");
       },
     },
     // phase 3
     {
-      command: "* flowers *",
-      callBack: () => {
-        dispatch(changeVUIState("speaking"), [dispatch]);
-        setVuiText(vis_vui_instructions[3].vui_text);
-        setInterval(function () {
-          dispatch(changeVUIState("stop_speaking"), [dispatch]);
-          //dispatch(changeVisPhase(3), [dispatch]);
-        }, 2000);
+      command: "* flowers",
+      callback: () => {
+        setVuiText(vis_vui_instructions[3].vui_texts);
+        setUserText("");
       },
     },
     {
       command: "I don't know",
       callback: () => {
-        setVuiText(
-          "Let’s focus on using an exercise to calm your anxiety right now. Which exercise would you like to do, a visualization or a sensory exercise?"
-        );
-        dispatch(changeVUIState("static"), [dispatch]);
+        setVuiText([
+          "Let’s focus on using an exercise to calm your anxiety right now.",
+          "Which exercise would you like to do, a visualization or a sensory exercise?",
+        ]);
+        dispatch(changeVUIState("static", -10), [dispatch]);
       },
     },
   ];
@@ -162,12 +157,12 @@ function VUI() {
     SpeechRecognition.startListening({ continuous: true });
     resetTranscript();
     dispatch(changeSoundState(true), [dispatch]);
-    dispatch(changeVUIState("listening"), [dispatch]);
+    dispatch(changeVUIState("listening", -10), [dispatch]);
   };
 
   const handleStopListen = () => {
     SpeechRecognition.stopListening();
-    dispatch(changeVUIState("stop_listening"), [dispatch]);
+    dispatch(changeVUIState("stop_listening", -10), [dispatch]);
     dispatch(changeSoundState(false), [dispatch]);
     if (transcript === "") return;
     setUserText(capitalizeFirstLetter(transcript) + ".", true);
@@ -189,7 +184,12 @@ function VUI() {
       <div className="root" id="vui__root">
         <div className="VUI_UI_container">
           <div className="conversation__container" ref={convoRef}>
-            <span className="transcript__text__vui">{vuiText}</span>
+            {vuiTextArr.map((text, i) => (
+              <span className="transcript__text__vui" key={i}>
+                {text}
+              </span>
+            ))}
+
             {listening ? (
               <span className="transcript__text__user"> {transcript}</span>
             ) : (

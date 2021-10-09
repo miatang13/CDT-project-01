@@ -190,8 +190,8 @@ export default class WebGLApp {
     });
   };
 
-  vuiChangeState = (stateStr) => {
-    this.vuiObj.changeState(stateStr);
+  changeState = (vuiState, visState) => {
+    this.vuiObj.changeState(vuiState);
   };
 
   renderScene = () => {
