@@ -135,13 +135,13 @@ export default class WebGLApp {
   createBackground = () => {
     const textureLoader = new TextureLoader();
     const texture1 = textureLoader.load("assets/visualization/sequence/1.png");
-    const texture2 = textureLoader.load("assets/visualization/sequence/6.png");
+    const texture2 = textureLoader.load("assets/visualization/sequence/2.png");
     const geometry = new PlaneGeometry(18.5, 35);
     this.bgUniforms = {
       u_tex1: {
         value: texture1,
       },
-      u_text2: {
+      u_tex2: {
         value: texture2,
       },
       u_resolution: {
@@ -151,7 +151,7 @@ export default class WebGLApp {
         },
       },
       u_useTexLerp: {
-        value: 0,
+        value: 0.0,
       },
     };
     const material = new ShaderMaterial({
@@ -175,15 +175,11 @@ export default class WebGLApp {
         console.log(that.bgUniforms.u_useTexLerp.value);
       },
     });
-    tl.to(
-      this.bgUniforms.u_useTexLerp,
-      {
-        value: 1.0,
-        duration: 0.5,
-        ease: Power2.easeInOut,
-      },
-      0
-    );
+    tl.to(this.bgUniforms.u_useTexLerp, {
+      value: 1.0,
+      duration: 1,
+      ease: Power2.easeInOut,
+    });
   };
 
   vuiChangeState = (stateStr) => {
