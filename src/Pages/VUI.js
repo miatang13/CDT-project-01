@@ -109,10 +109,6 @@ function VUI() {
 
   const jsxRef = useRef();
 
-  const clearConvo = () => {
-    setJsxConvoArr([]);
-  };
-
   const updateStateArr = (text, isUserText = false, emptyOut = false) => {
     console.log("Update transcripts with: ", text);
     let cls = "transcript__text";

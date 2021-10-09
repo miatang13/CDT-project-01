@@ -63,7 +63,6 @@ export default class WebGLApp {
   };
 
   addCSSElems = () => {
-    console.log(this.cssRef);
     this.phoneCutout = createElemObject(
       this.cssRef,
       window.innerWidth / 2,
@@ -71,7 +70,7 @@ export default class WebGLApp {
       0xffffff,
       false
     );
-    this.phoneCutout.position.set(0, 0, 0);
+    this.phoneCutout.position.set(0, 0, 1);
     this.scene.add(this.phoneCutout);
   };
 
@@ -134,17 +133,24 @@ export default class WebGLApp {
 
   createBackground = () => {
     const textureLoader = new TextureLoader();
-    const texture = textureLoader.load("assets/visualization/sequence/6.png");
-    const geometry = new PlaneGeometry(18.5, 32);
+    const texture1 = textureLoader.load("assets/visualization/sequence/1.png");
+    const texture2 = textureLoader.load("assets/visualization/sequence/2.png");
+    const geometry = new PlaneGeometry(18.5, 35);
     this.bgUniforms = {
-      u_tex: {
-        value: texture,
+      u_tex1: {
+        value: texture1,
+      },
+      u_text2: {
+        value: texture2,
       },
       u_resolution: {
         value: {
           x: window.innerWidth,
           y: window.innerHeight,
         },
+      },
+      u_useTexLerp: {
+        value: 0,
       },
     };
     const material = new ShaderMaterial({
