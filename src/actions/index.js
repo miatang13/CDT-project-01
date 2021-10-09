@@ -18,3 +18,10 @@ export const changeUserName = (nameStr) => {
     payload: nameStr,
   };
 };
+
+export const changeVisPhase = (phaseInt) => {
+  return {
+    type: "VIS_PHASE_CHANGE",
+    payload: phaseInt,
+  };
+};

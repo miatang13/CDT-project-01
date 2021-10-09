@@ -150,7 +150,7 @@ class vuiCircle {
       case "disappearing":
         this.animateDisappear();
         break;
-      case "visualization":
+      case "activate_visualization":
         this.activateVisualization();
         break;
       default:

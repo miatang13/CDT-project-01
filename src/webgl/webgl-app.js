@@ -134,15 +134,23 @@ export default class WebGLApp {
 
   createBackground = () => {
     const textureLoader = new TextureLoader();
-    const texture1 = textureLoader.load("assets/visualization/sequence/1.png");
-    const texture2 = textureLoader.load("assets/visualization/sequence/2.png");
+    const TEX_MAX = 5;
+    let texture;
+    const path = "assets/visualization/sequence/";
+    const f_ex = ".png";
+    var textures = [];
+    for (var i = 0; i <= TEX_MAX; i++) {
+      texture = textureLoader.load(path + i.toString() + f_ex);
+      textures.push(texture);
+    }
+    console.log("Textures", textures);
     const geometry = new PlaneGeometry(18.5, 35);
     this.bgUniforms = {
       u_tex1: {
-        value: texture1,
+        value: textures[0],
       },
       u_tex2: {
-        value: texture2,
+        value: textures[1],
       },
       u_resolution: {
         value: {

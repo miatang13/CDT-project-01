@@ -1,6 +1,7 @@
 #iphoneCutout {
-  background-image: url("./images/iphone_cutout_1.png");
+  background-image: url("./images/iphone_cutout.png");
   background-size: cover;
+  position: absolute;
 }
 
 .VUI_UI_container {
@@ -51,26 +52,52 @@
   margin-top: 30%;
 }
 
-.microphone__container {
+.info__container {
   width: 20%;
   max-height: 150px;
-  font-size: 1em;
-  /*background-color: #efddff;
-  background-image: url("./images/static_landscape.png");
-  background-size: cover; */
+  font-size: 1vw;
+  background-color: #efddff;
   border-radius: 25px;
   margin-left: 50px;
   opacity: 80%;
   box-shadow: 0 5px 15px rgba(145, 92, 182, 0.1);
 }
 
-.microphone__container p {
+.script__container {
+  width: 20%;
+  font-size: 1vw;
+  background-color: #efddff;
+  border-radius: 25px;
+  margin-left: 50px;
+  margin-bottom: 5vw;
+  opacity: 80%;
+  box-shadow: 0 5px 15px rgba(145, 92, 182, 0.1);
+}
+
+.info__container p {
   color: #a98bc4;
   font-size: 1.2vw;
   font-style: italic;
 }
 
-.microphone__container button {
+.script__container span {
+  padding-left: 1vw;
+  text-align: left;
+  color: #a98bc4;
+  font-size: 1.2vw;
+  font-family: freight-sans-pro, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.script__container ol li {
+  font-family: freight-sans-pro, sans-serif;
+  font-size: 1vw;
+  text-align: left;
+  color: #a98bc4;
+}
+
+.info__container button {
   width: 10vw;
   font-style: italic;
   background-image: url("./images/button_background.png");
@@ -78,7 +105,7 @@
 
 .helpers__container {
   background-color: #efddff;
-  padding-top: 0.5em;
+  padding-top: 0.5vw;
 }
 
 .visualization {
