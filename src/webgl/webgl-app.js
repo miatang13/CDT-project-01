@@ -26,6 +26,7 @@ import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import vuiCircle from "./VUI/vuiClass";
 import { bg_vshader, bg_fshader } from "./shaders/bg.glsl";
 import { createElemObject } from "./helpers/css3d";
+import gsap, { Power2 } from "gsap/all";
 
 export default class WebGLApp {
   constructor(htmlElem, cssElem, cssRef, windowInfo) {
@@ -134,7 +135,7 @@ export default class WebGLApp {
   createBackground = () => {
     const textureLoader = new TextureLoader();
     const texture1 = textureLoader.load("assets/visualization/sequence/1.png");
-    const texture2 = textureLoader.load("assets/visualization/sequence/2.png");
+    const texture2 = textureLoader.load("assets/visualization/sequence/6.png");
     const geometry = new PlaneGeometry(18.5, 35);
     this.bgUniforms = {
       u_tex1: {
@@ -163,6 +164,28 @@ export default class WebGLApp {
     this.scene.add(mesh);
   };
 
+  lerpBackground = () => {
+    if (this.bgUniforms === undefined) return;
+
+    console.log(this.bgUniforms);
+    console.log(this.bgUniforms.u_useTexLerp.value);
+    var that = this;
+    const tl = gsap.timeline({
+      onComplete: function () {
+        console.log(that.bgUniforms.u_useTexLerp.value);
+      },
+    });
+    tl.to(
+      this.bgUniforms.u_useTexLerp,
+      {
+        value: 1.0,
+        duration: 0.5,
+        ease: Power2.easeInOut,
+      },
+      0
+    );
+  };
+
   vuiChangeState = (stateStr) => {
     this.vuiObj.changeState(stateStr);
   };
@@ -177,6 +200,8 @@ export default class WebGLApp {
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(newWidth, newHeight);
     this.cssRenderer.setSize(newWidth, newHeight);
+    this.bgUniforms.u_resolution.value.x = newWidth;
+    this.bgUniforms.u_resolution.value.y = newHeight;
   };
 
   update = () => {

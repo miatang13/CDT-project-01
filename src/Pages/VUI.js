@@ -218,6 +218,11 @@ function VUI() {
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
+
+  const testLerp = () => {
+    webglApp.current.lerpBackground();
+  };
+
   return (
     <div className="VUI">
       <div id="webgl" ref={containerRef}></div>
@@ -234,6 +239,7 @@ function VUI() {
         <div className="microphone__container">
           <div className="center__container">
             <div className="buttons__container">
+              <button onClick={testLerp}> Lerp Background </button>
               <button
                 onTouchStart={handleStartListen}
                 onMouseDown={handleStartListen}
