@@ -20,6 +20,8 @@ import { capitalizeFirstLetter } from "../utility/string";
 import gsap from "gsap";
 import { DEBUG_STATES } from "../utility/debug";
 import { vis_vui_instructions } from "../speech/vui-instructions";
+import { UserScript } from "../components/userScript";
+import { monthNames } from "../utility/date";
 
 // debug
 
@@ -36,7 +38,16 @@ function VUI() {
 
   // data
   const [userText, setUserText] = useState("");
-  const [vuiTextArr, setVuiText] = useState(["Time date placeholder."]);
+  const d = new Date();
+  const [vuiTextArr, setVuiText] = useState([
+    "Welcome, it's " +
+      monthNames[d.getMonth()] +
+      " " +
+      d.getDate() +
+      ", " +
+      d.getFullYear() +
+      ".",
+  ]);
   const convoRef = useRef();
 
   useEffect(() => {
@@ -216,20 +227,7 @@ function VUI() {
         </div>
         <div className="script__container">
           <div className="center__container">
-            <span>
-              {" "}
-              To experience our prototype, please follow the routine below:{" "}
-            </span>
-            <ol>
-              <li>Nova, I need help.</li>
-              <li>Visualization. </li>
-              <li>I hear the ripples of the water. </li>
-              <li>
-                I can see the light blue water, some white clouds, and some
-                green hills and trees.
-              </li>
-              <li> I see some pink and purple flowers.</li>
-            </ol>
+            <UserScript />
           </div>
         </div>
 

@@ -1,7 +1,6 @@
 #iphoneCutout {
   background-image: url("./images/iphone_cutout.png");
   background-size: cover;
-  position: absolute;
 }
 
 .VUI_UI_container {

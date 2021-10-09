@@ -66,8 +66,8 @@ export default class WebGLApp {
   addCSSElems = () => {
     this.phoneCutout = createElemObject(
       this.cssRef,
-      window.innerWidth / 2,
-      window.innerHeight / 2,
+      window.innerWidth / 1.7,
+      window.innerHeight / 1.7,
       0xffffff,
       false
     );
@@ -144,7 +144,7 @@ export default class WebGLApp {
       textures.push(texture);
     }
     console.log("Textures", textures);
-    const geometry = new PlaneGeometry(18.5, 35);
+    const geometry = new PlaneGeometry(15, 30);
     this.bgUniforms = {
       u_tex1: {
         value: textures[0],
@@ -192,6 +192,9 @@ export default class WebGLApp {
 
   changeState = (vuiState, visState) => {
     this.vuiObj.changeState(vuiState);
+    if (visState >= 0) {
+      this.lerpBackground();
+    }
   };
 
   renderScene = () => {
