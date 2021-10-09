@@ -53,7 +53,7 @@ export default class WebGLApp {
     this.controls.update();
     this.clock = new Clock();
     this.createLights();
-    //this.createBackground();
+    this.createBackground();
     this.initPostprocessing();
     this.vuiObj = new vuiCircle(this.outlinePass);
     this.vuiObj.init();
@@ -134,11 +134,17 @@ export default class WebGLApp {
 
   createBackground = () => {
     const textureLoader = new TextureLoader();
-    const texture = textureLoader.load("assets/visualization/MainBkg.png");
-    const geometry = new PlaneGeometry(25, 38);
+    const texture = textureLoader.load("assets/visualization/sequence/6.png");
+    const geometry = new PlaneGeometry(18.5, 32);
     this.bgUniforms = {
       u_tex: {
         value: texture,
+      },
+      u_resolution: {
+        value: {
+          x: window.innerWidth,
+          y: window.innerHeight,
+        },
       },
     };
     const material = new ShaderMaterial({
@@ -146,17 +152,6 @@ export default class WebGLApp {
       vertexShader: bg_vshader,
       fragmentShader: bg_fshader,
       transparent: true,
-    });
-    const mesh = new Mesh(geometry, material);
-    this.scene.add(mesh);
-  };
-
-  createPhoneBackground = () => {
-    const textureLoader = new TextureLoader();
-    const phoneBackground = textureLoader.load("assets/iphone_dark.jpg");
-    const geometry = new PlaneGeometry(16, 32);
-    const material = new MeshBasicMaterial({
-      map: phoneBackground,
     });
     const mesh = new Mesh(geometry, material);
     this.scene.add(mesh);
