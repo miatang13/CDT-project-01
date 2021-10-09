@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import WebGLApp from "../webgl/webgl-app";
 import { useSelector } from "react-redux";
 import StateDebugger from "../components/stateDebugger";
+import ReduxThunk from "redux-thunk";
 
 // speech rec stuff
 import { useDispatch } from "react-redux";
@@ -18,6 +19,7 @@ import { capitalizeFirstLetter } from "../utility/string";
 // animations
 import gsap from "gsap";
 import { DEBUG_STATES } from "../utility/debug";
+import { vis_vui_instructions } from "../speech/vui-instructions";
 
 // debug
 
@@ -43,7 +45,6 @@ function VUI() {
     if (webglApp.current !== null) return;
     console.log("Initializing GL with: ", containerRef.current);
 
-    // Handler to call on window resize
     function onWindowResize() {
       webglApp.current.handleResize(window.innerWidth, window.innerHeight);
     }
@@ -95,43 +96,52 @@ function VUI() {
     },
     // begin visualization, phase 0
     {
-      command: "visualization",
+      command: "(a) visualization",
       callback: () => {
-        dispatch(changeVUIState("speaking"), [dispatch]);
+        console.log("just heard visualization");
         setVuiText(
           "Ok. " +
             vuiState.userName +
             ", let’s go to a different place together, a more peaceful place. "
         );
-        setInterval(function () {
-          dispatch(changeVUIState("stop_speaking"), [dispatch]);
-          dispatch(changeVisPhase(0), [dispatch]);
-        }, 2000);
-        setInterval(function () {
-          dispatch(changeVUIState("activate_visualization"), [dispatch]);
-        }, 200);
+        setUserText("");
+        dispatch(changeVUIState("activate_visualization"), [dispatch]);
+        setVuiText(vis_vui_instructions[0].vui_text);
       },
     },
     // phase 1
     {
       command: "* ripples *",
       callback: () => {
-        dispatch(changeVUIState("speaking"), [dispatch]);
-        setVuiText(
-          "Yes, let’s think about the day. It is a warm day, comfortable but not hot at all, nearing sunset. The place you are sitting lets you see the whole landscape around you, the gentle rolling hills. What colors do you see around you?"
-        );
-        setInterval(function () {
-          dispatch(changeVUIState("stop_speaking"), [dispatch]);
-          dispatch(changeVisPhase(1), [dispatch]);
-        }, 2000);
+        console.log("just heard ripples");
+        setVuiText(vis_vui_instructions[1].vui_text);
       },
     },
     // phase 2
     {
-      command: "",
+      command: "* green hills *",
+      callBack: () => {
+        dispatch(changeVUIState("speaking"), [dispatch]);
+        setVuiText(vis_vui_instructions[2].vui_text);
+        setInterval(function () {
+          dispatch(changeVUIState("stop_speaking"), [dispatch]);
+          //dispatch(changeVisPhase(2), [dispatch]);
+        }, 2000);
+      },
+    },
+    // phase 3
+    {
+      command: "* flowers *",
+      callBack: () => {
+        dispatch(changeVUIState("speaking"), [dispatch]);
+        setVuiText(vis_vui_instructions[3].vui_text);
+        setInterval(function () {
+          dispatch(changeVUIState("stop_speaking"), [dispatch]);
+          //dispatch(changeVisPhase(3), [dispatch]);
+        }, 2000);
+      },
     },
     {
-      /*TO-DO: error case */
       command: "I don't know",
       callback: () => {
         setVuiText(
@@ -146,7 +156,7 @@ function VUI() {
     listening,
     resetTranscript,
     browserSupportsSpeechRecognition,
-  } = useSpeechRecognition({ commands });
+  } = useSpeechRecognition({ commands, isFuzzyMatch: true });
 
   const handleStartListen = () => {
     SpeechRecognition.startListening({ continuous: true });
