@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   background-color: rgb(221, 240, 255);
-  background-image: url("./images/static_landscape.png");
+  background-image: url("./images/linear_background.png");
   background-size: cover;
   font-family: freight-text-pro, serif;
   font-weight: 300;
@@ -71,4 +71,11 @@ button:hover {
 
 #name__input :focus {
   outline: none;
+}
+
+#enter__btn {
+  margin-left: 3vw;
+  background: none;
+  outline: none;
+  box-shadow: none;
 }

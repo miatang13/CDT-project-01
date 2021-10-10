@@ -70,10 +70,10 @@ function Landing() {
           <form onSubmit={handleSubmit} ref={formRef}>
             <div id="name__input">
               <input type="text" onChange={handleChange} placeholder={input} />
+              <button id="enter__btn" type="submit" value="Enter">
+                Enter{" "}
+              </button>
             </div>
-            <button id="enter__btn" type="submit" value="Enter">
-              Enter{" "}
-            </button>
           </form>{" "}
         </div>
       </div>
