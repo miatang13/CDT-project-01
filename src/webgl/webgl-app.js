@@ -47,7 +47,7 @@ export default class WebGLApp {
       1,
       1000
     );
-    this.camera.position.set(0, 0, 28);
+    this.camera.position.set(0, 0, 30);
     this.camera.lookAt(this.scene.position);
     this.setupRenderers();
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
@@ -143,14 +143,17 @@ export default class WebGLApp {
       texture = textureLoader.load(path + i.toString() + f_ex);
       textures.push(texture);
     }
+    this.visTextures = textures;
+    const introTexture = textureLoader.load(path + "intro" + f_ex);
+    this.visIntroTex = introTexture;
     console.log("Textures", textures);
-    const geometry = new PlaneGeometry(15, 30);
+    const geometry = new PlaneGeometry(18, 45);
     this.bgUniforms = {
       u_tex1: {
-        value: textures[0],
+        value: introTexture,
       },
       u_tex2: {
-        value: textures[1],
+        value: textures[0],
       },
       u_resolution: {
         value: {
@@ -183,6 +186,7 @@ export default class WebGLApp {
         console.log(that.bgUniforms.u_useTexLerp.value);
       },
     });
+    this.bgUniforms.u_useTexLerp.value = 0.0;
     tl.to(this.bgUniforms.u_useTexLerp, {
       value: 1.0,
       duration: 1,
@@ -192,9 +196,16 @@ export default class WebGLApp {
 
   changeState = (vuiState, visState) => {
     this.vuiObj.changeState(vuiState);
-    if (visState >= 0) {
-      this.lerpBackground();
+    if (visState < 0) return;
+    if (visState === 6) {
+      this.bgUniforms.u_tex1.value = this.bgUniforms.u_tex2.value;
+      this.bgUniforms.u_tex2.value = this.visIntroTex;
+    } else if (visState > 0) {
+      this.bgUniforms.u_tex1.value = this.visTextures[visState - 1];
+      this.bgUniforms.u_tex2.value = this.visTextures[visState];
     }
+    // visState == 0 => directly lerp
+    this.lerpBackground();
   };
 
   renderScene = () => {

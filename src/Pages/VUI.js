@@ -126,7 +126,7 @@ function VUI() {
       command: "* ripples *",
       callback: () => {
         setVuiText(vis_vui_instructions[1].vui_texts);
-        setUserText("");
+        dispatch(changeVUIState("visualization", 1), [dispatch]);
       },
     },
     // phase 2
@@ -136,6 +136,7 @@ function VUI() {
         console.log("Just heard blue");
         setVuiText(vis_vui_instructions[2].vui_texts);
         setUserText("");
+        dispatch(changeVUIState("visualization", 2), [dispatch]);
       },
     },
     // phase 3
@@ -144,6 +145,34 @@ function VUI() {
       callback: () => {
         setVuiText(vis_vui_instructions[3].vui_texts);
         setUserText("");
+        dispatch(changeVUIState("visualization", 3), [dispatch]);
+      },
+    },
+    // phase 4
+    {
+      command: "* feeling calmer *",
+      callback: () => {
+        setVuiText(vis_vui_instructions[4].vui_texts);
+        setUserText("");
+        dispatch(changeVUIState("visualization", 4), [dispatch]);
+      },
+    },
+    // phase 5
+    {
+      command: "No I'm alright",
+      callback: () => {
+        setVuiText(vis_vui_instructions[5].vui_texts);
+        setUserText("");
+        dispatch(changeVUIState("reassuring", 5), [dispatch]);
+      },
+    },
+    // phase 6
+    {
+      command: "I was feeling overwhelmed *",
+      callback: () => {
+        setVuiText(vis_vui_instructions[6].vui_texts);
+        setUserText("");
+        dispatch(changeVUIState("finish_visualization", 6), [dispatch]);
       },
     },
     {

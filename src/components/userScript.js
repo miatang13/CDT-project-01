@@ -15,7 +15,8 @@ export function UserScript() {
         </li>
         <li> I see some pink and purple flowers.</li>
         <li> I’m feeling calmer now. </li>
-        <li> I was feeling really overwhelmed by ______.</li>
+        <li> No, I’m alright. </li>
+        <li> I was feeling overwhelmed by ______.</li>
       </ol>
     </div>
   );

@@ -36,7 +36,6 @@ export const vis_vui_instructions = [
   {
     vui_texts: [
       "I see, thank you for sharing that with me. You will be okay and I will always be here for you. ",
-      "Would you like to share this session with your therapist? ",
     ],
   },
 ];
