@@ -15,6 +15,9 @@ import {
   Vector2,
   DirectionalLight,
   ShaderMaterial,
+  Audio,
+  AudioListener,
+  AudioLoader,
 } from "three";
 import { CSS3DRenderer } from "three/examples/jsm/renderers/CSS3DRenderer";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
@@ -37,6 +40,7 @@ export default class WebGLApp {
     this.windowInfo = windowInfo;
     this.rafId = 0;
     this.isRendering = false;
+    this.soundClip = 1;
   }
 
   setup = () => {
@@ -62,6 +66,34 @@ export default class WebGLApp {
     this.scene.add(this.vuiObj.mesh);
     this.outlinePass.selectedObjects = [this.vuiObj.mesh];
     this.addCSSElems();
+    this.setupListener();
+  };
+
+  setupListener = () => {
+    // create an AudioListener and add it to the camera
+    this.listener = new AudioListener();
+    this.camera.add(this.listener);
+
+    // create a global audio source
+    this.sound = new Audio(this.listener);
+
+    // load a sound and set it as the Audio object's buffer
+    this.audioLoader = new AudioLoader();
+  };
+
+  playSound = () => {
+    const path = "assets/audio/vui/";
+    const sound = this.sound;
+    const f_type = ".m4a";
+    const loadV = path + this.soundClip.toString() + f_type;
+    const that = this;
+    console.log("Load sound path", loadV);
+    this.audioLoader.load(loadV, function (buffer) {
+      sound.setBuffer(buffer);
+      sound.setLoop(false);
+      sound.play();
+      that.soundClip++;
+    });
   };
 
   addCSSElems = () => {
@@ -192,7 +224,11 @@ export default class WebGLApp {
     });
   };
 
-  changeState = (vuiState, visState) => {
+  changeState = (vuiState, visState, playVuiSounds) => {
+    if (playVuiSounds) {
+      this.playSound();
+    }
+
     this.vuiObj.changeState(vuiState);
     if (visState < 0) return;
     this.bgUniforms.u_tex1.value = this.bgUniforms.u_tex2.value;

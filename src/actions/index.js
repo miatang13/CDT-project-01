@@ -1,7 +1,7 @@
-export const changeVUIState = (state, visState) => {
+export const changeVUIState = (state, visState, playSound) => {
   return {
     type: "VUI_STATE_CHANGE",
-    payload: { stateStr: state, visState: visState },
+    payload: { stateStr: state, visState: visState, playSound: playSound },
   };
 };
 

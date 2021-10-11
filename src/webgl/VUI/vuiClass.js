@@ -153,6 +153,9 @@ class vuiCircle {
       case "activate_visualization":
         this.activateVisualization();
         break;
+      case "visualization":
+        this.thinkingOn();
+        break;
       default:
         return;
     }

@@ -9,6 +9,7 @@ const vuiStateReducer = (state = DEFAULT_STATE, action) => {
         vuiState: {
           vuiStateStr: action.payload.stateStr,
           visState: action.payload.visState,
+          playSound: action.payload.playSound,
         },
       };
     default:

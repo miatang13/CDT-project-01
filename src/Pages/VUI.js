@@ -12,7 +12,7 @@ import { useDispatch } from "react-redux";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-import { changeSoundState, changeVUIState } from "../actions";
+import { changeVUIState } from "../actions";
 import "../styles/utility.css";
 import { capitalizeFirstLetter } from "../utility/string";
 
@@ -85,9 +85,11 @@ function VUI() {
       webglApp.current.vuiObj !== undefined &&
       webglApp.current.vuiObj !== null
     ) {
+      console.log(vuiState.vuiState);
       webglApp.current.changeState(
         vuiState.vuiState.vuiStateStr,
-        vuiState.vuiState.visState
+        vuiState.vuiState.visState,
+        vuiState.vuiState.playSound
       );
     }
   }, [vuiState]);
@@ -97,11 +99,11 @@ function VUI() {
       command: "Nova I need help",
       callback: () => {
         setVuiText([
-          "Good afternoon, " + vuiState.userName + ",",
-          "You will get through this moment. I am here to guide you. ",
+          "Hi Caitlyn,",
+          "You will get through this moment. you will get through this moment. I am always here for you and to guide you. ",
           " Would you like to do a visualization or a sensory exercise? ",
         ]);
-        dispatch(changeVUIState("appearing", -10), [dispatch]);
+        dispatch(changeVUIState("appearing", -10, true), [dispatch]);
       },
     },
     // begin visualization, phase 0
@@ -118,7 +120,7 @@ function VUI() {
         const complete = firstReply.concat(rest);
         setVuiText(complete);
         setUserText("");
-        dispatch(changeVUIState("activate_visualization", 1), [dispatch]);
+        dispatch(changeVUIState("activate_visualization", 1, true), [dispatch]);
       },
     },
     // phrase 1
@@ -197,16 +199,20 @@ function VUI() {
   const handleStartListen = () => {
     SpeechRecognition.startListening({ continuous: true });
     resetTranscript();
-    dispatch(changeSoundState(true), [dispatch]);
-    dispatch(changeVUIState("listening", -10), [dispatch]);
+    if (vuiState.vuiState.vuiStateStr === "visualization") {
+      return;
+    }
+    dispatch(changeVUIState("listening", -10, false), [dispatch]);
   };
 
   const handleStopListen = () => {
     SpeechRecognition.stopListening();
-    dispatch(changeVUIState("stop_listening", -10), [dispatch]);
-    dispatch(changeSoundState(false), [dispatch]);
     if (transcript === "") return;
     setUserText(capitalizeFirstLetter(transcript) + ".", true);
+    if (vuiState.vuiState.vuiStateStr === "visualization") {
+      return;
+    }
+    dispatch(changeVUIState("stop_listening", -10, false), [dispatch]);
   };
 
   if (!browserSupportsSpeechRecognition) {

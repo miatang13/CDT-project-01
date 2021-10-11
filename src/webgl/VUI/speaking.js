@@ -2,7 +2,7 @@ import gsap, { Power2 } from "gsap/gsap-core";
 import { initial_ripple_intensity, intense_ripple } from "./shaderConsts";
 
 export function speakingOn() {
-  var tl = gsap.timeline();
+  var tl = gsap.timeline({ repeat: -1 });
   const moveDiff = 0.75;
   tl.to(this.uniforms.u_ripple_layers, {
     value: intense_ripple,
