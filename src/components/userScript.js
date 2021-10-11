@@ -9,11 +9,12 @@ export function UserScript() {
         <li>Nova, I need help.</li>
         <li>Visualization. </li>
         <li>I hear the ripples of the water. </li>
+        <li> The sky is becoming brighter.</li>
         <li>
           I can see the light blue water, some white clouds, and some green
           hills and trees.
         </li>
-        <li> I see some pink and purple flowers.</li>
+        <li> I see some water lilies near me.</li>
         <li> I’m feeling calmer now. </li>
         <li> No, I’m alright. </li>
         <li> I was feeling overwhelmed by ______.</li>

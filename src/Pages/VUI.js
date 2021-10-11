@@ -101,7 +101,7 @@ function VUI() {
           "You will get through this moment. I am here to guide you. ",
           " Would you like to do a visualization or a sensory exercise? ",
         ]);
-        dispatch(changeVUIState("appearing", -1), [dispatch]);
+        dispatch(changeVUIState("appearing", -10), [dispatch]);
       },
     },
     // begin visualization, phase 0
@@ -118,34 +118,37 @@ function VUI() {
         const complete = firstReply.concat(rest);
         setVuiText(complete);
         setUserText("");
-        dispatch(changeVUIState("activate_visualization", 0), [dispatch]);
+        dispatch(changeVUIState("activate_visualization", 1), [dispatch]);
       },
     },
-    // phase 1
+    // phrase 1
     {
-      command: "* ripples *",
+      command: "I hear the ripples of the water",
       callback: () => {
         setVuiText(vis_vui_instructions[1].vui_texts);
-        dispatch(changeVUIState("visualization", 1), [dispatch]);
+        dispatch(changeVUIState("visualization", 3), [dispatch]);
       },
     },
     // phase 2
     {
+      command: "* sky is becoming brighter",
+      callback: () => {
+        dispatch(changeVUIState("visualization", 5), [dispatch]);
+      },
+    },
+    {
       command: "* light blue water *",
       callback: () => {
-        console.log("Just heard blue");
         setVuiText(vis_vui_instructions[2].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("visualization", 2), [dispatch]);
+        dispatch(changeVUIState("visualization", 9), [dispatch]);
       },
     },
     // phase 3
     {
-      command: "* flowers",
+      command: "* water lilies *",
       callback: () => {
         setVuiText(vis_vui_instructions[3].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("visualization", 3), [dispatch]);
+        dispatch(changeVUIState("visualization", 14), [dispatch]);
       },
     },
     // phase 4
@@ -153,8 +156,7 @@ function VUI() {
       command: "* feeling calmer *",
       callback: () => {
         setVuiText(vis_vui_instructions[4].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("visualization", 4), [dispatch]);
+        dispatch(changeVUIState("visualization", 14), [dispatch]);
       },
     },
     // phase 5
@@ -162,8 +164,7 @@ function VUI() {
       command: "No I'm alright",
       callback: () => {
         setVuiText(vis_vui_instructions[5].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("reassuring", 5), [dispatch]);
+        dispatch(changeVUIState("reassuring", 14), [dispatch]);
       },
     },
     // phase 6
@@ -172,7 +173,7 @@ function VUI() {
       callback: () => {
         setVuiText(vis_vui_instructions[6].vui_texts);
         setUserText("");
-        dispatch(changeVUIState("finish_visualization", 6), [dispatch]);
+        dispatch(changeVUIState("finish_visualization", 20), [dispatch]);
       },
     },
     {

@@ -27,6 +27,7 @@ import vuiCircle from "./VUI/vuiClass";
 import { bg_vshader, bg_fshader } from "./shaders/bg.glsl";
 import { createElemObject } from "./helpers/css3d";
 import gsap, { Power2 } from "gsap/all";
+const TEX_MAX = 14;
 
 export default class WebGLApp {
   constructor(htmlElem, cssElem, cssRef, windowInfo) {
@@ -134,12 +135,12 @@ export default class WebGLApp {
 
   createBackground = () => {
     const textureLoader = new TextureLoader();
-    const TEX_MAX = 5;
+
     let texture;
     const path = "assets/visualization/sequence/";
     const f_ex = ".png";
     var textures = [];
-    for (var i = 0; i <= TEX_MAX; i++) {
+    for (var i = 1; i <= TEX_MAX; i++) {
       texture = textureLoader.load(path + i.toString() + f_ex);
       textures.push(texture);
     }
@@ -147,13 +148,13 @@ export default class WebGLApp {
     const introTexture = textureLoader.load(path + "intro" + f_ex);
     this.visIntroTex = introTexture;
     console.log("Textures", textures);
-    const geometry = new PlaneGeometry(18, 45);
+    const geometry = new PlaneGeometry(18, 39);
     this.bgUniforms = {
       u_tex1: {
         value: introTexture,
       },
       u_tex2: {
-        value: textures[0],
+        value: introTexture,
       },
       u_resolution: {
         value: {
@@ -172,37 +173,33 @@ export default class WebGLApp {
       transparent: true,
     });
     const mesh = new Mesh(geometry, material);
+    mesh.position.set(0, -1.5, 0);
     this.scene.add(mesh);
   };
 
   lerpBackground = () => {
     if (this.bgUniforms === undefined) return;
 
-    console.log(this.bgUniforms);
-    console.log(this.bgUniforms.u_useTexLerp.value);
     var that = this;
     const tl = gsap.timeline({
-      onComplete: function () {
-        console.log(that.bgUniforms.u_useTexLerp.value);
-      },
+      onComplete: function () {},
     });
     this.bgUniforms.u_useTexLerp.value = 0.0;
     tl.to(this.bgUniforms.u_useTexLerp, {
       value: 1.0,
-      duration: 1,
-      ease: Power2.easeInOut,
+      duration: 2,
+      ease: "sine.out",
     });
   };
 
   changeState = (vuiState, visState) => {
     this.vuiObj.changeState(vuiState);
     if (visState < 0) return;
-    if (visState === 6) {
-      this.bgUniforms.u_tex1.value = this.bgUniforms.u_tex2.value;
+    this.bgUniforms.u_tex1.value = this.bgUniforms.u_tex2.value;
+    if (visState > TEX_MAX) {
       this.bgUniforms.u_tex2.value = this.visIntroTex;
-    } else if (visState > 0) {
-      this.bgUniforms.u_tex1.value = this.visTextures[visState - 1];
-      this.bgUniforms.u_tex2.value = this.visTextures[visState];
+    } else {
+      this.bgUniforms.u_tex2.value = this.visTextures[visState - 1];
     }
     // visState == 0 => directly lerp
     this.lerpBackground();
