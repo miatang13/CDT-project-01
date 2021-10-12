@@ -40,7 +40,7 @@ export default class WebGLApp {
     this.windowInfo = windowInfo;
     this.rafId = 0;
     this.isRendering = false;
-    this.soundClip = 1;
+    this.soundClip = 0;
   }
 
   setup = () => {
@@ -84,7 +84,7 @@ export default class WebGLApp {
   playSound = () => {
     const path = "assets/audio/vui/";
     const sound = this.sound;
-    const f_type = ".m4a";
+    const f_type = ".mp3";
     const loadV = path + this.soundClip.toString() + f_type;
     const that = this;
     console.log("Load sound path", loadV);
