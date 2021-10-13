@@ -7,9 +7,9 @@ export function listenOn() {
   tl.to(
     this.mesh.scale,
     {
-      x: 1.2,
-      y: 1.2,
-      duration: 3,
+      x: this.inVis ? 0.5 : 1.2,
+      y: this.inVis ? 0.5 : 1.2,
+      duration: 2,
       ease: Power2.easeInOut,
     },
     0.5
@@ -17,8 +17,8 @@ export function listenOn() {
   tl.to(
     this.uniforms.u_ripple_size,
     {
-      value: initial_ripple_size * 1.5,
-      duration: 2,
+      value: initial_ripple_size * 1.2,
+      duration: 5,
       ease: Power1.easeInOut,
     },
     0
@@ -26,8 +26,8 @@ export function listenOn() {
   tl.to(
     this.uniforms.u_ripple_intensity,
     {
-      value: initial_ripple_intensity * 3.5,
-      duration: 2,
+      value: initial_ripple_intensity * 1.2,
+      duration: 1,
       ease: Power1.easeInOut,
     },
     0
@@ -36,7 +36,7 @@ export function listenOn() {
     this.uniforms.u_rIncre,
     {
       value: 0.2,
-      duration: 3,
+      duration: 1,
       ease: Power2.easeInOut,
     },
     0
@@ -44,34 +44,43 @@ export function listenOn() {
 }
 
 export function listenOff() {
-  const callback = () => {
-    this.isAnimatingSound = false;
-  };
-  var tl = gsap.timeline({ onComplete: callback });
+  const that = this;
+  if (this.inVis) {
+    animateListenOff(that);
+    setTimeout(function () {
+      that.thinkingOn();
+    }, 4000);
+  } else {
+    animateListenOff(this);
+  }
+}
+
+function animateListenOff(vuiObj) {
+  var tl = gsap.timeline();
   tl.to(
-    this.uniforms.u_rIncre,
+    vuiObj.uniforms.u_rIncre,
     {
       value: 0,
-      duration: 3,
+      duration: 1,
       ease: Power2.easeInOut,
     },
     0
   );
   tl.to(
-    this.mesh.scale,
+    vuiObj.mesh.scale,
     {
-      x: 1,
-      y: 1,
+      x: vuiObj.inVis ? 0.4 : 1,
+      y: vuiObj.inVis ? 0.4 : 1,
       duration: 2,
       ease: Power4.easeInOut,
     },
     0
   );
   tl.to(
-    this.uniforms.u_ripple_size,
+    vuiObj.uniforms.u_ripple_size,
     {
       value: initial_ripple_size,
-      duration: 3,
+      duration: 5,
       ease: Power1.easeInOut,
     },
     0

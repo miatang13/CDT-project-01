@@ -120,7 +120,7 @@ void main() {
   pos.z += snoise(noisePos) * noiseAmp;
   v_wave = pos.z;
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0 );
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0 );
 }
 `;
 
@@ -138,8 +138,8 @@ varying float v_wave;
 void main (void)
 {
   float wave = v_wave * 0.25;
-  vec3 mapped1 = texture2D(u_tex1, v_uv + wave).rgb;
-  vec3 mapped2 = texture2D(u_tex2, v_uv + wave).rgb;
+  vec3 mapped1 = texture2D(u_tex1, v_uv ).rgb;
+  vec3 mapped2 = texture2D(u_tex2, v_uv ).rgb;
   vec3 color = mix(mapped1, mapped2, u_useTexLerp);
   gl_FragColor = vec4(color, 1); 
 }

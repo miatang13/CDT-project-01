@@ -9,7 +9,7 @@ import { circle_pos } from "./screenConsts";
 import { DEBUG_STATES } from "../../utility/debug";
 import { speakingOn, speakingOff } from "./speaking";
 import { listenOn, listenOff } from "./listen";
-import { activateVisualization } from "./visualization";
+import { activateVisualization, finishVisualization } from "./visualization";
 import { thinkingOn, thinkingOff } from "./thinking";
 import { reassuringOn } from "./reassure";
 import { animateAppear, animateDisappear } from "./presence";
@@ -22,6 +22,7 @@ class vuiCircle {
     this.state = "none";
     this.sceneOutlinePass = outlinePass;
     this.isAnimating = false;
+    this.inVis = false;
   }
 
   init = () => {
@@ -86,6 +87,7 @@ class vuiCircle {
       animateAppear,
       animateDisappear,
       activateVisualization,
+      finishVisualization,
     ];
     const FUNC_NAMES = [
       "speakingOn",
@@ -98,6 +100,7 @@ class vuiCircle {
       "animateAppear",
       "animateDisappear",
       "activateVisualization",
+      "finishVisualization",
     ];
     bindNewMethods(this, BIND_FUNCS, FUNC_NAMES);
   };
@@ -151,11 +154,14 @@ class vuiCircle {
         this.animateDisappear();
         break;
       case "activate_visualization":
-        const callbackFunc = this.thinkingOn;
+        const callbackFunc = this.speakingOn;
         this.activateVisualization(callbackFunc);
         break;
       case "visualization":
         //this.thinkingOn();
+        break;
+      case "finish_visualization":
+        this.finishVisualization();
         break;
       default:
         return;

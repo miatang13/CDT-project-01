@@ -106,7 +106,7 @@ function VUI() {
     });*/
   }, []);
 
-  const animateTextOut = (callbackFunc, delay = 1) => {
+  const animateTextOut = (callbackFunc, delay = 5) => {
     const tl = gsap.timeline({ onComplete: callbackFunc, delay: delay });
     tl.to(convoRef.current, {
       opacity: 0,
@@ -224,7 +224,7 @@ function VUI() {
         const onComp = () => {
           setVuiText(vis_vui_instructions[5].vui_texts);
           setUserText("");
-          dispatch(changeVUIState("reassuring", 14, true), [dispatch]);
+          dispatch(changeVUIState("no_change", 14, true), [dispatch]);
           animateTextIn();
         };
         animateTextOut(onComp);

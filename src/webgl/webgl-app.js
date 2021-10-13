@@ -193,7 +193,7 @@ export default class WebGLApp {
     const geometry = new PlaneGeometry(17, 36);
     this.bgUniforms = {
       u_tex1: {
-        value: textures[0], //introTexture,
+        value: introTexture, //introTexture,
       },
       u_tex2: {
         value: introTexture,
@@ -243,6 +243,7 @@ export default class WebGLApp {
     }
 
     this.vuiObj.changeState(vuiState);
+
     if (visState < 0) return;
     this.bgUniforms.u_tex1.value = this.bgUniforms.u_tex2.value;
     if (visState > TEX_MAX) {

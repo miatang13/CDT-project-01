@@ -2,9 +2,11 @@ import gsap, { Power2 } from "gsap/gsap-core";
 
 export function activateVisualization(callbackFunc) {
   this.isAnimating = true;
+  const that = this;
   const tl = gsap.timeline({
     onComplete: function () {
-      this.isAnimating = false;
+      that.isAnimating = false;
+      that.inVis = true;
       callbackFunc();
     },
   });
@@ -19,13 +21,36 @@ export function activateVisualization(callbackFunc) {
     0
   );
   tl.to(this.mesh.position, {
-    y: -15.5,
+    y: -16.5,
     duration: 2,
     ease: Power2.easeInOut,
   });
   tl.to(this.sceneOutlinePass, {
-    edgeStrength: 0.5,
+    edgeStrength: 0.7,
     duration: 1,
     ease: Power2.easeInOut,
   });
+}
+
+export function finishVisualization() {
+  const tl = gsap.timeline();
+  tl.to(
+    this.mesh.scale,
+    {
+      x: 2,
+      y: 2,
+      duration: 2,
+      ease: Power2.easeInOut,
+    },
+    0
+  );
+  tl.to(
+    this.mesh.position,
+    {
+      y: 8,
+      duration: 3,
+      ease: Power2.easeInOut,
+    },
+    0
+  );
 }
