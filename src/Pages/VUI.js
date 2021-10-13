@@ -95,46 +95,99 @@ function VUI() {
   }, [vuiState]);
 
   useEffect(() => {
-    gsap.to(convoRef.current, {
-      opacity: 0,
-      duration: 1,
-      ease: Power2.easeInOut,
-    });
-    gsap.to(convoRef.current, {
+    /*
+    const tl = gsap.timeline();
+    tl.set(convoRef.current, { opacity: 0 });
+    tl.to(convoRef.current, {
       opacity: 1,
-      duration: 1,
+      duration: 2,
+      delay: 2,
+      ease: Power2.easeInOut,
+    });*/
+  }, []);
+
+  const animateTextOut = (callbackFunc) => {
+    const tl = gsap.timeline({ onComplete: callbackFunc });
+    tl.to(convoRef.current, {
+      opacity: 0,
+      duration: 2,
       ease: Power2.easeInOut,
     });
-  }, [vuiTextArr]);
+  };
+  const animateTextIn = () => {
+    const tl = gsap.timeline();
+    tl.to(convoRef.current, {
+      opacity: 1,
+      duration: 2,
+      ease: Power2.easeInOut,
+    });
+  };
+
+  const needHelpOnComp = () => {
+    console.log("On completion");
+    setVuiText([
+      "Hi Caitlyn, you will get through this moment. I am always here for you and to guide you. ",
+      "Would you like to do a visualization or a sensory exercise? ",
+    ]);
+    setUserText("");
+    dispatch(changeVUIState("appearing", -10, true), [dispatch]);
+    animateTextIn();
+  };
+
+  const visualizationOnComp = () => {
+    setVuiText(vis_vui_instructions[0].vui_texts);
+    setUserText("");
+    dispatch(changeVUIState("activate_visualization", 1, true), [dispatch]);
+    animateTextIn();
+  };
+
+  const ripplesOnComp = () => {
+    setVuiText(vis_vui_instructions[1].vui_texts);
+    setUserText("");
+    dispatch(changeVUIState("visualization", 3, true), [dispatch]);
+    animateTextIn();
+  };
+
+  const blueWaterOnComp = () => {
+    setVuiText(vis_vui_instructions[2].vui_texts);
+    setUserText("");
+    dispatch(changeVUIState("visualization", 9, true), [dispatch]);
+    animateTextIn();
+  };
+
+  const liliesOnComp = () => {
+    setVuiText(vis_vui_instructions[3].vui_texts);
+    setUserText("");
+    dispatch(changeVUIState("visualization", 14, true), [dispatch]);
+    animateTextIn();
+  };
+
+  const calmerOnComp = () => {
+    setVuiText(vis_vui_instructions[4].vui_texts);
+    setUserText("");
+    dispatch(changeVUIState("visualization", 14, true), [dispatch]);
+    animateTextIn();
+  };
 
   const commands = [
     {
       command: "Nova I need help",
       callback: () => {
-        setVuiText([
-          "Hi Caitlyn, you will get through this moment. I am always here for you and to guide you. ",
-          "Would you like to do a visualization or a sensory exercise? ",
-        ]);
-        setUserText("");
-        dispatch(changeVUIState("appearing", -10, true), [dispatch]);
+        animateTextOut(needHelpOnComp);
       },
     },
     // begin visualization, phase 0
     {
       command: "(a) visualization",
       callback: () => {
-        setVuiText(vis_vui_instructions[0].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("activate_visualization", 1, true), [dispatch]);
+        animateTextOut(visualizationOnComp);
       },
     },
     // phrase 1
     {
       command: "I hear the ripples of the water",
       callback: () => {
-        setVuiText(vis_vui_instructions[1].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("visualization", 3, true), [dispatch]);
+        animateTextOut(ripplesOnComp);
       },
     },
     // phase 2
@@ -147,45 +200,49 @@ function VUI() {
     {
       command: "* light blue water *",
       callback: () => {
-        setVuiText(vis_vui_instructions[2].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("visualization", 9, true), [dispatch]);
+        animateTextOut(blueWaterOnComp);
       },
     },
     // phase 3
     {
       command: "* water lilies *",
       callback: () => {
-        setVuiText(vis_vui_instructions[3].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("visualization", 14, true), [dispatch]);
+        animateTextOut(liliesOnComp);
       },
     },
     // phase 4
     {
       command: "* feeling calmer *",
       callback: () => {
-        setVuiText(vis_vui_instructions[4].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("visualization", 14, true), [dispatch]);
+        animateTextOut(calmerOnComp);
       },
     },
     // phase 5
     {
       command: "No I'm alright",
       callback: () => {
-        setVuiText(vis_vui_instructions[5].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("reassuring", 14, true), [dispatch]);
+        const onComp = () => {
+          setVuiText(vis_vui_instructions[5].vui_texts);
+          setUserText("");
+          dispatch(changeVUIState("reassuring", 14, true), [dispatch]);
+          animateTextIn();
+        };
+        animateTextOut(onComp);
       },
     },
     // phase 6
     {
       command: "I was feeling overwhelmed *",
       callback: () => {
-        setVuiText(vis_vui_instructions[6].vui_texts);
-        setUserText("");
-        dispatch(changeVUIState("finish_visualization", 20, true), [dispatch]);
+        const onComp = () => {
+          setVuiText(vis_vui_instructions[6].vui_texts);
+          setUserText("");
+          dispatch(changeVUIState("finish_visualization", 20, true), [
+            dispatch,
+          ]);
+          animateTextIn();
+        };
+        animateTextOut(onComp);
       },
     },
     {

@@ -3,7 +3,7 @@ import gsap, { Power2 } from "gsap/gsap-core";
 export function animateAppear() {
   console.log(this);
   const dur = 3;
-  const tl = gsap.timeline();
+  const tl = gsap.timeline({ delay: 1 });
   tl.to(
     this.mesh.scale,
     {
