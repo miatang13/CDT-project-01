@@ -133,6 +133,7 @@ function VUI() {
       command: "I hear the ripples of the water",
       callback: () => {
         setVuiText(vis_vui_instructions[1].vui_texts);
+        setUserText("");
         dispatch(changeVUIState("visualization", 3, true), [dispatch]);
       },
     },

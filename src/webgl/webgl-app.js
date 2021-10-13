@@ -67,40 +67,41 @@ export default class WebGLApp {
     this.outlinePass.selectedObjects = [this.vuiObj.mesh];
     this.addCSSElems();
     this.setupListener();
-    const that = this;
   };
 
   setupListener = () => {
     // create an AudioListener and add it to the camera
     this.listener = new AudioListener();
     this.camera.add(this.listener);
-
-    // create a global audio source
-    this.sound = new Audio(this.listener);
-
-    // load a sound and set it as the Audio object's buffer
     this.audioLoader = new AudioLoader();
   };
 
   playSound = () => {
-    const path = "assets/audio/vui/";
-    const sound = this.sound;
     const that = this;
+    const path = "assets/audio/vui/";
+    // create a global audio source
+    const sound = new Audio(this.listener);
+    sound.onEnded = () => {
+      console.log("Finished sound clip");
+      that.vuiObj.changeState("stop_speaking");
+    };
 
     const f_type = ".mp3";
     const loadV = path + this.soundClip.toString() + f_type;
 
     console.log("Load sound path", loadV);
+
     this.audioLoader.load(loadV, function (buffer) {
       console.log("Playing sound clip", that.soundClip);
 
       if (that.vuiObj !== undefined) {
-        //that.vuiObj.changeState("speaking");
+        that.vuiObj.changeState("speaking");
       }
 
       sound.setBuffer(buffer);
       sound.setLoop(false);
       sound.play();
+
       that.soundClip++;
     });
   };
