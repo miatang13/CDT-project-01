@@ -14,7 +14,7 @@
 
 .conversation__container {
   margin-top: 28vw;
-  margin-left: 3%;
+  margin-left: 3.5%;
   position: absolute;
   max-width: 18vw;
 }
@@ -28,7 +28,7 @@
   font-style: normal;
   padding-bottom: 0.5vw;
   color: #e9e9ff;
-  margin-left: 9vw;
+  margin-left: 2.5vw;
   /* for animation 
   opacity: 0;*/
 }

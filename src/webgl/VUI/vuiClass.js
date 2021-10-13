@@ -68,9 +68,9 @@ class vuiCircle {
       fragmentShader: fshader,
       transparent: true,
     });
-    const geometry = new CircleGeometry(5, 32);
+    const geometry = new CircleGeometry(4.5, 32);
     this.mesh = new Mesh(geometry, material);
-    this.mesh.position.set(circle_pos.x, circle_pos.y, 1);
+    this.mesh.position.set(circle_pos.x, circle_pos.y, 0.5);
     this.mesh.scale.set(0, 0, 0);
     if (appear) {
       this.sceneOutlinePass.edgeStrength = 1;

@@ -29,7 +29,7 @@ import { FXAAShader } from "three/examples/jsm/shaders/FXAAShader";
 import vuiCircle from "./VUI/vuiClass";
 import { bg_vshader, bg_fshader } from "./shaders/bg.glsl";
 import { createElemObject } from "./helpers/css3d";
-import gsap, { Power2 } from "gsap/all";
+import gsap from "gsap/all";
 const TEX_MAX = 14;
 
 export default class WebGLApp {
@@ -67,6 +67,7 @@ export default class WebGLApp {
     this.outlinePass.selectedObjects = [this.vuiObj.mesh];
     this.addCSSElems();
     this.setupListener();
+    const that = this;
   };
 
   setupListener = () => {
@@ -84,11 +85,19 @@ export default class WebGLApp {
   playSound = () => {
     const path = "assets/audio/vui/";
     const sound = this.sound;
+    const that = this;
+
     const f_type = ".mp3";
     const loadV = path + this.soundClip.toString() + f_type;
-    const that = this;
+
     console.log("Load sound path", loadV);
     this.audioLoader.load(loadV, function (buffer) {
+      console.log("Playing sound clip", that.soundClip);
+
+      if (that.vuiObj !== undefined) {
+        //that.vuiObj.changeState("speaking");
+      }
+
       sound.setBuffer(buffer);
       sound.setLoop(false);
       sound.play();

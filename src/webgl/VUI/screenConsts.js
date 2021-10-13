@@ -1,5 +1,5 @@
 export const circle_pos = {
   x: 0,
-  y: 6,
+  y: 7,
   z: 1,
 };

@@ -17,7 +17,7 @@ import "../styles/utility.css";
 import { capitalizeFirstLetter } from "../utility/string";
 
 // animations
-import gsap from "gsap";
+import gsap, { Power2 } from "gsap";
 import { DEBUG_STATES } from "../utility/debug";
 import { vis_vui_instructions } from "../speech/vui-instructions";
 import { UserScript } from "../components/userScript";
@@ -94,15 +94,28 @@ function VUI() {
     }
   }, [vuiState]);
 
+  useEffect(() => {
+    gsap.to(convoRef.current, {
+      opacity: 0,
+      duration: 1,
+      ease: Power2.easeInOut,
+    });
+    gsap.to(convoRef.current, {
+      opacity: 1,
+      duration: 1,
+      ease: Power2.easeInOut,
+    });
+  }, [vuiTextArr]);
+
   const commands = [
     {
       command: "Nova I need help",
       callback: () => {
         setVuiText([
-          "Hi Caitlyn,",
-          "You will get through this moment. you will get through this moment. I am always here for you and to guide you. ",
-          " Would you like to do a visualization or a sensory exercise? ",
+          "Hi Caitlyn, you will get through this moment. I am always here for you and to guide you. ",
+          "Would you like to do a visualization or a sensory exercise? ",
         ]);
+        setUserText("");
         dispatch(changeVUIState("appearing", -10, true), [dispatch]);
       },
     },
@@ -110,15 +123,7 @@ function VUI() {
     {
       command: "(a) visualization",
       callback: () => {
-        console.log("just heard visualization");
-        const firstReply = [
-          "Ok. " +
-            vuiState.userName +
-            ", let’s go to a different place together, a more peaceful place. ",
-        ];
-        const rest = vis_vui_instructions[0].vui_texts;
-        const complete = firstReply.concat(rest);
-        setVuiText(complete);
+        setVuiText(vis_vui_instructions[0].vui_texts);
         setUserText("");
         dispatch(changeVUIState("activate_visualization", 1, true), [dispatch]);
       },
@@ -128,7 +133,7 @@ function VUI() {
       command: "I hear the ripples of the water",
       callback: () => {
         setVuiText(vis_vui_instructions[1].vui_texts);
-        dispatch(changeVUIState("visualization", 3), [dispatch]);
+        dispatch(changeVUIState("visualization", 3, true), [dispatch]);
       },
     },
     // phase 2
@@ -142,7 +147,8 @@ function VUI() {
       command: "* light blue water *",
       callback: () => {
         setVuiText(vis_vui_instructions[2].vui_texts);
-        dispatch(changeVUIState("visualization", 9), [dispatch]);
+        setUserText("");
+        dispatch(changeVUIState("visualization", 9, true), [dispatch]);
       },
     },
     // phase 3
@@ -150,7 +156,8 @@ function VUI() {
       command: "* water lilies *",
       callback: () => {
         setVuiText(vis_vui_instructions[3].vui_texts);
-        dispatch(changeVUIState("visualization", 14), [dispatch]);
+        setUserText("");
+        dispatch(changeVUIState("visualization", 14, true), [dispatch]);
       },
     },
     // phase 4
@@ -158,7 +165,8 @@ function VUI() {
       command: "* feeling calmer *",
       callback: () => {
         setVuiText(vis_vui_instructions[4].vui_texts);
-        dispatch(changeVUIState("visualization", 14), [dispatch]);
+        setUserText("");
+        dispatch(changeVUIState("visualization", 14, true), [dispatch]);
       },
     },
     // phase 5
@@ -166,7 +174,8 @@ function VUI() {
       command: "No I'm alright",
       callback: () => {
         setVuiText(vis_vui_instructions[5].vui_texts);
-        dispatch(changeVUIState("reassuring", 14), [dispatch]);
+        setUserText("");
+        dispatch(changeVUIState("reassuring", 14, true), [dispatch]);
       },
     },
     // phase 6
@@ -175,7 +184,7 @@ function VUI() {
       callback: () => {
         setVuiText(vis_vui_instructions[6].vui_texts);
         setUserText("");
-        dispatch(changeVUIState("finish_visualization", 20), [dispatch]);
+        dispatch(changeVUIState("finish_visualization", 20, true), [dispatch]);
       },
     },
     {

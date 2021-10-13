@@ -1,6 +1,7 @@
 export const vis_vui_instructions = [
   {
     vui_texts: [
+      "Ok, let’s go to a different place together, a more peaceful place. ",
       "Imagine you are at a lake, the waters are calm, and the current is mild. You can feel a light breeze passing by you.",
       "What do you hear? ",
     ],
@@ -36,6 +37,7 @@ export const vis_vui_instructions = [
   {
     vui_texts: [
       "I see, thank you for sharing that with me. You will be okay and I will always be here for you. ",
+      "Would you like to share this session with your therapist?",
     ],
   },
 ];
