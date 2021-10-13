@@ -106,8 +106,8 @@ function VUI() {
     });*/
   }, []);
 
-  const animateTextOut = (callbackFunc) => {
-    const tl = gsap.timeline({ onComplete: callbackFunc });
+  const animateTextOut = (callbackFunc, delay = 1) => {
+    const tl = gsap.timeline({ onComplete: callbackFunc, delay: delay });
     tl.to(convoRef.current, {
       opacity: 0,
       duration: 2,
@@ -124,7 +124,6 @@ function VUI() {
   };
 
   const needHelpOnComp = () => {
-    console.log("On completion");
     setVuiText([
       "Hi Caitlyn, you will get through this moment. I am always here for you and to guide you. ",
       "Would you like to do a visualization or a sensory exercise? ",
@@ -173,7 +172,8 @@ function VUI() {
     {
       command: "Nova I need help",
       callback: () => {
-        animateTextOut(needHelpOnComp);
+        dispatch(changeVUIState("appearing", -10, false), [dispatch]);
+        animateTextOut(needHelpOnComp, 2);
       },
     },
     // begin visualization, phase 0
@@ -194,7 +194,7 @@ function VUI() {
     {
       command: "* sky is becoming brighter",
       callback: () => {
-        dispatch(changeVUIState("visualization", 5), [dispatch]);
+        dispatch(changeVUIState("visualization", 5, false), [dispatch]);
       },
     },
     {
@@ -266,9 +266,6 @@ function VUI() {
   const handleStartListen = () => {
     SpeechRecognition.startListening({ continuous: true });
     resetTranscript();
-    if (vuiState.vuiState.vuiStateStr === "visualization") {
-      return;
-    }
     dispatch(changeVUIState("listening", -10, false), [dispatch]);
   };
 
@@ -276,9 +273,6 @@ function VUI() {
     SpeechRecognition.stopListening();
     if (transcript === "") return;
     setUserText(capitalizeFirstLetter(transcript) + ".", true);
-    if (vuiState.vuiState.vuiStateStr === "visualization") {
-      return;
-    }
     dispatch(changeVUIState("stop_listening", -10, false), [dispatch]);
   };
 

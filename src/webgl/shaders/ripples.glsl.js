@@ -42,6 +42,7 @@ varying vec3 v_normal;
 
 void main (void)
 {
+  float contrast = 1.0;
   vec2 p = v_position.xy;
   float len = length(p) / 1.5;
   vec2 ripple = v_uv + p/len*u_opaque*cos(len*u_ripple_layers-u_time * u_ripple_size);
@@ -53,6 +54,7 @@ void main (void)
   rippled.b += u_bIncre;
   rippled.r -= u_bIncre;
   rippled.g += u_gIncre;
+  rippled.rgb = ((rippled.rgb - 0.5) * max(contrast, 0.0)) + 0.5;
   gl_FragColor = vec4(rippled, u_alpha); 
 }
 `;

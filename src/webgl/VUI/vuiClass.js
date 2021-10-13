@@ -71,7 +71,7 @@ class vuiCircle {
     const geometry = new CircleGeometry(4.5, 32);
     this.mesh = new Mesh(geometry, material);
     this.mesh.position.set(circle_pos.x, circle_pos.y, 0.5);
-    this.mesh.scale.set(0, 0, 0);
+    //this.mesh.scale.set(0, 0, 0);
     if (appear) {
       this.sceneOutlinePass.edgeStrength = 1;
     }
@@ -151,10 +151,11 @@ class vuiCircle {
         this.animateDisappear();
         break;
       case "activate_visualization":
-        this.activateVisualization();
+        const callbackFunc = this.thinkingOn;
+        this.activateVisualization(callbackFunc);
         break;
       case "visualization":
-        this.thinkingOn();
+        //this.thinkingOn();
         break;
       default:
         return;

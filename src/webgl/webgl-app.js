@@ -190,10 +190,10 @@ export default class WebGLApp {
     const introTexture = textureLoader.load(path + "intro" + f_ex);
     this.visIntroTex = introTexture;
     console.log("Textures", textures);
-    const geometry = new PlaneGeometry(18, 39);
+    const geometry = new PlaneGeometry(17, 36);
     this.bgUniforms = {
       u_tex1: {
-        value: introTexture,
+        value: textures[0], //introTexture,
       },
       u_tex2: {
         value: introTexture,
@@ -206,6 +206,9 @@ export default class WebGLApp {
       },
       u_useTexLerp: {
         value: 0.0,
+      },
+      u_time: {
+        value: 0,
       },
     };
     const material = new ShaderMaterial({
@@ -271,7 +274,7 @@ export default class WebGLApp {
     if (this.vuiObj !== undefined) {
       this.vuiObj.update(this.clock.getDelta());
     }
-    //this.renderScene();
+    this.bgUniforms.u_time.value = this.clock.getElapsedTime();
     this.composer.render();
     this.cssRenderer.render(this.scene, this.camera);
   };

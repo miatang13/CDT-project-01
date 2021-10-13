@@ -2,6 +2,7 @@ import gsap, { Power1, Power2 } from "gsap/gsap-core";
 import { initial_ripple_opaque, ripple_opaque } from "./shaderConsts";
 
 export function thinkingOn() {
+  console.log(">>>>thinking on");
   var tl = gsap.timeline();
   const opqDur = 3;
   tl.to(
