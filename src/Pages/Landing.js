@@ -1,7 +1,7 @@
 import "../styles/utility.css";
 import "../styles/app.css";
 import "../styles/landing.css";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { changeUserName } from "../actions";
 import { useState, useEffect, useRef } from "react";
@@ -10,7 +10,7 @@ import gsap from "gsap";
 function Landing() {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [input, setInput] = useState("Enter your name");
+  const [input, setInput] = useState("You name");
 
   const handleSubmit = () => {
     dispatch(changeUserName(input), [dispatch]);
@@ -61,20 +61,16 @@ function Landing() {
         <div className="content__container" ref={containerRef}>
           <h1 className="title__text" ref={titleRef}>
             {" "}
-            nova{" "}
+            Nova{" "}
           </h1>
           <h4 className="landing__blurb" ref={blurbRef}>
             Meet Nova, a voice user-interface designed to help users navigate
             their anxiety through guided, interactive mindfulness exercises.
           </h4>
-          <form onSubmit={handleSubmit} ref={formRef}>
-            <div id="name__input">
-              <input type="text" onChange={handleChange} placeholder={input} />
-              <button id="enter__btn" type="submit" value="Enter">
-                Enter{" "}
-              </button>
-            </div>
-          </form>{" "}
+          <Link to="/nova">
+            {" "}
+            <button id="enter__btn">Let's Begin </button>
+          </Link>
         </div>
       </div>
     </div>
