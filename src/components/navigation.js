@@ -19,8 +19,8 @@ export default function NavigationBar() {
             <NavLink className="nav__route" to="/stateMatrix">
               State Matrix
             </NavLink>
-            <NavLink className="nav__route" to="/process">
-              Process
+            <NavLink className="nav__route" to="/about">
+              About
             </NavLink>
           </div>
         </div>
