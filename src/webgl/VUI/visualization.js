@@ -21,7 +21,7 @@ export function activateVisualization(callbackFunc) {
     0
   );
   tl.to(this.mesh.position, {
-    y: -16.5,
+    y: -15.5,
     duration: 2,
     ease: Power2.easeInOut,
   });

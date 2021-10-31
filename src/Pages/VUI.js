@@ -127,15 +127,18 @@ function VUI() {
   }, [vuiState]);
 
   const animateTextOut = (callbackFunc, delay = 5) => {
-    const tl = gsap.timeline({ onComplete: callbackFunc, delay: delay });
+    const fullCallBack = () => {
+      let num = userTextNum + 1;
+      setUserTextNum(num);
+      console.log("User text changed to", num);
+      callbackFunc();
+    };
+    const tl = gsap.timeline({ onComplete: fullCallBack, delay: delay });
     tl.to(convoRef.current, {
       opacity: 0,
       duration: 2,
       ease: Power2.easeInOut,
     });
-    let num = userTextNum + 1;
-    setUserTextNum(num);
-    console.log("User text changed to", num);
   };
   const animateTextIn = () => {
     const tl = gsap.timeline();
@@ -356,11 +359,15 @@ function VUI() {
               <div id="instructions__container">
                 <h2>Speak the script below to engage with Nova.</h2>
                 <hr></hr>
-                {instructionTextArr.map((text, i) => (
-                  <span className="instruction__text" key={i}>
-                    {text}
-                  </span>
-                ))}
+                <div id="instructions__texts">
+                  {" "}
+                  {instructionTextArr.map((text, i) => (
+                    <span className="instruction__text" key={i}>
+                      {text}
+                    </span>
+                  ))}
+                </div>
+
                 <hr></hr>
               </div>
               <p>Microphone: {listening ? "on" : "off"}</p>

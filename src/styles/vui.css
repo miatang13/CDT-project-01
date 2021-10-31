@@ -98,6 +98,10 @@
   color: #c7c5d6;
 }
 
+#instructions__texts :first-child {
+  color: black;
+}
+
 #instructions__container {
   padding-top: 5vw;
 }
