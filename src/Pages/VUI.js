@@ -56,6 +56,7 @@ function VUI() {
   const [instructionTextNum, setInstructionNum] = useState(0);
   // user's phase stage
   const [userTextNum, setUserTextNum] = useState(0);
+  const [vuiTalking, setVuiTalking] = useState(false);
 
   useEffect(() => {
     setInstructionNum(userTextNum);
@@ -94,7 +95,8 @@ function VUI() {
       {
         width: window.innerWidth,
         height: window.innerHeight,
-      }
+      },
+      setVuiTalking
     );
     webglApp.current.setup();
     webglApp.current.render(true);
@@ -290,9 +292,10 @@ function VUI() {
   } = useSpeechRecognition({ commands, isFuzzyMatch: true });
 
   const handleStartListen = (event) => {
-    if (event.repeat) {
+    if (event.repeat || vuiTalking) {
       return;
     }
+
     console.log("Start listen");
     SpeechRecognition.startListening({ continuous: true });
     resetTranscript();
@@ -370,7 +373,18 @@ function VUI() {
 
                 <hr></hr>
               </div>
-              <p>Microphone: {listening ? "on" : "off"}</p>
+              <div id="manual__helper">
+                {vuiTalking ? (
+                  <h2> Nova is currently talking. </h2>
+                ) : (
+                  <h2>
+                    {" "}
+                    Hold the <span id="highlight__text"> spacebar </span> to
+                    speak.{" "}
+                  </h2>
+                )}
+                <p>Microphone is currently {listening ? "on" : "off"}.</p>
+              </div>
             </div>
           </div>
         </div>

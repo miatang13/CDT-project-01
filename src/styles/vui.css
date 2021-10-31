@@ -91,7 +91,7 @@
 
 .instruction__text {
   display: block;
-  font-family: freight-sans-pro;
+  font-family: freight-sans-pro, sans-serif;
   font-size: 1.5vw;
   padding-top: 0.5vw;
   padding-bottom: 0.5vw;
@@ -104,4 +104,24 @@
 
 #instructions__container {
   padding-top: 5vw;
+}
+
+#manual__helper {
+  padding-top: 1vw;
+}
+
+#manual__helper h2 {
+  font-family: freight-sans-pro, sans-serif;
+  font-style: normal;
+}
+
+#highlight__text {
+  font-family: freight-text-pro, serif;
+  font-style: italic;
+  margin-left: 0.5vw;
+  margin-right: 0.5vw;
+}
+
+#manual__helper p {
+  font-size: 1vw;
 }

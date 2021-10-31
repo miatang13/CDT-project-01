@@ -30,7 +30,7 @@ import gsap from "gsap/all";
 const TEX_MAX = 14;
 
 export default class WebGLApp {
-  constructor(htmlElem, cssElem, cssRef, windowInfo) {
+  constructor(htmlElem, cssElem, cssRef, windowInfo, func) {
     this.htmlElem = htmlElem;
     this.cssElem = cssElem;
     this.cssRef = cssRef;
@@ -38,6 +38,7 @@ export default class WebGLApp {
     this.rafId = 0;
     this.isRendering = false;
     this.soundClip = 0;
+    this.toggleSpeakingFunc = func;
   }
 
   setup = () => {
@@ -81,6 +82,7 @@ export default class WebGLApp {
     sound.onEnded = () => {
       console.log("Finished sound clip");
       that.vuiObj.changeState("stop_speaking");
+      that.toggleSpeakingFunc(false);
     };
 
     const f_type = ".mp3";
@@ -93,6 +95,7 @@ export default class WebGLApp {
 
       if (that.vuiObj !== undefined) {
         that.vuiObj.changeState("speaking");
+        that.toggleSpeakingFunc(true);
       }
 
       sound.setBuffer(buffer);
