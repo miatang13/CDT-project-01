@@ -128,11 +128,16 @@ function VUI() {
     }
   }, [vuiState]);
 
+  const increaseInstructionText = () => {
+    let num = userTextNum + 1;
+    setUserTextNum(num);
+
+    console.log("User text changed to", num);
+  };
+
   const animateTextOut = (callbackFunc, delay = 5) => {
     const fullCallBack = () => {
-      let num = userTextNum + 1;
-      setUserTextNum(num);
-      console.log("User text changed to", num);
+      increaseInstructionText();
       callbackFunc();
     };
     const tl = gsap.timeline({ onComplete: fullCallBack, delay: delay });
@@ -185,14 +190,14 @@ function VUI() {
   const liliesOnComp = () => {
     setVuiText(vis_vui_instructions[3].vui_texts);
     setUserText("");
-    dispatch(changeVUIState("visualization", 14, true), [dispatch]);
+    dispatch(changeVUIState("visualization", 13, true), [dispatch]);
     animateTextIn();
   };
 
   const calmerOnComp = () => {
     setVuiText(vis_vui_instructions[4].vui_texts);
     setUserText("");
-    dispatch(changeVUIState("visualization", 14, true), [dispatch]);
+    dispatch(changeVUIState("visualization", 13, true), [dispatch]);
     animateTextIn();
   };
 
@@ -223,6 +228,7 @@ function VUI() {
       command: "* sky is becoming brighter",
       callback: () => {
         dispatch(changeVUIState("visualization", 5, false), [dispatch]);
+        increaseInstructionText();
       },
     },
     {
@@ -252,7 +258,7 @@ function VUI() {
         const onComp = () => {
           setVuiText(vis_vui_instructions[5].vui_texts);
           setUserText("");
-          dispatch(changeVUIState("no_change", 14, true), [dispatch]);
+          dispatch(changeVUIState("no_change", 13, true), [dispatch]);
           animateTextIn();
         };
         animateTextOut(onComp);
@@ -292,7 +298,11 @@ function VUI() {
   } = useSpeechRecognition({ commands, isFuzzyMatch: true });
 
   const handleStartListen = (event) => {
-    if (event.repeat || vuiTalking) {
+    if (vuiTalking) {
+      return;
+    }
+
+    if (event.repeat) {
       return;
     }
 
@@ -303,11 +313,15 @@ function VUI() {
   };
 
   const handleStopListen = () => {
+    if (vuiTalking) {
+      return;
+    }
+
     console.log("Stop listen");
     SpeechRecognition.stopListening();
     if (transcript === "") return;
-    setUserText(capitalizeFirstLetter(transcript) + ".", true);
     dispatch(changeVUIState("stop_listening", -10, false), [dispatch]);
+    setUserText(capitalizeFirstLetter(transcript) + ".", true);
   };
 
   if (!browserSupportsSpeechRecognition) {
@@ -375,7 +389,11 @@ function VUI() {
               </div>
               <div id="manual__helper">
                 {vuiTalking ? (
-                  <h2> Nova is currently talking. </h2>
+                  <h2>
+                    {" "}
+                    Nova is currently talking. You can engage with Nova after
+                    they finish.{" "}
+                  </h2>
                 ) : (
                   <h2>
                     {" "}

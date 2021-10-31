@@ -7,7 +7,9 @@ export default function NavigationBar() {
       <div id="navigation__container">
         <div id="nav__content">
           <div class="column narrow__left" id="nav__content__left">
-            <span id="logo__text">Nova</span>
+            <NavLink className="nav__route" to="/">
+              <span id="logo__text">Nova</span>
+            </NavLink>
           </div>
 
           <div class="column wide__right" id="nav__content__right">
