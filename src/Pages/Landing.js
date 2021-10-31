@@ -8,20 +8,6 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 
 function Landing() {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const [input, setInput] = useState("You name");
-
-  const handleSubmit = () => {
-    dispatch(changeUserName(input), [dispatch]);
-    console.log(input);
-    history.push({ pathname: "/nova", search: "?user=" + input });
-  };
-
-  const handleChange = (e) => {
-    setInput(e.target.value);
-  };
-
   const titleRef = useRef();
   const blurbRef = useRef();
   const formRef = useRef();

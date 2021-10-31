@@ -3,15 +3,12 @@ import {
   Color,
   PerspectiveCamera,
   WebGLRenderer,
-  BoxGeometry,
   Mesh,
   GridHelper,
-  MeshPhongMaterial,
   AmbientLight,
   Clock,
   TextureLoader,
   PlaneGeometry,
-  MeshBasicMaterial,
   Vector2,
   DirectionalLight,
   ShaderMaterial,
@@ -45,7 +42,7 @@ export default class WebGLApp {
 
   setup = () => {
     this.scene = new Scene();
-    this.scene.background = new Color(0x0d1426); //Color(0xb6eafa);
+    this.scene.background = new Color(0xffffff); //Color(0xb6eafa);
     this.camera = new PerspectiveCamera(
       75,
       this.windowInfo.width / this.windowInfo.height,
@@ -109,12 +106,12 @@ export default class WebGLApp {
   addCSSElems = () => {
     this.phoneCutout = createElemObject(
       this.cssRef,
-      window.innerWidth / 1.7,
-      window.innerHeight / 1.7,
+      window.screen.width,
+      window.screen.height,
       0xffffff,
-      false
+      true
     );
-    this.phoneCutout.position.set(0, 0, 1);
+    this.phoneCutout.position.set(-5, -5, 0);
     this.scene.add(this.phoneCutout);
   };
 
@@ -218,7 +215,7 @@ export default class WebGLApp {
       transparent: true,
     });
     const mesh = new Mesh(geometry, material);
-    mesh.position.set(0, -1.5, 0);
+    mesh.position.set(-20, -1.5, 0);
     this.scene.add(mesh);
   };
 

@@ -1,21 +1,14 @@
 #iphoneCutout {
-  background-image: url("./images/iphone_cutout.png");
-  background-size: cover;
+  /* background-image: url("./images/iphone_cutout_color.png"); */
 }
 
-.VUI_UI_container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
-  margin-left: 38vw;
+#VUI_UI_container {
+  margin-left: 15vw;
   font-family: freight-sans-pro, sans-serif;
 }
 
 .conversation__container {
-  margin-top: 28vw;
-  margin-left: 3.5%;
-  position: absolute;
+  margin-top: 20vw;
   max-width: 18vw;
 }
 
@@ -28,9 +21,6 @@
   font-style: normal;
   padding-bottom: 0.5vw;
   color: #e9e9ff;
-  margin-left: 2.5vw;
-  /* for animation 
-  opacity: 0;*/
 }
 
 .transcript__text__vui {
@@ -43,63 +33,34 @@
   padding-bottom: 0.5vw;
   color: #d5cfff;
   max-width: 15vw;
-  /* for animation 
-  opacity: 0;*/
 }
 
 .helpers__container {
   margin-top: 30%;
 }
 
-.info__container {
-  width: 20%;
-  max-height: 150px;
+#info__container {
   font-size: 1vw;
-  background-color: #efddff;
-  border-radius: 25px;
-  margin-left: 50px;
-  opacity: 80%;
-  box-shadow: 0 5px 15px rgba(145, 92, 182, 0.1);
+  text-align: left;
 }
 
-.script__container {
-  width: 20%;
-  font-size: 1vw;
-  background-color: #efddff;
-  border-radius: 25px;
-  margin-left: 50px;
-  margin-bottom: 5vw;
-  opacity: 80%;
-  box-shadow: 0 5px 15px rgba(145, 92, 182, 0.1);
+#info__content {
+  max-width: 70%;
+  padding-left: 2vw;
 }
 
-.info__container p {
-  color: #a98bc4;
-  font-size: 1.2vw;
+#info__container h1 {
+  font-style: italic;
+  font-size: 2.5vw;
+}
+
+#info__container h2 {
   font-style: italic;
 }
 
-.script__container span {
-  padding-left: 1vw;
-  text-align: left;
-  color: #a98bc4;
-  font-size: 1.2vw;
+#info__container p {
   font-family: freight-sans-pro, sans-serif;
-  font-weight: 600;
-  font-style: normal;
-}
-
-.script__container ol li {
-  font-family: freight-sans-pro, sans-serif;
-  font-size: 1vw;
-  text-align: left;
-  color: #a98bc4;
-}
-
-.info__container button {
-  width: 10vw;
-  font-style: italic;
-  background-image: url("./images/button_background.png");
+  font-size: 1.5vw;
 }
 
 .helpers__container {
@@ -126,4 +87,15 @@
 #ripple {
   background-image: url("./visualization/Ripple2.png");
   background-size: cover;
+}
+
+.instruction__text {
+  display: block;
+  font-family: freight-sans-pro;
+  font-size: 1.5vw;
+  padding-bottom: 1vw;
+}
+
+#instructions__container {
+  padding-top: 5vw;
 }

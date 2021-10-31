@@ -1,11 +1,10 @@
 import "../App.css";
 import "../styles/reactTransition.css";
+import "../styles/utility.css";
 import "../styles/vui.css";
 import React, { useEffect, useRef, useState } from "react";
 import WebGLApp from "../webgl/webgl-app";
 import { useSelector } from "react-redux";
-import StateDebugger from "../components/stateDebugger";
-import ReduxThunk from "redux-thunk";
 
 // speech rec stuff
 import { useDispatch } from "react-redux";
@@ -22,6 +21,8 @@ import { DEBUG_STATES } from "../utility/debug";
 import { vis_vui_instructions } from "../speech/vui-instructions";
 import { UserScript } from "../components/userScript";
 import { monthNames } from "../utility/date";
+import { Link } from "react-router-dom";
+import NavigationBar from "../components/navigation";
 
 // debug
 
@@ -49,6 +50,11 @@ function VUI() {
       ".",
   ]);
   const convoRef = useRef();
+  const [instructionTextArr, setInstructionText] = useState([
+    "Nova, I need help.",
+    "Visualization.",
+    "I hear the ripples of the water.",
+  ]);
 
   useEffect(() => {
     if (containerRef.current === null) return;
@@ -264,17 +270,29 @@ function VUI() {
   } = useSpeechRecognition({ commands, isFuzzyMatch: true });
 
   const handleStartListen = () => {
+    console.log("Start listen");
     SpeechRecognition.startListening({ continuous: true });
     resetTranscript();
     dispatch(changeVUIState("listening", -10, false), [dispatch]);
   };
 
   const handleStopListen = () => {
+    console.log("Stop listen");
     SpeechRecognition.stopListening();
     if (transcript === "") return;
     setUserText(capitalizeFirstLetter(transcript) + ".", true);
     dispatch(changeVUIState("stop_listening", -10, false), [dispatch]);
   };
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleStartListen);
+    document.addEventListener("keyup", handleStopListen);
+
+    return () => {
+      document.removeEventListener("keydown", handleStartListen);
+      document.removeEventListener("keyup", handleStopListen);
+    };
+  }, []);
 
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
@@ -288,53 +306,80 @@ function VUI() {
     <div className="VUI">
       <div id="webgl" ref={containerRef}></div>
       <div id="css" ref={cssContainerRef}></div>
-      <div id="iphoneCutout" ref={phoneCutoutRef}></div>
-      <div className="root" id="vui__root">
-        <div className="VUI_UI_container">
-          <div className="conversation__container" ref={convoRef}>
-            {vuiTextArr.map((text, i) => (
-              <span className="transcript__text__vui" key={i}>
-                {text}
-              </span>
-            ))}
+      <img
+        src="./images/iphone_cutout_color.png"
+        id="iphoneCutout"
+        alt="oops"
+        ref={phoneCutoutRef}
+      ></img>
+      <div className="root">
+        <NavigationBar />
+        <div className="row">
+          <div className="column left" id="VUI_UI_container">
+            <div className="conversation__container" ref={convoRef}>
+              {vuiTextArr.map((text, i) => (
+                <span className="transcript__text__vui" key={i}>
+                  {text}
+                </span>
+              ))}
 
-            {listening ? (
-              <span className="transcript__text__user"> {transcript}</span>
-            ) : (
-              <span className="transcript__text__user"> {userText}</span>
-            )}
+              {listening ? (
+                <span className="transcript__text__user"> {transcript}</span>
+              ) : (
+                <span className="transcript__text__user"> {userText}</span>
+              )}
+            </div>
+          </div>
+          <div className="column right" id="info__container">
+            <div id="info__content">
+              <div id="about__container">
+                <div>
+                  {" "}
+                  <h1> Visualization Exercise </h1>
+                  <hr></hr>
+                </div>
+
+                <p>
+                  {" "}
+                  The Visualization Exercise gives you the opportunity to
+                  co-create a personal landscape with Nova. Nova will guide you
+                  through this sensory experience with ambient sound, calming
+                  visuals, and breathing exercises.{" "}
+                </p>
+              </div>
+              <div id="instructions__container">
+                <h2>Speak the script below to engage with Nova.</h2>
+                <hr></hr>
+                {instructionTextArr.map((text, i) => (
+                  <span className="instruction__text" key={i}>
+                    {text}
+                  </span>
+                ))}
+                <hr></hr>
+              </div>
+              <p>Microphone: {listening ? "on" : "off"}</p>
+            </div>
           </div>
         </div>
-        <div className="info__container">
+      </div>
+    </div>
+  );
+}
+export default VUI;
+
+/**
+ * 
+ * 
+ * 
           <div className="buttons__container">
             {DEBUG_STATES && (
               <button onClick={testLerp}> Lerp Background </button>
             )}
-            <button
-              onTouchStart={handleStartListen}
-              onMouseDown={handleStartListen}
-              onTouchEnd={handleStopListen}
-              onMouseUp={handleStopListen}
-              id="microphone__btn"
-            >
-              Hold to talk
-            </button>
           </div>
-          <p>Microphone: {listening ? "on" : "off"}</p>
-        </div>
-        <div className="script__container">
-          <div className="center__container">
-            <UserScript />
-          </div>
-        </div>
 
         {DEBUG_STATES && (
           <div className="helpers__container">
             <StateDebugger webglApp={webglApp} />
           </div>
         )}
-      </div>
-    </div>
-  );
-}
-export default VUI;
+ */

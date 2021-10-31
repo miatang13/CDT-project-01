@@ -32,3 +32,22 @@
   margin: 1em;
   width: 50%;
 }
+
+.row {
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.column {
+  float: left;
+  padding: 10px;
+}
+
+.left {
+  width: 25%;
+}
+
+.right {
+  width: 75%;
+}
