@@ -42,7 +42,7 @@ export default class WebGLApp {
 
   setup = () => {
     this.scene = new Scene();
-    this.scene.background = new Color(0xffffff); //Color(0xb6eafa);
+    this.scene.background = new Color(0xe6dffd); //Color(0xb6eafa);
     this.camera = new PerspectiveCamera(
       75,
       this.windowInfo.width / this.windowInfo.height,

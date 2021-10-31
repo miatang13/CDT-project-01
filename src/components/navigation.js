@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import "../styles/navigation.css";
 
 export default function NavigationBar() {
@@ -11,16 +11,15 @@ export default function NavigationBar() {
           </div>
 
           <div class="column wide__right" id="nav__content__right">
-            <Link className="nav__route" to="/Nova">
-              <span>Meet Nova</span>{" "}
-            </Link>
-            <Link className="nav__route" to="/StateMatrix">
-              <span>State Matrix</span>{" "}
-            </Link>
-            <Link className="nav__route" to="/Process">
-              {" "}
-              <span>Process</span>
-            </Link>
+            <NavLink className="nav__route" to="/nova">
+              Meet Nova
+            </NavLink>
+            <NavLink className="nav__route" to="/stateMatrix">
+              State Matrix
+            </NavLink>
+            <NavLink className="nav__route" to="/process">
+              Process
+            </NavLink>
           </div>
         </div>
       </div>

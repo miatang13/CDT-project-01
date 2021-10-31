@@ -42,7 +42,11 @@ a {
   font-style: italic;
 }
 
-.nav__route span {
+.nav__route {
   font-family: freight-sans-pro, sans-serif;
   font-size: 1.5vw;
+}
+
+.active {
+  font-weight: 800;
 }

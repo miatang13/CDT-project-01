@@ -5,6 +5,8 @@ import VUI from "./Pages/VUI";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { TransitionGroup, Transition } from "react-transition-group";
 import { playTransitionIn, playTransitionOut } from "./utility/animation";
+import Matrix from "./Pages/Matrix";
+import Process from "./Pages/Process";
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
                   <Switch location={location}>
                     <Route exact path="/" component={Landing} />
                     <Route path="/nova" component={VUI} />
+                    <Route path="/stateMatrix" component={Matrix} />
+                    <Route path="/process" component={Process} />
                   </Switch>
                 </Transition>
               </TransitionGroup>
