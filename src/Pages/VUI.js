@@ -23,6 +23,7 @@ import { UserScript } from "../components/userScript";
 import { monthNames } from "../utility/date";
 import { Link } from "react-router-dom";
 import NavigationBar from "../components/navigation";
+import { user_instructions } from "../speech/user-instructions";
 
 // debug
 
@@ -50,11 +51,35 @@ function VUI() {
       ".",
   ]);
   const convoRef = useRef();
-  const [instructionTextArr, setInstructionText] = useState([
-    "Nova, I need help.",
-    "Visualization.",
-    "I hear the ripples of the water.",
-  ]);
+  const [instructionTextArr, setInstructionText] = useState([]);
+  // the last phase that is displayed
+  const [instructionTextNum, setInstructionNum] = useState(0);
+  // user's phase stage
+  const [userTextNum, setUserTextNum] = useState(-1);
+
+  useEffect(() => {
+    if (userTextNum <= instructionTextNum) {
+      console.log("Covered! ");
+      return;
+    }
+
+    setInstructionNum(userTextNum + 2);
+  }, [userTextNum, instructionTextNum]);
+
+  useEffect(() => {
+    if (instructionTextNum >= user_instructions.length) {
+      console.log("Reached end of instruction");
+      return;
+    }
+
+    let startIndex = instructionTextNum - 2;
+    let newArr = [];
+    for (var i = startIndex; i <= instructionTextNum; i++) {
+      newArr.push(user_instructions[i]);
+    }
+    setInstructionText(newArr);
+    console.log("Set new instruction text arr to", newArr);
+  }, [instructionTextNum]);
 
   useEffect(() => {
     if (containerRef.current === null) return;
@@ -77,10 +102,16 @@ function VUI() {
     webglApp.current.setup();
     webglApp.current.render(true);
     window.addEventListener("resize", onWindowResize, false);
+    document.addEventListener("keydown", handleStartListen, false);
+    document.addEventListener("keyup", handleStopListen, false);
+
+    setInstructionNum(2);
 
     return () => {
       webglApp.current.render(false);
       window.removeEventListener("resize", onWindowResize, false);
+      document.removeEventListener("keydown", handleStartListen, false);
+      document.removeEventListener("keyup", handleStopListen, false);
     };
   }, []);
 
@@ -100,18 +131,6 @@ function VUI() {
     }
   }, [vuiState]);
 
-  useEffect(() => {
-    /*
-    const tl = gsap.timeline();
-    tl.set(convoRef.current, { opacity: 0 });
-    tl.to(convoRef.current, {
-      opacity: 1,
-      duration: 2,
-      delay: 2,
-      ease: Power2.easeInOut,
-    });*/
-  }, []);
-
   const animateTextOut = (callbackFunc, delay = 5) => {
     const tl = gsap.timeline({ onComplete: callbackFunc, delay: delay });
     tl.to(convoRef.current, {
@@ -119,6 +138,9 @@ function VUI() {
       duration: 2,
       ease: Power2.easeInOut,
     });
+    let num = userTextNum + 1;
+    setUserTextNum(num);
+    console.log("User text changed to", num);
   };
   const animateTextIn = () => {
     const tl = gsap.timeline();
@@ -269,7 +291,10 @@ function VUI() {
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition({ commands, isFuzzyMatch: true });
 
-  const handleStartListen = () => {
+  const handleStartListen = (event) => {
+    if (event.repeat) {
+      return;
+    }
     console.log("Start listen");
     SpeechRecognition.startListening({ continuous: true });
     resetTranscript();
@@ -284,23 +309,9 @@ function VUI() {
     dispatch(changeVUIState("stop_listening", -10, false), [dispatch]);
   };
 
-  useEffect(() => {
-    document.addEventListener("keydown", handleStartListen);
-    document.addEventListener("keyup", handleStopListen);
-
-    return () => {
-      document.removeEventListener("keydown", handleStartListen);
-      document.removeEventListener("keyup", handleStopListen);
-    };
-  }, []);
-
   if (!browserSupportsSpeechRecognition) {
     return <span>Browser doesn't support speech recognition.</span>;
   }
-
-  const testLerp = () => {
-    webglApp.current.lerpBackground();
-  };
 
   return (
     <div className="VUI">
@@ -382,4 +393,10 @@ export default VUI;
             <StateDebugger webglApp={webglApp} />
           </div>
         )}
+
+
+
+  const testLerp = () => {
+    webglApp.current.lerpBackground();
+  };
  */
