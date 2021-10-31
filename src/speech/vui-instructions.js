@@ -20,7 +20,7 @@ export const vis_vui_instructions = [
   },
   {
     vui_texts: [
-      "Now let’s take some time to relax in the personal landscape that we created. ",
+      "Now let’s take some time to relax in the personal landscape that we've created. ",
       "Notice where your body touches the grass and your feet meet the ground. Feel the weight of your arms and hands resting. Acknowledge your senses: notice anything you can smell, hear or taste, sensations of heat or cold.",
       "What are you feeling right now?",
     ],

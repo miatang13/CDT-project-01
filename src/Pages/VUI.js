@@ -55,26 +55,23 @@ function VUI() {
   // the last phase that is displayed
   const [instructionTextNum, setInstructionNum] = useState(0);
   // user's phase stage
-  const [userTextNum, setUserTextNum] = useState(-1);
+  const [userTextNum, setUserTextNum] = useState(0);
 
   useEffect(() => {
-    if (userTextNum <= instructionTextNum) {
-      console.log("Covered! ");
-      return;
-    }
-
-    setInstructionNum(userTextNum + 2);
+    setInstructionNum(userTextNum);
+    console.log("Set instruction text to", userTextNum);
   }, [userTextNum, instructionTextNum]);
 
   useEffect(() => {
-    if (instructionTextNum >= user_instructions.length) {
+    let endIndex = instructionTextNum + 2;
+
+    if (endIndex >= user_instructions.length) {
       console.log("Reached end of instruction");
       return;
     }
 
-    let startIndex = instructionTextNum - 2;
     let newArr = [];
-    for (var i = startIndex; i <= instructionTextNum; i++) {
+    for (var i = instructionTextNum; i <= endIndex; i++) {
       newArr.push(user_instructions[i]);
     }
     setInstructionText(newArr);
@@ -104,8 +101,6 @@ function VUI() {
     window.addEventListener("resize", onWindowResize, false);
     document.addEventListener("keydown", handleStartListen, false);
     document.addEventListener("keyup", handleStopListen, false);
-
-    setInstructionNum(2);
 
     return () => {
       webglApp.current.render(false);
