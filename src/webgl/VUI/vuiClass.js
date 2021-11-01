@@ -15,7 +15,7 @@ import { reassuringOn } from "./reassure";
 import { animateAppear, animateDisappear } from "./presence";
 import { bindNewMethods } from "../../utility/bind";
 
-const appear = true;
+const appear = false;
 
 class vuiCircle {
   constructor(outlinePass) {
