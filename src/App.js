@@ -26,7 +26,7 @@ function App() {
                   timeout={{ enter: 300, exit: 350 }}
                 >
                   <Switch location={location}>
-                    <Route path="/" component={Landing} />
+                    <Route exact path="/CDT-project-01" component={Landing} />
                     <Route path="/nova" component={VUI} />
                     <Route path="/matrix" component={Matrix} />
                     <Route path="/about" component={About} />
