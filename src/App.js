@@ -26,9 +26,9 @@ function App() {
                   timeout={{ enter: 300, exit: 350 }}
                 >
                   <Switch location={location}>
-                    <Route exact path="/" component={Landing} />
+                    <Route path="/" component={Landing} />
                     <Route path="/nova" component={VUI} />
-                    <Route path="/stateMatrix" component={Matrix} />
+                    <Route path="/matrix" component={Matrix} />
                     <Route path="/about" component={About} />
                   </Switch>
                 </Transition>

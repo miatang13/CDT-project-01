@@ -16,7 +16,7 @@ export default function NavigationBar() {
             <NavLink className="nav__route" to="/nova">
               Meet Nova
             </NavLink>
-            <NavLink className="nav__route" to="/stateMatrix">
+            <NavLink className="nav__route" to="/matrix">
               State Matrix
             </NavLink>
             <NavLink className="nav__route" to="/about">
