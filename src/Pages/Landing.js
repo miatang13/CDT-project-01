@@ -1,18 +1,16 @@
 import "../styles/utility.css";
 import "../styles/app.css";
 import "../styles/landing.css";
-import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { changeUserName } from "../actions";
-import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 function Landing() {
   const titleRef = useRef();
   const blurbRef = useRef();
-  const formRef = useRef();
+  const buttonRef = useRef();
   const containerRef = useRef();
-  const refs = [titleRef, blurbRef, formRef];
+  const refs = [titleRef, blurbRef, buttonRef];
 
   useEffect(() => {
     let tl = gsap.timeline({ delay: 0.5 });
@@ -55,7 +53,9 @@ function Landing() {
           </h4>
           <Link to="/CDT-project-01/nova">
             {" "}
-            <button id="enter__btn">Let's Begin </button>
+            <button id="enter__btn" ref={buttonRef}>
+              Let's Begin{" "}
+            </button>
           </Link>
         </div>
       </div>

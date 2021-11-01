@@ -3,7 +3,7 @@
 }
 
 #VUI_UI_container {
-  margin-left: 15vw;
+  margin-left: 17vw;
   font-family: freight-sans-pro, sans-serif;
 }
 
@@ -103,7 +103,7 @@
 }
 
 #instructions__container {
-  padding-top: 5vw;
+  margin-top: 3vw;
 }
 
 #manual__helper {
