@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/CDT-project-01/static/css/main.b48e643b.chunk.css",
-    "main.js": "/CDT-project-01/static/js/main.adc8cf61.chunk.js",
-    "main.js.map": "/CDT-project-01/static/js/main.adc8cf61.chunk.js.map",
-    "runtime-main.js": "/CDT-project-01/static/js/runtime-main.76819e7b.js",
-    "runtime-main.js.map": "/CDT-project-01/static/js/runtime-main.76819e7b.js.map",
-    "static/js/2.3e1c18da.chunk.js": "/CDT-project-01/static/js/2.3e1c18da.chunk.js",
-    "static/js/2.3e1c18da.chunk.js.map": "/CDT-project-01/static/js/2.3e1c18da.chunk.js.map",
-    "static/js/3.88af4201.chunk.js": "/CDT-project-01/static/js/3.88af4201.chunk.js",
-    "static/js/3.88af4201.chunk.js.map": "/CDT-project-01/static/js/3.88af4201.chunk.js.map",
-    "index.html": "/CDT-project-01/index.html",
-    "static/css/main.b48e643b.chunk.css.map": "/CDT-project-01/static/css/main.b48e643b.chunk.css.map",
-    "static/js/2.3e1c18da.chunk.js.LICENSE.txt": "/CDT-project-01/static/js/2.3e1c18da.chunk.js.LICENSE.txt",
-    "static/media/app.css": "/CDT-project-01/static/media/PlantinMTProRg.34b9b026.TTF",
-    "static/media/vui.css": "/CDT-project-01/static/media/Ripple2.8982c1e9.png",
-    "static/media/landing.css": "/CDT-project-01/static/media/landing_background.3b7af8d4.png"
+    "main.css": "http://localhost:3000/static/css/main.e5c06d76.chunk.css",
+    "main.js": "http://localhost:3000/static/js/main.2331c2c3.chunk.js",
+    "main.js.map": "http://localhost:3000/static/js/main.2331c2c3.chunk.js.map",
+    "runtime-main.js": "http://localhost:3000/static/js/runtime-main.8da642e6.js",
+    "runtime-main.js.map": "http://localhost:3000/static/js/runtime-main.8da642e6.js.map",
+    "static/js/2.3e1c18da.chunk.js": "http://localhost:3000/static/js/2.3e1c18da.chunk.js",
+    "static/js/2.3e1c18da.chunk.js.map": "http://localhost:3000/static/js/2.3e1c18da.chunk.js.map",
+    "static/js/3.88af4201.chunk.js": "http://localhost:3000/static/js/3.88af4201.chunk.js",
+    "static/js/3.88af4201.chunk.js.map": "http://localhost:3000/static/js/3.88af4201.chunk.js.map",
+    "index.html": "http://localhost:3000/index.html",
+    "static/css/main.e5c06d76.chunk.css.map": "http://localhost:3000/static/css/main.e5c06d76.chunk.css.map",
+    "static/js/2.3e1c18da.chunk.js.LICENSE.txt": "http://localhost:3000/static/js/2.3e1c18da.chunk.js.LICENSE.txt",
+    "static/media/app.css": "http://localhost:3000/static/media/PlantinMTProRg.34b9b026.TTF",
+    "static/media/vui.css": "http://localhost:3000/static/media/Ripple2.8982c1e9.png",
+    "static/media/landing.css": "http://localhost:3000/static/media/landing_background.3b7af8d4.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.76819e7b.js",
+    "static/js/runtime-main.8da642e6.js",
     "static/js/2.3e1c18da.chunk.js",
-    "static/css/main.b48e643b.chunk.css",
-    "static/js/main.adc8cf61.chunk.js"
+    "static/css/main.e5c06d76.chunk.css",
+    "static/js/main.2331c2c3.chunk.js"
   ]
 }
