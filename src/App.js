@@ -27,9 +27,9 @@ function App() {
                 >
                   <Switch location={location}>
                     <Route exact path="/CDT-project-01" component={Landing} />
-                    <Route path="/nova" component={VUI} />
-                    <Route path="/matrix" component={Matrix} />
-                    <Route path="/about" component={About} />
+                    <Route path="/CDT-project-01/nova" component={VUI} />
+                    <Route path="/CDT-project-01/matrix" component={Matrix} />
+                    <Route path="/CDT-project-01/about" component={About} />
                   </Switch>
                 </Transition>
               </TransitionGroup>

@@ -30,10 +30,9 @@ import gsap from "gsap/all";
 const TEX_MAX = 14;
 
 export default class WebGLApp {
-  constructor(htmlElem, cssElem, cssRef, windowInfo, func) {
+  constructor(htmlElem, cssElem, windowInfo, func) {
     this.htmlElem = htmlElem;
     this.cssElem = cssElem;
-    this.cssRef = cssRef;
     this.windowInfo = windowInfo;
     this.rafId = 0;
     this.isRendering = false;
@@ -63,7 +62,6 @@ export default class WebGLApp {
     this.vuiObj.init();
     this.scene.add(this.vuiObj.mesh);
     this.outlinePass.selectedObjects = [this.vuiObj.mesh];
-    this.addCSSElems();
     this.setupListener();
   };
 
@@ -104,18 +102,6 @@ export default class WebGLApp {
 
       that.soundClip++;
     });
-  };
-
-  addCSSElems = () => {
-    this.phoneCutout = createElemObject(
-      this.cssRef,
-      window.screen.width,
-      window.screen.height,
-      0xffffff,
-      true
-    );
-    this.phoneCutout.position.set(-5, -5, 0);
-    this.scene.add(this.phoneCutout);
   };
 
   setupRenderers = () => {
@@ -179,6 +165,7 @@ export default class WebGLApp {
     const textureLoader = new TextureLoader();
 
     let texture;
+    //process.env.PUBLIC_URL
     const path = "assets/visualization/sequence/";
     const f_ex = ".png";
     var textures = [];

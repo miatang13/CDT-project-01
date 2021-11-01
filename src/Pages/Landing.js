@@ -53,7 +53,7 @@ function Landing() {
             Meet Nova, a voice user-interface designed to help users navigate
             their anxiety through guided, interactive mindfulness exercises.
           </h4>
-          <Link to="/nova">
+          <Link to="/CDT-project-01/nova">
             {" "}
             <button id="enter__btn">Let's Begin </button>
           </Link>

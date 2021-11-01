@@ -35,7 +35,6 @@ function VUI() {
   // webgl
   const containerRef = useRef(null);
   const webglApp = useRef(null);
-  const phoneCutoutRef = useRef(null);
   const cssContainerRef = useRef(null);
 
   // data
@@ -91,7 +90,6 @@ function VUI() {
     webglApp.current = new WebGLApp(
       containerRef.current,
       cssContainerRef.current,
-      phoneCutoutRef.current,
       {
         width: window.innerWidth,
         height: window.innerHeight,
@@ -332,12 +330,6 @@ function VUI() {
     <div className="VUI">
       <div id="webgl" ref={containerRef}></div>
       <div id="css" ref={cssContainerRef}></div>
-      <img
-        src="./images/iphone_cutout_color.png"
-        id="iphoneCutout"
-        alt="oops"
-        ref={phoneCutoutRef}
-      ></img>
       <div className="root">
         <NavigationBar />
         <div className="row">

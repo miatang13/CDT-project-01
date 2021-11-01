@@ -13,13 +13,13 @@ export default function NavigationBar() {
           </div>
 
           <div class="column wide__right" id="nav__content__right">
-            <NavLink className="nav__route" to="/nova">
+            <NavLink className="nav__route" to="/CDT-project-01/nova">
               Meet Nova
             </NavLink>
-            <NavLink className="nav__route" to="/matrix">
+            <NavLink className="nav__route" to="/CDT-project-01/matrix">
               State Matrix
             </NavLink>
-            <NavLink className="nav__route" to="/about">
+            <NavLink className="nav__route" to="/CDT-project-01/about">
               About
             </NavLink>
           </div>
