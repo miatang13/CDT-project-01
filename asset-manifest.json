@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/CDT-project-01/static/css/main.b48e643b.chunk.css",
+    "main.css": "/CDT-project-01/static/css/main.869c02fa.chunk.css",
     "main.js": "/CDT-project-01/static/js/main.d5ab7221.chunk.js",
     "main.js.map": "/CDT-project-01/static/js/main.d5ab7221.chunk.js.map",
     "runtime-main.js": "/CDT-project-01/static/js/runtime-main.76819e7b.js",
@@ -10,7 +10,7 @@
     "static/js/3.88af4201.chunk.js": "/CDT-project-01/static/js/3.88af4201.chunk.js",
     "static/js/3.88af4201.chunk.js.map": "/CDT-project-01/static/js/3.88af4201.chunk.js.map",
     "index.html": "/CDT-project-01/index.html",
-    "static/css/main.b48e643b.chunk.css.map": "/CDT-project-01/static/css/main.b48e643b.chunk.css.map",
+    "static/css/main.869c02fa.chunk.css.map": "/CDT-project-01/static/css/main.869c02fa.chunk.css.map",
     "static/js/2.4c0f34d8.chunk.js.LICENSE.txt": "/CDT-project-01/static/js/2.4c0f34d8.chunk.js.LICENSE.txt",
     "static/media/app.css": "/CDT-project-01/static/media/PlantinMTProRg.34b9b026.TTF",
     "static/media/vui.css": "/CDT-project-01/static/media/Ripple2.8982c1e9.png",
@@ -19,7 +19,7 @@
   "entrypoints": [
     "static/js/runtime-main.76819e7b.js",
     "static/js/2.4c0f34d8.chunk.js",
-    "static/css/main.b48e643b.chunk.css",
+    "static/css/main.869c02fa.chunk.css",
     "static/js/main.d5ab7221.chunk.js"
   ]
 }
