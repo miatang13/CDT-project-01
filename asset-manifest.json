@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/CDT-project-01/static/css/main.4e8aa568.chunk.css",
+    "main.js": "/CDT-project-01/static/js/main.f10ee43d.chunk.js",
+    "main.js.map": "/CDT-project-01/static/js/main.f10ee43d.chunk.js.map",
+    "runtime-main.js": "/CDT-project-01/static/js/runtime-main.684bb976.js",
+    "runtime-main.js.map": "/CDT-project-01/static/js/runtime-main.684bb976.js.map",
+    "static/js/2.bd9b7935.chunk.js": "/CDT-project-01/static/js/2.bd9b7935.chunk.js",
+    "static/js/2.bd9b7935.chunk.js.map": "/CDT-project-01/static/js/2.bd9b7935.chunk.js.map",
+    "static/js/3.867bbeaa.chunk.js": "/CDT-project-01/static/js/3.867bbeaa.chunk.js",
+    "static/js/3.867bbeaa.chunk.js.map": "/CDT-project-01/static/js/3.867bbeaa.chunk.js.map",
+    "index.html": "/CDT-project-01/index.html",
+    "static/css/main.4e8aa568.chunk.css.map": "/CDT-project-01/static/css/main.4e8aa568.chunk.css.map",
+    "static/js/2.bd9b7935.chunk.js.LICENSE.txt": "/CDT-project-01/static/js/2.bd9b7935.chunk.js.LICENSE.txt",
+    "static/media/app.css": "/CDT-project-01/static/media/Gustavo-Regular.25af26a8.otf",
+    "static/media/landing.css": "/CDT-project-01/static/media/ir.a7093a97.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.684bb976.js",
+    "static/js/2.bd9b7935.chunk.js",
+    "static/css/main.4e8aa568.chunk.css",
+    "static/js/main.f10ee43d.chunk.js"
+  ]
+}
